@@ -1,9 +1,6 @@
 # flutterpress
 
-
-
 ## Develoopers Guidelines
-
 
 ### Registeration
 

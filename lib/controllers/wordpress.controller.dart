@@ -67,7 +67,7 @@ class WordpressController extends GetxController {
 
   /// Login a user.
   ///
-  /// ```
+  /// ```dart
   ///   WordpressController
   ///     .login(userEmail: 'berry@test.com', userPass: 'berry@test.com')
   ///       .then((value) => print(value))
@@ -88,7 +88,7 @@ class WordpressController extends GetxController {
 
   /// Register a new user.
   ///
-  /// ```
+  /// ```dart
   ///   WordpressController
   ///     .register(userEmail: 'berry@test.com', userPass: 'berry@test.com')
   ///       .then((value) => print(value))
