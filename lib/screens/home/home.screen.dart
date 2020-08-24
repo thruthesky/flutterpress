@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-import 'package:flutterpress/models/user.model.dart';
+import 'package:flutterpress/services/app.routes.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,29 +19,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var obj = {
-      'nickname': 'ShouldBeDisplayName',
-      'first_name': '',
-      'last_name': '',
-      'user_email': 'cherry@test.com',
-      'anyvalue': 'canBePut',
-      'route': 'user.register',
-      'ID': 4,
-      'user_login': 'cherry@test.com',
-      'user_registered': '2020-08-24 06:31:19',
-      'session_id': '4_54801d0079d61d7199850b5df7289bea',
-      'photoURL': ''
-    };
-
-    UserModel u = UserModel.fromJson(obj);
-
-    print(u);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('HomePage'),
       ),
-      body: Text('Body'),
+      body: Container(
+        padding: EdgeInsets.all(10),
+        child: GetBuilder<WordpressController>(
+          builder: (_) {
+            return Column(
+              children: [
+                Text('Is user logged in: ${wc.isUserLoggedIn}'),
+                Divider(),
+                if (!wc.isUserLoggedIn)
+                  RaisedButton(
+                    child: Text('Login'),
+                    onPressed: () => Get.toNamed(AppRoutes.login),
+                  ),
+                if (!wc.isUserLoggedIn)
+                  RaisedButton(
+                    child: Text('Register'),
+                    onPressed: () => Get.toNamed(AppRoutes.register),
+                  ),
+                if (wc.isUserLoggedIn)
+                  RaisedButton(
+                    child: Text('Profile'),
+                    onPressed: () => Get.toNamed(AppRoutes.profile),
+                  ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
