@@ -30,8 +30,10 @@ class WordpressController extends GetxController {
     return getHttp({'route': 'app.version'});
   }
 
-  /// Updates the user instance and notify or update listeners
-  /// .
+  /// Updates the user instance and notify or update listeners.
+  ///
+  /// TODO:
+  ///  - Save user data with `HIVE`
   updateUser(UserModel user) {
     this.user = user;
     update();
@@ -39,20 +41,27 @@ class WordpressController extends GetxController {
 
   /// Handle user related http request.
   ///
+  /// setting `updateUserToNull` to true will let this function update the class member
+  /// `user` to null. it is false by default.
+  /// 
   /// Ex) user login
   /// ```dart
   ///   final params = {'user_email': userEmail, 'user_pass': userPass};
   ///   params['route'] = 'user.login';
-  ///   return await userRequest(params);
+  ///   return await _onUserRequest(params);
   /// ```
-  Future<UserModel> userRequest(dynamic params) async {
-    if (params['route'] == null || params['route'] == '')
+  Future<UserModel> _onUserRequest(
+    dynamic params, {
+    bool updateUserToNull = false,
+  }) async {
+    if (params['route'] == null || params['route'] == '') {
       throw 'route_param_empty';
+    }
 
     dynamic re = await getHttp(params);
     if (re is String) throw re; // error string from backend.
 
-    updateUser(UserModel.fromJson(re));
+    updateUser(updateUserToNull ? null : UserModel.fromJson(re));
     return user;
   }
 
@@ -74,7 +83,7 @@ class WordpressController extends GetxController {
     final params = {'user_email': userEmail, 'user_pass': userPass};
     params['route'] = 'user.login';
 
-    return await userRequest(params);
+    return await _onUserRequest(params);
   }
 
   /// Register a new user.
@@ -97,7 +106,7 @@ class WordpressController extends GetxController {
     final params = {'user_email': userEmail, 'user_pass': userPass};
     params['route'] = 'user.register';
 
-    return await userRequest(params);
+    return await _onUserRequest(params);
   }
 
   /// Get user information from the backend.
@@ -107,6 +116,15 @@ class WordpressController extends GetxController {
   /// Update user information.
   ///
   profileUpdate() {}
+
+  /// Resigns or removes the user information from the backend.
+  ///
+  Future resign() async {
+    return await _onUserRequest({
+      'route': 'user.resign',
+      'session_id': user.sessionId,
+    }, updateUserToNull: true);
+  }
 
   /// Logouts the current logged in user.
   ///

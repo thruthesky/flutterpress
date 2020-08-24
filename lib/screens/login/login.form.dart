@@ -20,7 +20,7 @@ class LoginFormState extends State<LoginForm> {
   final emailInputController = TextEditingController(text: 'berry@test.com');
   final passwordInputController = TextEditingController(text: 'berry@test.com');
 
-  _login(String email, String password) {
+  _onSubmit(String email, String password) {
     wc.login(userEmail: email, userPass: password).then((user) {
       Get.offNamed(AppRoutes.profile);
     }).catchError((err) {
@@ -46,7 +46,7 @@ class LoginFormState extends State<LoginForm> {
             controller: passwordInputController,
           ),
           RaisedButton(
-            onPressed: () => _login(
+            onPressed: () => _onSubmit(
               emailInputController.value.text,
               passwordInputController.value.text,
             ),

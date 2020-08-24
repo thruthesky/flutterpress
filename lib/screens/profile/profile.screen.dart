@@ -5,6 +5,38 @@ import 'package:get/get.dart';
 class ProfileScreen extends StatelessWidget {
   final WordpressController wc = Get.find();
 
+  _onLogoutButtonTap() {
+    wc.logout();
+    Get.back();
+  }
+
+  _onResignButtonTap() async {
+    Get.defaultDialog(
+      title: 'Resign',
+      content: Column(
+        children: [
+          Text(
+            'Resigning your account will permanently remove your information',
+          ),
+          Text('Are you sure you want to resign?'),
+        ],
+      ),
+      confirmTextColor: Colors.white,
+      textConfirm: 'Yes',
+      textCancel: 'No',
+      onConfirm: () {
+        Get.back();
+        wc.resign().then((value) {
+          print(value);
+          Get.back();
+        }).catchError((err) {
+          Get.snackbar('Resign Error', '$err');
+        }).whenComplete(() => Get.back);
+      },
+      onCancel: () => Get.back,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,6 +44,7 @@ class ProfileScreen extends StatelessWidget {
         title: Text('Register Screen'),
       ),
       body: Container(
+        padding: EdgeInsets.all(10),
         child: Column(
           children: [
             Text('User ID: ${wc.user.id}'),
@@ -23,10 +56,11 @@ class ProfileScreen extends StatelessWidget {
             Divider(),
             RaisedButton(
               child: Text('Logout'),
-              onPressed: () {
-                wc.logout();
-                Get.back();
-              },
+              onPressed: _onLogoutButtonTap,
+            ),
+            RaisedButton(
+              child: Text('Resign'),
+              onPressed: _onResignButtonTap,
             ),
           ],
         ),
