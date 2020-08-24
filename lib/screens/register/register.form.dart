@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -52,11 +53,15 @@ class RegisterFormState extends State<RegisterForm> {
           ),
           RaisedButton(
             onPressed: () async {
-              await wc.register({
-                'user_email': email.text,
-                'user_pass': pass.text,
-                'nickname': nickname.text,
-              });
+              try {
+                await wc.register({
+                  'user_email': email.text,
+                  'user_pass': pass.text,
+                  'nickname': nickname.text,
+                });
+              } catch (e) {
+                // AppService.error(e);
+              }
             },
             child: Text('Submit'),
           ),
