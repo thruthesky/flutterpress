@@ -34,7 +34,7 @@ class WordpressController extends GetxController {
   ///
   /// TODO:
   ///  - Save user data with `HIVE`
-  updateUser(UserModel user) {
+  _updateUser(UserModel user) {
     this.user = user;
     update();
   }
@@ -43,7 +43,7 @@ class WordpressController extends GetxController {
   ///
   /// setting `updateUserToNull` to true will let this function update the class member
   /// `user` to null. it is false by default.
-  /// 
+  ///
   /// Ex) user login
   /// ```dart
   ///   final params = {'user_email': userEmail, 'user_pass': userPass};
@@ -54,14 +54,14 @@ class WordpressController extends GetxController {
     dynamic params, {
     bool updateUserToNull = false,
   }) async {
-    if (params['route'] == null || params['route'] == '') {
+    if (params['route'] == null || params['route'].isEmpty) {
       throw 'route_param_empty';
     }
 
     dynamic re = await getHttp(params);
     if (re is String) throw re; // error string from backend.
 
-    updateUser(updateUserToNull ? null : UserModel.fromJson(re));
+    _updateUser(updateUserToNull ? null : UserModel.fromJson(re));
     return user;
   }
 
@@ -77,8 +77,8 @@ class WordpressController extends GetxController {
     @required String userEmail,
     @required String userPass,
   }) async {
-    if (userEmail == null || userEmail == '') throw 'email_is_empty';
-    if (userEmail == null || userEmail == '') throw 'password_is_empty';
+    if (userEmail.isEmpty) throw 'email_is_empty';
+    if (userEmail.isEmpty) throw 'password_is_empty';
 
     final params = {'user_email': userEmail, 'user_pass': userPass};
     params['route'] = 'user.login';
@@ -100,8 +100,8 @@ class WordpressController extends GetxController {
     @required String userEmail,
     @required String userPass,
   }) async {
-    if (userEmail == null || userEmail == '') throw 'email_is_empty';
-    if (userPass == null || userPass == '') throw 'password_is_empty';
+    if (userEmail.isEmpty) throw 'email_is_empty';
+    if (userPass.isEmpty) throw 'password_is_empty';
 
     final params = {'user_email': userEmail, 'user_pass': userPass};
     params['route'] = 'user.register';
@@ -115,7 +115,12 @@ class WordpressController extends GetxController {
 
   /// Update user information.
   ///
-  profileUpdate() {}
+  Future<UserModel> profileUpdate({String firstName = ''}) async {
+    final params = {'route': 'user.update', 'session_id': user.sessionId};
+    if (firstName.isNotEmpty) params['first_name'] = firstName;
+
+    return await _onUserRequest(params);
+  }
 
   /// Resigns or removes the user information from the backend.
   ///
@@ -129,7 +134,7 @@ class WordpressController extends GetxController {
   /// Logouts the current logged in user.
   ///
   logout() {
-    updateUser(null);
+    _updateUser(null);
   }
 
   /// Create new post

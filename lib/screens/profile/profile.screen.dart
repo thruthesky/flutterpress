@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/screens/profile/profile.update_form.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -13,14 +14,7 @@ class ProfileScreen extends StatelessWidget {
   _onResignButtonTap() async {
     Get.defaultDialog(
       title: 'Resign',
-      content: Column(
-        children: [
-          Text(
-            'Resigning your account will permanently remove your information',
-          ),
-          Text('Are you sure you want to resign?'),
-        ],
-      ),
+      content: Text('Are you sure you want to resign?'),
       confirmTextColor: Colors.white,
       textConfirm: 'Yes',
       textCancel: 'No',
@@ -49,10 +43,8 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Text('User ID: ${wc.user.id}'),
             Text('User Email: ${wc.user.userEmail}'),
-            Text('User firstname: ${wc.user.firstName}'),
-            Text('User lastname: ${wc.user.lastName}'),
-            Text('User photo URL: ${wc.user.photoURL}'),
-            Text('User session ID: ${wc.user.sessionId}'),
+            Divider(),
+            ProfileUpdateForm(),
             Divider(),
             RaisedButton(
               child: Text('Logout'),

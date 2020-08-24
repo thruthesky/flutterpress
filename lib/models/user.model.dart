@@ -30,10 +30,10 @@ class UserModel {
       id: int.parse(data['ID']), // User's ID from backend is string.
       userEmail: data['user_email'],
       nickName: data['nickname'],
-      firstName: data['first_name'],
-      lastName: data['last_name'],
+      firstName: data['first_name'] ?? '',
+      lastName: data['last_name'] ?? '',
       userLogin: data['user_login'],
-      photoURL: data['photoURL'],
+      photoURL: data['photoURL'] ?? '',
       sessionId: data['session_id'],
     );
   }
