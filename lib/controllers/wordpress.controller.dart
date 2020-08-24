@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:get/state_manager.dart';
+import 'package:hive/hive.dart';
 
 class WordpressController extends GetxController {
+  Box userBox = Hive.box(HiveBox.user);
   UserModel user;
 
   bool get isUserLoggedIn => user != null;
@@ -36,6 +39,7 @@ class WordpressController extends GetxController {
   ///  - Save user data with `HIVE`
   _updateUser(UserModel user) {
     this.user = user;
+    userBox.put(HiveBox.currentUser, user);
     update();
   }
 

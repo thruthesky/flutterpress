@@ -5,9 +5,11 @@ import 'package:flutterpress/screens/login/login.screen.dart';
 import 'package:flutterpress/screens/profile/profile.screen.dart';
 import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async {
+  await AppService.initBoxes();
   runApp(FlutterPress());
 }
 
@@ -18,6 +20,12 @@ class FlutterPress extends StatefulWidget {
 
 class _FlutterPressState extends State<FlutterPress> {
   final WordpressController wc = Get.put(WordpressController());
+
+  @override
+  void initState() {
+    AppService.initUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
