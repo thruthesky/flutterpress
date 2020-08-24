@@ -2,7 +2,7 @@ import 'package:flutterpress/models/user.model.dart';
 import 'package:get/state_manager.dart';
 
 class Controller extends GetxController {
-  UserModel? user;
+  UserModel user;
 
   login() {}
   logout() {}
