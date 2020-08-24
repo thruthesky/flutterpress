@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/services/app.routes.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -17,8 +16,8 @@ class LoginFormState extends State<LoginForm> {
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
-  final emailInputController = TextEditingController(text: 'berry@test.com');
-  final passwordInputController = TextEditingController(text: 'berry@test.com');
+  final email = TextEditingController(text: 'berry@test.com');
+  final pass = TextEditingController(text: 'berry@test.com');
 
   @override
   Widget build(BuildContext context) {
@@ -28,28 +27,23 @@ class LoginFormState extends State<LoginForm> {
         children: <Widget>[
           TextFormField(
             decoration: InputDecoration(hintText: 'email'),
-            controller: emailInputController,
+            controller: email,
           ),
           TextFormField(
             decoration: InputDecoration(hintText: 'password'),
-            controller: passwordInputController,
+            controller: pass,
           ),
           RaisedButton(
             onPressed: () async {
-              /// @TODO: from here.
-              await wc.login(
-                userEmail: emailInputController.value.text,
-                userPass: passwordInputController.value.text,
-              );
-
-              //     .then((user) {
-              //   Get.offNamed(AppRoutes.profile);
-              // }).catchError((err) {
-              //   Get.snackbar(
-              //     'Login Failed',
-              //     '$err',
-              //   );
-              // });
+              try {
+                await wc.login({
+                  'user_email': email.value.text,
+                  'user_pass': pass.value.text,
+                });
+              } catch (e) {
+                // TODO
+                // AppService.error(e);
+              }
             },
             child: Text('Submit'),
           ),

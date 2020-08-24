@@ -22,17 +22,6 @@ class RegisterFormState extends State<RegisterForm> {
   final pass = TextEditingController();
   final nickname = TextEditingController();
 
-  // _onSubmit(String email, String password) {
-  //   wc.register(userEmail: email, userPass: password).then((user) {
-  //     Get.offNamed(AppRoutes.profile);
-  //   }).catchError((err) {
-  //     Get.snackbar(
-  //       'Register Failed',
-  //       '$err',
-  //     );
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -60,6 +49,7 @@ class RegisterFormState extends State<RegisterForm> {
                   'nickname': nickname.text,
                 });
               } catch (e) {
+                // TODO:
                 // AppService.error(e);
               }
             },

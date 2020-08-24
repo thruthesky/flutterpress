@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:get/get.dart';
@@ -12,12 +13,22 @@ class AppService {
     await Hive.openBox(HiveBox.user);
   }
 
-  /// Let the user logs in if he/she has previously logged in.
-  // static initUser() {
-  //   Box userBox = Hive.box(HiveBox.user);
-  //   if (userBox.isNotEmpty) {
-  //     var u = userBox.get(BoxKey.currentUser);
-  //     print(u);
-  //   }
-  // }
+  static Future<bool> confirmDialog(
+    String title,
+    Widget content, {
+    String textConfirm = 'Yes',
+    String textCancel = 'Cancel',
+    Function onConfirm,
+    Function onCancel,
+  }) async {
+    return Get.defaultDialog(
+      title: title,
+      content: content,
+      confirmTextColor: Colors.white,
+      textConfirm: textConfirm,
+      textCancel: textCancel,
+      onConfirm: () => true,
+      onCancel: () => false,
+    );
+  }
 }

@@ -16,23 +16,13 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
-  TextEditingController firstNameController;
-
-  _onSubmit() {
-    final String firstName = firstNameController.value.text;
-    wc.profileUpdate(firstName: firstName).then((user) {
-      Get.snackbar('Profile', 'Profile updated!');
-    }).catchError((err) {
-      Get.snackbar(
-        'Profile Update Failed',
-        '$err',
-      );
-    });
-  }
+  TextEditingController nickname;
+  TextEditingController firstname;
+  TextEditingController lastname;
 
   @override
   void initState() {
-    firstNameController = TextEditingController(text: wc.user.firstName);
+    firstname = TextEditingController(text: wc.user.firstName);
     super.initState();
   }
 
@@ -43,11 +33,30 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            decoration: InputDecoration(hintText: 'nickname'),
+            controller: nickname,
+          ),
+          TextFormField(
             decoration: InputDecoration(hintText: 'first name'),
-            controller: firstNameController,
+            controller: firstname,
+          ),
+          TextFormField(
+            decoration: InputDecoration(hintText: 'last name'),
+            controller: lastname,
           ),
           RaisedButton(
-            onPressed: _onSubmit,
+            onPressed: () async {
+              try {
+                await wc.profileUpdate({
+                  'nickname': nickname,
+                  'first_name': firstname,
+                  'last_name': lastname,
+                });
+              } catch (e) {
+                // TODO
+                // AppService.error(e);
+              }
+            },
             child: Text('Update'),
           ),
         ],

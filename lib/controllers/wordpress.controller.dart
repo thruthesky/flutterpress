@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/user.model.dart';
@@ -56,71 +55,22 @@ class WordpressController extends GetxController {
 
   /// Updates the user instance and notify or update listeners.
   ///
-  /// TODO:
-  ///  - Save user data with `HIVE`
   _updateCurrentUser(Map<String, dynamic> res) {
     this.user = UserModel.fromBackendData(res);
     userBox.put(BoxKey.currentUser, res);
     update();
   }
 
-  /// Handle user related http request.
-  ///
-  /// setting `updateUserToNull` to true will let this function update the class member
-  /// `user` to null. it is false by default.
-  ///
-  /// Ex) user login
-  /// ```dart
-  ///   final params = {'user_email': userEmail, 'user_pass': userPass};
-  ///   params['route'] = 'user.login';
-  ///   return await _onUserRequest(params);
-  /// ```
-  // Future<UserModel> _onUserRequest(
-  //   dynamic params, {
-  //   bool updateUserToNull = false,
-  // }) async {
-  //   if (params['route'] == null || params['route'].isEmpty) {
-  //     throw 'route_param_empty';
-  //   }
-
-  //   dynamic re = await getHttp(params);
-  //   if (re is String) throw re; // error string from backend.
-
-  //   _updateUser(updateUserToNull ? null : UserModel.fromJson(re));
-  //   return user;
-  // }
-
   /// Login a user.
   ///
-  /// ```dart
-  ///   WordpressController
-  ///     .login(userEmail: 'berry@test.com', userPass: 'berry@test.com')
-  ///       .then((value) => print(value))
-  ///       .catchError((e) => print(e));
-  /// ```
-  Future<UserModel> login({
-    @required String userEmail,
-    @required String userPass,
-  }) async {
-    if (userEmail.isEmpty) throw 'email_is_empty';
-    if (userEmail.isEmpty) throw 'password_is_empty';
-
-    final params = {'user_email': userEmail, 'user_pass': userPass};
+  Future<UserModel> login(Map<String, dynamic> params) async {
     params['route'] = 'user.login';
-
-    // return await _onUserRequest(params);
+    var data = await getHttp(params, require: ['user_email', 'user_pass']);
+    return _updateCurrentUser(data);
   }
 
   /// Register a new user.
   ///
-  /// ```dart
-  ///   WordpressController
-  ///     .register(userEmail: 'berry@test.com', userPass: 'berry@test.com')
-  ///       .then((value) => print(value))
-  ///       .catchError((e) => print(e));
-  /// ```
-  ///
-  /// TODO: Update additional parameters like first_name, last_name, nickname, etc.
   Future<UserModel> register(Map<String, dynamic> params) async {
     params['route'] = 'user.register';
     var data = await getHttp(params, require: [
@@ -131,26 +81,20 @@ class WordpressController extends GetxController {
     return _updateCurrentUser(data);
   }
 
-  /// Get user information from the backend.
-  ///
-  profile() {}
-
   /// Update user information.
   ///
-  Future<UserModel> profileUpdate({String firstName = ''}) async {
-    final params = {'route': 'user.update', 'session_id': user.sessionId};
-    if (firstName.isNotEmpty) params['first_name'] = firstName;
-
-    // return await _onUserRequest(params);
+  Future<UserModel> profileUpdate(Map<String, dynamic> params) async {
+    params['route'] = 'user.update';
+    params['session_id'] = user.sessionId;
+    var data = await getHttp(params);
+    return await _updateCurrentUser(data);
   }
 
   /// Resigns or removes the user information from the backend.
   ///
   Future resign() async {
-    // return await _onUserRequest({
-    //   'route': 'user.resign',
-    //   'session_id': user.sessionId,
-    // }, updateUserToNull: true);
+    await getHttp({'route': 'user.resign', 'session_id': user.sessionId});
+    logout();
   }
 
   /// Logouts the current logged in user.
@@ -159,8 +103,6 @@ class WordpressController extends GetxController {
     user = null;
     userBox.delete(BoxKey.currentUser);
     update();
-
-    // _updateCurrentUser(null);
   }
 
   /// Create new post

@@ -1,35 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/screens/profile/profile.update_form.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
   final WordpressController wc = Get.find();
-
-  _onLogoutButtonTap() {
-    wc.logout();
-    Get.back();
-  }
-
-  _onResignButtonTap() async {
-    Get.defaultDialog(
-      title: 'Resign',
-      content: Text('Are you sure you want to resign?'),
-      confirmTextColor: Colors.white,
-      textConfirm: 'Yes',
-      textCancel: 'No',
-      onConfirm: () {
-        Get.back();
-        wc.resign().then((value) {
-          print(value);
-          Get.back();
-        }).catchError((err) {
-          Get.snackbar('Resign Error', '$err');
-        }).whenComplete(() => Get.back);
-      },
-      onCancel: () => Get.back,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +24,26 @@ class ProfileScreen extends StatelessWidget {
             Divider(),
             RaisedButton(
               child: Text('Logout'),
-              onPressed: _onLogoutButtonTap,
+              onPressed: () {
+                wc.logout();
+                Get.back();
+              },
             ),
             RaisedButton(
               child: Text('Resign'),
-              onPressed: _onResignButtonTap,
+              onPressed: () async {
+                bool conf = await AppService.confirmDialog(
+                  'Resign',
+                  Text('Are you sure you want to resign?'),
+                );
+                if (!conf) return;
+                try {
+                  await wc.resign();
+                } catch (e) {
+                  // TODO
+                  // AppService.error(e);
+                }
+              },
             ),
           ],
         ),
