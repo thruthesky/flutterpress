@@ -2,7 +2,39 @@
 
 ## Develoopers Guidelines
 
+### Reqeusts
+
+* When there is protocal error(Not server error or internal script error) from Backend, it throws an error.
+
+```dart
+() async {
+  try {
+    /// Request without route. Resulting an exception.
+    await wc.getHttp({});
+  } catch (e) {
+    /// Got exception.
+    print('Caught error:');
+    print(e);
+  }
+}();
+```
+
 ### Registeration
+
+* Example 1
+
+```dart
+() async {
+    try {
+    await wc.register(
+        {'user_email': 'email2@gmail.com', 'user_pass': 'qso8,df'});
+    } catch (e) {
+    print('Caught error: $e');
+    }
+}();
+```
+
+* Example 2
 
 ```dart
 () async {

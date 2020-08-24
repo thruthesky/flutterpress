@@ -21,7 +21,7 @@ class UserModel {
     this.sessionId,
   });
 
-  factory UserModel.fromJson(dynamic data) {
+  factory UserModel.fromBackendData(dynamic data) {
     if (data is String) {
       return UserModel(data: data);
     }

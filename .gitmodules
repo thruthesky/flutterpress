@@ -1,0 +1,3 @@
+[submodule "lib/flutter_library"]
+	path = lib/flutter_library
+	url = https://github.com/thruthesky/flutter_library

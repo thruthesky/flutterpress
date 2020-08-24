@@ -20,17 +20,6 @@ class LoginFormState extends State<LoginForm> {
   final emailInputController = TextEditingController(text: 'berry@test.com');
   final passwordInputController = TextEditingController(text: 'berry@test.com');
 
-  _onSubmit(String email, String password) {
-    wc.login(userEmail: email, userPass: password).then((user) {
-      Get.offNamed(AppRoutes.profile);
-    }).catchError((err) {
-      Get.snackbar(
-        'Login Failed',
-        '$err',
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -46,10 +35,22 @@ class LoginFormState extends State<LoginForm> {
             controller: passwordInputController,
           ),
           RaisedButton(
-            onPressed: () => _onSubmit(
-              emailInputController.value.text,
-              passwordInputController.value.text,
-            ),
+            onPressed: () async {
+              /// @TODO: from here.
+              await wc.login(
+                userEmail: emailInputController.value.text,
+                userPass: passwordInputController.value.text,
+              );
+
+              //     .then((user) {
+              //   Get.offNamed(AppRoutes.profile);
+              // }).catchError((err) {
+              //   Get.snackbar(
+              //     'Login Failed',
+              //     '$err',
+              //   );
+              // });
+            },
             child: Text('Submit'),
           ),
         ],

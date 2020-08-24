@@ -17,19 +17,20 @@ class RegisterFormState extends State<RegisterForm> {
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
-  final emailInputController = TextEditingController();
-  final passwordInputController = TextEditingController();
+  final email = TextEditingController();
+  final pass = TextEditingController();
+  final nickname = TextEditingController();
 
-  _onSubmit(String email, String password) {
-    wc.register(userEmail: email, userPass: password).then((user) {
-      Get.offNamed(AppRoutes.profile);
-    }).catchError((err) {
-      Get.snackbar(
-        'Register Failed',
-        '$err',
-      );
-    });
-  }
+  // _onSubmit(String email, String password) {
+  //   wc.register(userEmail: email, userPass: password).then((user) {
+  //     Get.offNamed(AppRoutes.profile);
+  //   }).catchError((err) {
+  //     Get.snackbar(
+  //       'Register Failed',
+  //       '$err',
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +40,24 @@ class RegisterFormState extends State<RegisterForm> {
         children: <Widget>[
           TextFormField(
             decoration: InputDecoration(hintText: 'email'),
-            controller: emailInputController,
+            controller: email,
           ),
           TextFormField(
             decoration: InputDecoration(hintText: 'password'),
-            controller: passwordInputController,
+            controller: pass,
+          ),
+          TextFormField(
+            decoration: InputDecoration(hintText: 'Nickname'),
+            controller: nickname,
           ),
           RaisedButton(
-            onPressed: () => _onSubmit(
-              emailInputController.value.text,
-              passwordInputController.value.text,
-            ),
+            onPressed: () async {
+              await wc.register({
+                'user_email': email.text,
+                'user_pass': pass.text,
+                'nickname': nickname.text,
+              });
+            },
             child: Text('Submit'),
           ),
         ],

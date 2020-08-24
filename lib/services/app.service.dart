@@ -12,12 +12,12 @@ class AppService {
     await Hive.openBox(HiveBox.user);
   }
 
-  static initUser() {
-    Box userBox = Hive.box(HiveBox.user);
-    if (userBox.isNotEmpty) {
-      var u = userBox.get(HiveBox.currentUser);
-      print(u);
-      wc.user = u;
-    }
-  }
+  /// Let the user logs in if he/she has previously logged in.
+  // static initUser() {
+  //   Box userBox = Hive.box(HiveBox.user);
+  //   if (userBox.isNotEmpty) {
+  //     var u = userBox.get(BoxKey.currentUser);
+  //     print(u);
+  //   }
+  // }
 }

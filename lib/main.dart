@@ -23,8 +23,14 @@ class _FlutterPressState extends State<FlutterPress> {
 
   @override
   void initState() {
-    AppService.initUser();
+    // AppService.initUser();
     super.initState();
+
+    () async {
+      try {} catch (e) {
+        print('Caught error: $e');
+      }
+    }();
   }
 
   @override

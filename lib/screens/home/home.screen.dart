@@ -46,6 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('Profile'),
                     onPressed: () => Get.toNamed(AppRoutes.profile),
                   ),
+                if (wc.isUserLoggedIn)
+                  RaisedButton(
+                    child: Text('Logout'),
+                    onPressed: () => wc.logout(),
+                  ),
               ],
             );
           },
