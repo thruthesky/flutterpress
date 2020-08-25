@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -44,21 +45,43 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
             decoration: InputDecoration(hintText: 'last name'),
             controller: lastname,
           ),
-          RaisedButton(
-            onPressed: () async {
-              try {
-                await wc.profileUpdate({
-                  'nickname': nickname,
-                  'first_name': firstname,
-                  'last_name': lastname,
-                });
-              } catch (e) {
-                // TODO
-                // AppService.error(e);
-              }
-            },
-            child: Text('Update'),
-          ),
+          Divider(),
+          Row(
+            children: [
+              RaisedButton(
+                onPressed: () async {
+                  try {
+                    await wc.profileUpdate({
+                      'nickname': nickname,
+                      'first_name': firstname,
+                      'last_name': lastname,
+                    });
+                  } catch (e) {
+                    AppService.error('Profile update error', e);
+                  }
+                },
+                child: Text('Update'),
+              ),
+              Spacer(),
+              RaisedButton(
+                color: Colors.red[300],
+                textColor: Colors.white,
+                child: Text('Resign'),
+                onPressed: () async {
+                  bool conf = await AppService.confirmDialog(
+                    'Resign',
+                    Text('Are you sure you want to resign?'),
+                  );
+                  if (!conf) return;
+                  try {
+                    await wc.resign();
+                  } catch (e) {
+                    AppService.error('Resign error', e);
+                  }
+                },
+              ),
+            ],
+          )
         ],
       ),
     );

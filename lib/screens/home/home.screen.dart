@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/widgets/app_drawer.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,8 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('HomePage'),
       ),
+      endDrawer: AppDrawer(),
       body: Container(
         padding: EdgeInsets.all(10),
         child: GetBuilder<WordpressController>(

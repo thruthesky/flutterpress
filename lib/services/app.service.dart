@@ -13,22 +13,56 @@ class AppService {
     await Hive.openBox(HiveBox.user);
   }
 
+  ///
+  ///
   static Future<bool> confirmDialog(
     String title,
     Widget content, {
-    String textConfirm = 'Yes',
-    String textCancel = 'Cancel',
+    String textConfirm,
+    String textCancel,
     Function onConfirm,
     Function onCancel,
   }) async {
-    return Get.defaultDialog(
-      title: title,
-      content: content,
-      confirmTextColor: Colors.white,
-      textConfirm: textConfirm,
-      textCancel: textCancel,
-      onConfirm: () => true,
-      onCancel: () => false,
+    return await Get.defaultDialog(
+          title: title,
+          content: content,
+          confirmTextColor: Colors.white,
+          textConfirm: textConfirm ?? 'yes'.tr,
+          textCancel: textCancel ?? 'cancel'.tr,
+          onConfirm: () => true,
+          onCancel: () => false,
+        ) ??
+        false;
+  }
+
+  ///
+  ///
+  static openSnackbar(
+    String title,
+    String message, {
+    Color bgColor,
+    Color textColor,
+    Duration duration = const Duration(seconds: 2),
+    SnackPosition position = SnackPosition.BOTTOM,
+  }) {
+    Get.snackbar(
+      title,
+      message,
+      backgroundColor: bgColor,
+      colorText: textColor,
+      duration: duration,
+      snackPosition: position,
+    );
+  }
+
+  ///
+  ///
+  static error(String title, String message) {
+    openSnackbar(
+      title,
+      message,
+      bgColor: Colors.red[400],
+      textColor: Colors.white,
     );
   }
 }

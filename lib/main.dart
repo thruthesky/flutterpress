@@ -6,6 +6,7 @@ import 'package:flutterpress/screens/profile/profile.screen.dart';
 import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/services/app.translations.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -23,13 +24,13 @@ class _FlutterPressState extends State<FlutterPress> {
 
   @override
   void initState() {
-    // AppService.initUser();
     super.initState();
 
     () async {
-      try {} catch (e) {
-        print('Caught error: $e');
-      }
+      // Get.updateLocale(Locale('ko'));
+      // try {} catch (e) {
+      //   print('Caught error: $e');
+      // }
     }();
   }
 
@@ -41,6 +42,8 @@ class _FlutterPressState extends State<FlutterPress> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      locale: Locale('ko'),
+      translations: AppTranslations(),
       initialRoute: AppRoutes.home,
       getPages: [
         GetPage(name: AppRoutes.home, page: () => HomeScreen()),
