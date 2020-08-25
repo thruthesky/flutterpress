@@ -25,22 +25,22 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               if (!_.isUserLoggedIn)
                 FlatButton(
-                  child: Text('Login'),
+                  child: Text('login'.tr),
                   onPressed: () => Get.toNamed(AppRoutes.login),
                 ),
               if (!_.isUserLoggedIn)
                 FlatButton(
-                  child: Text('Register'),
+                  child: Text('register'.tr),
                   onPressed: () => Get.toNamed(AppRoutes.register),
                 ),
               if (_.isUserLoggedIn)
                 FlatButton(
-                  child: Text('Profile'),
+                  child: Text('profile'.tr),
                   onPressed: () => Get.toNamed(AppRoutes.profile),
                 ),
               if (_.isUserLoggedIn)
                 FlatButton(
-                  child: Text('Logout'),
+                  child: Text('logout'.tr),
                   onPressed: () => _.logout(),
                 ),
             ],

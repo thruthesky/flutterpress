@@ -34,15 +34,15 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            decoration: InputDecoration(hintText: 'nickname'),
+            decoration: InputDecoration(hintText: 'nickname'.tr),
             controller: nickname,
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'first name'),
+            decoration: InputDecoration(hintText: 'firstname'.tr),
             controller: firstname,
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'last name'),
+            decoration: InputDecoration(hintText: 'lastname'.tr),
             controller: lastname,
           ),
           Divider(),
@@ -57,26 +57,26 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                       'last_name': lastname,
                     });
                   } catch (e) {
-                    AppService.error('Profile update error', e);
+                    AppService.error('error'.tr, e);
                   }
                 },
-                child: Text('Update'),
+                child: Text('update'.tr),
               ),
               Spacer(),
               RaisedButton(
                 color: Colors.red[300],
                 textColor: Colors.white,
-                child: Text('Resign'),
+                child: Text('resign'.tr),
                 onPressed: () async {
                   bool conf = await AppService.confirmDialog(
-                    'Resign',
-                    Text('Are you sure you want to resign?'),
+                    'resign'.tr,
+                    Text('confirmResign'.tr),
                   );
                   if (!conf) return;
                   try {
                     await wc.resign();
                   } catch (e) {
-                    AppService.error('Resign error', e);
+                    AppService.error('error'.tr, e);
                   }
                 },
               ),

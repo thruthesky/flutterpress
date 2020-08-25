@@ -1,6 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
+    import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/widgets/app_drawer.dart';
@@ -25,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('HomePage'),
+        title: Text('home'.tr),
       ),
       endDrawer: AppDrawer(),
       body: Container(
@@ -38,22 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 Divider(),
                 if (!wc.isUserLoggedIn)
                   RaisedButton(
-                    child: Text('Login'),
+                    child: Text('login'.tr),
                     onPressed: () => Get.toNamed(AppRoutes.login),
                   ),
                 if (!wc.isUserLoggedIn)
                   RaisedButton(
-                    child: Text('Register'),
+                    child: Text('register'.tr),
                     onPressed: () => Get.toNamed(AppRoutes.register),
                   ),
                 if (wc.isUserLoggedIn)
                   RaisedButton(
-                    child: Text('Profile'),
+                    child: Text('profile'.tr),
                     onPressed: () => Get.toNamed(AppRoutes.profile),
                   ),
                 if (wc.isUserLoggedIn)
                   RaisedButton(
-                    child: Text('Logout'),
+                    child: Text('logout'.tr),
                     onPressed: () => wc.logout(),
                   ),
                 RaisedButton(

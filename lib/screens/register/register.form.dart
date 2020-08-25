@@ -29,15 +29,15 @@ class RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            decoration: InputDecoration(hintText: 'email'),
+            decoration: InputDecoration(hintText: 'email'.tr),
             controller: email,
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'password'),
+            decoration: InputDecoration(hintText: 'password'.tr),
             controller: pass,
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'Nickname'),
+            decoration: InputDecoration(hintText: 'nickname'.tr),
             controller: nickname,
           ),
           RaisedButton(
@@ -49,10 +49,10 @@ class RegisterFormState extends State<RegisterForm> {
                   'nickname': nickname.text,
                 });
               } catch (e) {
-                AppService.error('Register error', e);
+                AppService.error('error'.tr, e);
               }
             },
-            child: Text('Submit'),
+            child: Text('submit'.tr),
           ),
         ],
       ),

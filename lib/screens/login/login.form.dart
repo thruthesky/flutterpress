@@ -32,7 +32,7 @@ class LoginFormState extends State<LoginForm> {
       });
       Get.back();
     } catch (e) {
-      AppService.error('Login Error', e);
+      AppService.error('error'.tr, e);
     }
   }
 
@@ -49,7 +49,7 @@ class LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            decoration: InputDecoration(hintText: 'Email'),
+            decoration: InputDecoration(hintText: 'email'.tr),
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             onEditingComplete: () => passNode.requestFocus(),
@@ -58,13 +58,13 @@ class LoginFormState extends State<LoginForm> {
           TextFormField(
             obscureText: true,
             focusNode: passNode,
-            decoration: InputDecoration(hintText: 'Password'),
+            decoration: InputDecoration(hintText: 'password'.tr),
             onEditingComplete: _onFormSubmit,
             controller: pass,
           ),
           RaisedButton(
             onPressed: _onFormSubmit,
-            child: Text('Submit'),
+            child: Text('submit'.tr),
           ),
         ],
       ),

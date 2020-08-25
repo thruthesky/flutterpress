@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/flutter_i18n/locale.dart';
 import 'package:flutterpress/screens/home/home.screen.dart';
 import 'package:flutterpress/screens/login/login.screen.dart';
 import 'package:flutterpress/screens/profile/profile.screen.dart';
@@ -27,7 +28,11 @@ class _FlutterPressState extends State<FlutterPress>
   final WordpressController wc = Get.put(WordpressController());
 
   @override
-  void afterFirstLayout(BuildContext context) {}
+  void afterFirstLayout(BuildContext context) async {
+    String locale = await I18n.init();
+    Get.updateLocale(Locale(locale));
+    // Get.updateLocale(Locale('ko'));
+  }
 
   @override
   void initState() {
