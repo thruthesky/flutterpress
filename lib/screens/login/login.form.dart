@@ -18,13 +18,13 @@ class LoginFormState extends State<LoginForm> {
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
-  final email = TextEditingController(text: 'berry@test.com');
-  final pass = TextEditingController(text: 'berry@test.com');
+  final email = TextEditingController();
+  final pass = TextEditingController();
   final passNode = FocusNode();
 
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
-  /// 
+  ///
   _onFormSubmit() async {
     try {
       await wc.login({
