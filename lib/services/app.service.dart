@@ -15,7 +15,7 @@ class AppService {
 
   ///
   ///
-  static Future<bool> confirmDialog(
+  static confirmDialog(
     String title,
     Widget content, {
     String textConfirm,
@@ -23,16 +23,13 @@ class AppService {
     Function onConfirm,
     Function onCancel,
   }) async {
-    return await Get.defaultDialog(
-          title: title,
-          content: content,
-          confirmTextColor: Colors.white,
-          textConfirm: textConfirm ?? 'yes'.tr,
-          textCancel: textCancel ?? 'cancel'.tr,
-          onConfirm: () => true,
-          onCancel: () => false,
-        ) ??
-        false;
+    await Get.defaultDialog(
+      title: title,
+      content: content,
+      confirmTextColor: Colors.white,
+      onCancel: onCancel,
+      onConfirm: onConfirm,
+    );
   }
 
   ///
@@ -57,7 +54,7 @@ class AppService {
 
   ///
   ///
-  static error(String message, { String title }) {
+  static error(String message, {String title}) {
     openSnackbar(
       title ?? 'error'.tr,
       message,

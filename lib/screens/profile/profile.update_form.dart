@@ -23,7 +23,9 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
 
   @override
   void initState() {
+    nickname = TextEditingController(text: wc.user.nickName);
     firstname = TextEditingController(text: wc.user.firstName);
+    lastname = TextEditingController(text: wc.user.lastName);
     super.initState();
   }
 
@@ -52,9 +54,9 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                 onPressed: () async {
                   try {
                     await wc.profileUpdate({
-                      'nickname': nickname,
-                      'first_name': firstname,
-                      'last_name': lastname,
+                      'nickname': nickname.text,
+                      'first_name': firstname.text,
+                      'last_name': lastname.text,
                     });
                   } catch (e) {
                     AppService.error(e);
@@ -67,17 +69,21 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                 color: Colors.red[300],
                 textColor: Colors.white,
                 child: Text('resign'.tr),
-                onPressed: () async {
-                  bool conf = await AppService.confirmDialog(
+                onPressed: () {
+                  AppService.confirmDialog(
                     'resign'.tr,
                     Text('confirmResign'.tr),
+                    onConfirm: () async {
+                      Get.back();
+                      try {
+                        await wc.resign();
+                        Get.back();
+                      } catch (e) {
+                        AppService.error(e);
+                      }
+                    },
+                    onCancel: () => Get.back,
                   );
-                  if (!conf) return;
-                  try {
-                    await wc.resign();
-                  } catch (e) {
-                    AppService.error(e);
-                  }
                 },
               ),
             ],

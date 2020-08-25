@@ -48,6 +48,7 @@ class RegisterFormState extends State<RegisterForm> {
                   'user_pass': pass.text,
                   'nickname': nickname.text,
                 });
+                Get.back();
               } catch (e) {
                 AppService.error(e);
               }
