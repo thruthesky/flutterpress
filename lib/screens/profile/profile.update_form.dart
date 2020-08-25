@@ -66,7 +66,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                       'last_name': lastname.text,
                     });
                   } catch (e) {
-                    AppService.error(e);
+                    AppService.error('$e'.tr);
                   }
                 },
                 child: Text('update'.tr),
@@ -86,7 +86,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                         await wc.resign();
                         Get.back();
                       } catch (e) {
-                        AppService.error(e);
+                        AppService.error('$e'.tr);
                       }
                     },
                     onCancel: () => Get.back,

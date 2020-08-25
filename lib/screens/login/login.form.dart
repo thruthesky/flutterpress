@@ -33,7 +33,7 @@ class LoginFormState extends State<LoginForm> {
       });
       Get.back();
     } catch (e) {
-      AppService.error(e.tr);
+      AppService.error('$e'.tr);
     }
   }
 
