@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/widgets/app_text_input_field.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -43,28 +44,28 @@ class RegisterFormState extends State<RegisterForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          TextFormField(
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(hintText: 'email'.tr),
-            onEditingComplete: () => passNode.requestFocus(),
+          AppTextInputField(
+            hintText: 'email'.tr,
             controller: email,
+            inputAction: TextInputAction.next,
+            inputType: TextInputType.emailAddress,
+            onEditingComplete: passNode.requestFocus,
           ),
-          TextFormField(
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(hintText: 'password'.tr),
-            onEditingComplete: () => nicknameNode.requestFocus(),
+          AppTextInputField(
+            hintText: 'password'.tr,
             controller: pass,
+            inputAction: TextInputAction.next,
             obscureText: true,
+            onEditingComplete: nicknameNode.requestFocus,
             focusNode: passNode,
           ),
-          TextFormField(
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(hintText: 'nickname'.tr),
-            keyboardType: TextInputType.text,
+          AppTextInputField(
+            hintText: 'nickname'.tr,
             controller: nickname,
-            focusNode: nicknameNode,
+            inputAction: TextInputAction.done,
+            inputType: TextInputType.text,
             onEditingComplete: _onFormSubmit,
+            focusNode: nicknameNode,
           ),
           RaisedButton(
             onPressed: _onFormSubmit,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/widgets/app_text_input_field.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -48,19 +49,19 @@ class LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          TextFormField(
-            decoration: InputDecoration(hintText: 'email'.tr),
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            onEditingComplete: () => passNode.requestFocus(),
+          AppTextInputField(
+            hintText: 'email'.tr,
             controller: email,
+            inputAction: TextInputAction.next,
+            inputType: TextInputType.emailAddress,
+            onEditingComplete: passNode.requestFocus,
           ),
-          TextFormField(
+          AppTextInputField(
+            hintText: 'password'.tr,
+            controller: pass,
+            inputAction: TextInputAction.done,
             obscureText: true,
             focusNode: passNode,
-            decoration: InputDecoration(hintText: 'password'.tr),
-            onEditingComplete: _onFormSubmit,
-            controller: pass,
           ),
           RaisedButton(
             onPressed: _onFormSubmit,

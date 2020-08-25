@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/widgets/app_text_input_field.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -35,20 +36,23 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          TextFormField(
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(hintText: 'nickname'.tr),
+          AppTextInputField(
+            hintText: 'nickname'.tr,
             controller: nickname,
+            inputAction: TextInputAction.done,
+            inputType: TextInputType.text,
           ),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(hintText: 'firstname'.tr),
+          AppTextInputField(
+            hintText: 'firstname'.tr,
             controller: firstname,
+            inputAction: TextInputAction.done,
+            inputType: TextInputType.text,
           ),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(hintText: 'lastname'.tr),
+          AppTextInputField(
+            hintText: 'lastname'.tr,
             controller: lastname,
+            inputAction: TextInputAction.done,
+            inputType: TextInputType.text,
           ),
           Divider(),
           Row(
