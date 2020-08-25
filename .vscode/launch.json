@@ -9,6 +9,17 @@
             "program": "lib/main.dart",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "App Instrument",
+            "program": "test_driver/app.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--observatory-port",
+                "8181",
+                "--disable-service-auth-codes"
+            ]
         }
     ]
 }
