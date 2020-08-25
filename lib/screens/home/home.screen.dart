@@ -54,12 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('logout'.tr),
                     onPressed: () => wc.logout(),
                   ),
-                RaisedButton(
-                  onPressed: () {
-                    Get.updateLocale(Locale('ko'));
-                  },
-                  child: Text('Chnage Locale'),
-                ),
+                // RaisedButton(
+                //   onPressed: () {
+                //     Get.updateLocale(Locale('ko'));
+                //   },
+                //   child: Text('Chnage Locale'),
+                // ),
               ],
             );
           },

@@ -36,14 +36,17 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(hintText: 'nickname'.tr),
             controller: nickname,
           ),
           TextFormField(
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(hintText: 'firstname'.tr),
             controller: firstname,
           ),
           TextFormField(
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(hintText: 'lastname'.tr),
             controller: lastname,
           ),

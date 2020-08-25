@@ -21,6 +21,22 @@ class RegisterFormState extends State<RegisterForm> {
   final pass = TextEditingController();
   final nickname = TextEditingController();
 
+  final passNode = FocusNode();
+  final nicknameNode = FocusNode();
+
+  _onFormSubmit() async {
+    try {
+      await wc.register({
+        'user_email': email.text,
+        'user_pass': pass.text,
+        'nickname': nickname.text,
+      });
+      Get.back();
+    } catch (e) {
+      AppService.error(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -28,30 +44,30 @@ class RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(hintText: 'email'.tr),
+            onEditingComplete: () => passNode.requestFocus(),
             controller: email,
           ),
           TextFormField(
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(hintText: 'password'.tr),
+            onEditingComplete: () => nicknameNode.requestFocus(),
             controller: pass,
+            obscureText: true,
+            focusNode: passNode,
           ),
           TextFormField(
+            textInputAction: TextInputAction.done,
             decoration: InputDecoration(hintText: 'nickname'.tr),
+            keyboardType: TextInputType.text,
             controller: nickname,
+            focusNode: nicknameNode,
+            onEditingComplete: _onFormSubmit,
           ),
           RaisedButton(
-            onPressed: () async {
-              try {
-                await wc.register({
-                  'user_email': email.text,
-                  'user_pass': pass.text,
-                  'nickname': nickname.text,
-                });
-                Get.back();
-              } catch (e) {
-                AppService.error(e);
-              }
-            },
+            onPressed: _onFormSubmit,
             child: Text('submit'.tr),
           ),
         ],
