@@ -57,7 +57,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                       'last_name': lastname,
                     });
                   } catch (e) {
-                    AppService.error('error'.tr, e);
+                    AppService.error(e);
                   }
                 },
                 child: Text('update'.tr),
@@ -76,7 +76,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                   try {
                     await wc.resign();
                   } catch (e) {
-                    AppService.error('error'.tr, e);
+                    AppService.error(e);
                   }
                 },
               ),

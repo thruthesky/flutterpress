@@ -49,7 +49,7 @@ class RegisterFormState extends State<RegisterForm> {
                   'nickname': nickname.text,
                 });
               } catch (e) {
-                AppService.error('error'.tr, e);
+                AppService.error(e);
               }
             },
             child: Text('submit'.tr),

@@ -57,9 +57,9 @@ class AppService {
 
   ///
   ///
-  static error(String title, String message) {
+  static error(String message, { String title }) {
     openSnackbar(
-      title,
+      title ?? 'error'.tr,
       message,
       bgColor: Colors.red[400],
       textColor: Colors.white,
