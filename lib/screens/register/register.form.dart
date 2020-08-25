@@ -25,6 +25,9 @@ class RegisterFormState extends State<RegisterForm> {
   final passNode = FocusNode();
   final nicknameNode = FocusNode();
 
+  /// This function is moved here so it can be reference
+  /// by both the submit button and the password textfield.
+  ///
   _onFormSubmit() async {
     try {
       await wc.register({

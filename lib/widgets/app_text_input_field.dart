@@ -16,7 +16,7 @@ class AppTextInputField extends StatelessWidget {
     this.inputType,
     this.focusNode,
     this.onEditingComplete,
-    this.obscureText = false
+    this.obscureText = false,
   });
 
   @override
