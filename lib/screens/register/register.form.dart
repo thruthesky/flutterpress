@@ -37,7 +37,7 @@ class RegisterFormState extends State<RegisterForm> {
       });
       Get.back();
     } catch (e) {
-      AppService.error(e);
+      AppService.error('$e'.tr);
     }
   }
 

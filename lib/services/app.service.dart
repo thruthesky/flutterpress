@@ -52,8 +52,11 @@ class AppService {
     );
   }
 
+  /// shows error using snackbar
   ///
-  ///
+  /// `title` and `message` will not be automatically translated.
+  /// make sure to supply it with the proper translated text.
+  /// 
   static error(String message, {String title}) {
     openSnackbar(
       title ?? 'error'.tr,

@@ -26,6 +26,11 @@ class AppTranslations extends Translations {
 
           'error': 'Error',
 
+          'user_email_empty': 'Email is empty!',
+          'user_pass_empty': 'Password is empty!',
+          'nickname_empty': 'Nickname is empty!',
+          'wrong_password': 'Invalid login credential',
+          'invalid_email_format': 'Invalid Email format.',
 
         },
         'ko': {
@@ -51,6 +56,12 @@ class AppTranslations extends Translations {
           'lastname': '@T Lastname',
 
           'error': 'Error',
+
+          'user_email_empty': '@T Email is empty!',
+          'user_pass_empty': '@T Password is empty!',
+          'nickname_empty': '@T Nickname is empty!',
+          'wrong_password': '@T Invalid login credential',
+          'invalid_email_format': '@T Invalid Email format.',
 
         },
       };

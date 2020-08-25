@@ -22,7 +22,7 @@ class WordpressController extends GetxController {
     if (isEmpty(params['route'])) throw 'route empty happend on client';
     if (require != null) {
       require.forEach((e) {
-        if (isEmpty(params[e])) throw e + ' is empty';
+        if (isEmpty(params[e])) throw e + '_empty';
       });
     }
 
