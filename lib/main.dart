@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/screens/home/home.screen.dart';
@@ -19,19 +22,16 @@ class FlutterPress extends StatefulWidget {
   _FlutterPressState createState() => _FlutterPressState();
 }
 
-class _FlutterPressState extends State<FlutterPress> {
+class _FlutterPressState extends State<FlutterPress>
+    with AfterLayoutMixin<FlutterPress> {
   final WordpressController wc = Get.put(WordpressController());
+
+  @override
+  void afterFirstLayout(BuildContext context) {}
 
   @override
   void initState() {
     super.initState();
-
-    () async {
-      // Get.updateLocale(Locale('ko'));
-      // try {} catch (e) {
-      //   print('Caught error: $e');
-      // }
-    }();
   }
 
   @override

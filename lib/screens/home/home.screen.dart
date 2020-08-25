@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/app.routes.dart';
@@ -54,6 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('Logout'),
                     onPressed: () => wc.logout(),
                   ),
+                RaisedButton(
+                  onPressed: () {
+                    Get.updateLocale(Locale('ko'));
+                  },
+                  child: Text('Chnage Locale'),
+                ),
               ],
             );
           },
