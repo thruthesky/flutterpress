@@ -4,3 +4,6 @@
 [submodule "lib/flutter_i18n"]
 	path = lib/flutter_i18n
 	url = https://github.com/thruthesky/flutter_i18n
+[submodule "lib/flutter_test"]
+	path = lib/flutter_test
+	url = https://github.com/thruthesky/flutter_test
