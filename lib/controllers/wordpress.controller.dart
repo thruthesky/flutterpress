@@ -6,9 +6,18 @@ import 'package:flutterpress/services/app.config.dart';
 import 'package:get/state_manager.dart';
 import 'package:hive/hive.dart';
 
+import 'package:flutterpress/globals.dart' as globals;
+
 class WordpressController extends GetxController {
   WordpressController() {
-    _initCurrentUser();
+    /// when `isTestActive` is true, the app is currently running an integration test.
+    /// to test for pages which requires having a logged in user, we need to initiate the app with a mock user.
+    if (globals.isTestActive) {
+      print('==== Integration test is active, logging in mock user ====');
+      _updateCurrentUser(globals.testUser);
+    } else {
+      _initCurrentUser();
+    }
   }
   Box userBox = Hive.box(HiveBox.user);
   UserModel user;

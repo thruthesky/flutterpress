@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/screens/profile/profile.update_form.dart';
-import 'package:flutterpress/widgets/app_drawer.dart';
+import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -10,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(AppKeys.profileScaffold),
       appBar: AppBar(
         title: Text('profile'.tr),
       ),

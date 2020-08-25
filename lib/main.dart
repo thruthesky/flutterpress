@@ -12,6 +12,7 @@ import 'package:flutterpress/services/app.translations.dart';
 import 'package:get/get.dart';
 
 void main() async {
+
   await AppService.initBoxes();
   runApp(FlutterPress());
 }

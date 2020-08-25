@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:flutterpress/widgets/app_text_input_field.dart';
+import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
