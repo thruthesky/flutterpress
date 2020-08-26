@@ -22,7 +22,7 @@ class Post extends StatelessWidget {
       subtitle: Column(
         children: [
           Text(post.content),
-          if (post.authorId == wc.user.id)
+          if (AppService.isMyPost(post))
             Row(
               children: [
                 RaisedButton(

@@ -1,6 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/models/forum.model.dart';
+import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -88,5 +92,34 @@ class AppService {
       bgColor: Colors.red[400],
       textColor: Colors.white,
     );
+  }
+
+  static Future<dynamic> getHttp(
+    Map<String, dynamic> params, {
+    List<String> require,
+  }) async {
+    Dio dio = Dio();
+
+    if (isEmpty(params['route'])) throw 'route empty happend on client';
+    if (require != null) {
+      require.forEach((e) {
+        if (isEmpty(params[e])) throw e + '_empty';
+      });
+    }
+
+    dio.interceptors.add(LogInterceptor());
+    Response response = await dio.get(
+      AppConfig.apiUrl,
+      queryParameters: params,
+    );
+    if (response.data is String) throw response.data;
+    return response.data;
+  }
+
+  static isMyPost(PostModel post) {
+    if (wc.isUserLoggedIn == false) return false;
+    if (post == null) return false;
+
+    return post.authorId == wc.user.id;
   }
 }

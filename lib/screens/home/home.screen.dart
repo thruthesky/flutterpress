@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
@@ -36,10 +37,30 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text('Is user logged in: ${wc.isUserLoggedIn}'),
                 Divider(),
-                RaisedButton(
-                  key: ValueKey(AppRoutes.postList),
-                  child: Text('postList'.tr),
-                  onPressed: () => Get.toNamed(AppRoutes.postList),
+                Row(
+                  children: [
+                    RaisedButton(
+                      key: ValueKey(AppRoutes.postList),
+                      child: Text('postList'.tr),
+                      onPressed: () =>
+                          Get.toNamed(AppRoutes.postList, arguments: {}),
+                    ),
+                    RaisedButton(
+                      key: ValueKey('discuss'),
+                      child: Text('Discuss'.tr),
+                      onPressed: () => openForum('discuss'),
+                    ),
+                    RaisedButton(
+                      key: ValueKey('qna'),
+                      child: Text('QnA'.tr),
+                      onPressed: () => openForum('qna'),
+                    ),
+                    RaisedButton(
+                      key: ValueKey('market'),
+                      child: Text('Buy&Sell'.tr),
+                      onPressed: () => openForum('market'),
+                    ),
+                  ],
                 ),
                 Divider(),
                 if (!wc.isUserLoggedIn)

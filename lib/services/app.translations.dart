@@ -44,7 +44,7 @@ class AppTranslations extends Translations {
           'register': '회원가입',
           'profile': '회원 정보',
           'update': '업데이트',
-          'logout': '로그인',
+          'logout': '로그아웃',
           'resign': '회원 탈퇴',
           'confirmResign': '정말 회원 탈퇴를 하시겠습니까?',
           'email': '이메일',
@@ -58,7 +58,6 @@ class AppTranslations extends Translations {
           'nickname_empty': '닉네임을 입력하세요.',
           'wrong_password': '비밀번호가 올바르지 않습니다.',
           'invalid_email_format': '이메일 형식이 올바르지 않습니다.',
-          
           'postList': '@T Post list',
           'loading': '@T Loading posts ..',
           'createPost': '@T Create Post',

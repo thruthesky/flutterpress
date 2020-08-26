@@ -1,9 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/forum.model.dart';
 import 'package:flutterpress/models/user.model.dart';
-import 'package:flutterpress/services/app.config.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:get/state_manager.dart';
 import 'package:hive/hive.dart';
 
@@ -19,33 +18,13 @@ class WordpressController extends GetxController {
 
   bool get isUserLoggedIn => user != null;
 
-  Future<dynamic> getHttp(Map<String, dynamic> params,
-      {List<String> require}) async {
-    Dio dio = Dio();
-
-    if (isEmpty(params['route'])) throw 'route empty happend on client';
-    if (require != null) {
-      require.forEach((e) {
-        if (isEmpty(params[e])) throw e + '_empty';
-      });
-    }
-
-    dio.interceptors.add(LogInterceptor());
-    Response response = await dio.get(
-      AppConfig.apiUrl,
-      queryParameters: params,
-    );
-    if (response.data is String) throw response.data;
-    return response.data;
-  }
-
   /// Get version of backend API.
   ///
   /// ```dart
   /// wc.version().then((re) => print);
   /// ```
   Future<dynamic> version() async {
-    return getHttp({'route': 'app.version'});
+    return AppService.getHttp({'route': 'app.version'});
   }
 
   _initCurrentUser() {
@@ -69,7 +48,8 @@ class WordpressController extends GetxController {
   ///
   Future<UserModel> login(Map<String, dynamic> params) async {
     params['route'] = 'user.login';
-    var data = await getHttp(params, require: ['user_email', 'user_pass']);
+    var data =
+        await AppService.getHttp(params, require: ['user_email', 'user_pass']);
     return _updateCurrentUser(data);
   }
 
@@ -77,7 +57,7 @@ class WordpressController extends GetxController {
   ///
   Future<UserModel> register(Map<String, dynamic> params) async {
     params['route'] = 'user.register';
-    var data = await getHttp(params, require: [
+    var data = await AppService.getHttp(params, require: [
       'user_email',
       'user_pass',
       'nickname',
@@ -90,14 +70,15 @@ class WordpressController extends GetxController {
   Future<UserModel> profileUpdate(Map<String, dynamic> params) async {
     params['route'] = 'user.update';
     params['session_id'] = user.sessionId;
-    var data = await getHttp(params);
+    var data = await AppService.getHttp(params);
     return await _updateCurrentUser(data);
   }
 
   /// Resigns or removes the user information from the backend.
   ///
   Future resign() async {
-    await getHttp({'route': 'user.resign', 'session_id': user.sessionId});
+    await AppService.getHttp(
+        {'route': 'user.resign', 'session_id': user.sessionId});
     logout();
   }
 
@@ -137,7 +118,7 @@ class WordpressController extends GetxController {
     var reqs = ['post_title'];
     if (isUpdate) reqs.add('ID');
 
-    var postData = await getHttp(params, require: reqs);
+    var postData = await AppService.getHttp(params, require: reqs);
 
     if (isUpdate) {
       _updatePost(postData);
@@ -154,7 +135,7 @@ class WordpressController extends GetxController {
     params['route'] = 'post.delete';
     params['session_id'] = user.sessionId;
 
-    var data = await getHttp(params, require: ['ID']);
+    var data = await AppService.getHttp(params, require: ['ID']);
     posts.removeWhere((post) => post.id == data['ID']);
     update(['postList']);
   }
@@ -168,7 +149,7 @@ class WordpressController extends GetxController {
   /// To get only one post, use [getPost]
   getPosts(Map<String, dynamic> params) async {
     params['route'] = 'post.search';
-    List<dynamic> ps = await getHttp(params);
+    List<dynamic> ps = await AppService.getHttp(params);
     ps.forEach((post) => _addPostToList(post));
     update(['postList']);
   }

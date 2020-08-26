@@ -14,7 +14,6 @@ import 'package:flutterpress/services/app.translations.dart';
 import 'package:get/get.dart';
 
 void main() async {
-
   await AppService.initBoxes();
   runApp(FlutterPress());
 }
@@ -50,7 +49,7 @@ class _FlutterPressState extends State<FlutterPress>
       ),
       locale: Locale('ko'),
       translations: AppTranslations(),
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.postList,
       getPages: [
         GetPage(name: AppRoutes.home, page: () => HomeScreen()),
         GetPage(name: AppRoutes.login, page: () => LoginScreen()),

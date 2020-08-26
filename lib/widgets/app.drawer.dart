@@ -23,6 +23,11 @@ class _AppDrawerState extends State<AppDrawer> {
                   color: Colors.blue,
                 ),
               ),
+              FlatButton(
+                key: ValueKey(AppRoutes.home),
+                child: Text('home'.tr),
+                onPressed: () => Get.toNamed(AppRoutes.home),
+              ),
               if (!_.isUserLoggedIn)
                 FlatButton(
                   key: ValueKey(AppRoutes.login),
