@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
@@ -37,6 +38,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
       child: Column(
         children: <Widget>[
           AppTextInputField(
+            key: ValueKey(AppKeys.nicknameInput),
             hintText: 'nickname'.tr,
             controller: nickname,
             inputAction: TextInputAction.done,
@@ -58,6 +60,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
           Row(
             children: [
               RaisedButton(
+                key: ValueKey(AppKeys.formSubmitButton),
                 onPressed: () async {
                   try {
                     await wc.profileUpdate({
@@ -73,6 +76,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
               ),
               Spacer(),
               RaisedButton(
+                key: ValueKey(AppKeys.resignButton),
                 color: Colors.red[300],
                 textColor: Colors.white,
                 child: Text('resign'.tr),

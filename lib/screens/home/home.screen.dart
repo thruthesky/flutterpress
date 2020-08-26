@@ -5,8 +5,6 @@ import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:get/get.dart';
 
-
-
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
 

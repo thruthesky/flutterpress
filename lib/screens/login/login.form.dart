@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
@@ -50,6 +51,7 @@ class LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           AppTextInputField(
+            key: ValueKey(AppKeys.emailInput),
             hintText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
@@ -57,6 +59,7 @@ class LoginFormState extends State<LoginForm> {
             onEditingComplete: passNode.requestFocus,
           ),
           AppTextInputField(
+            key: ValueKey(AppKeys.passwordInput),
             hintText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.done,
@@ -64,6 +67,7 @@ class LoginFormState extends State<LoginForm> {
             focusNode: passNode,
           ),
           RaisedButton(
+            key: ValueKey(AppKeys.formSubmitButton),
             onPressed: _onFormSubmit,
             child: Text('submit'.tr),
           ),

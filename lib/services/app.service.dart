@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/services/app.keys.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,8 +14,6 @@ class AppService {
     await Hive.openBox(HiveBox.user);
   }
 
-  ///
-  ///
   static confirmDialog(
     String title,
     Widget content, {
@@ -23,12 +22,37 @@ class AppService {
     Function onConfirm,
     Function onCancel,
   }) async {
-    await Get.defaultDialog(
-      title: title,
-      content: content,
-      confirmTextColor: Colors.white,
-      onCancel: onCancel,
-      onConfirm: onConfirm,
+    await Get.dialog(
+      SimpleDialog(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title),
+            SizedBox(
+              height: 10,
+            ),
+            content
+          ],
+        ),
+        children: [
+          Divider(),
+          Row(
+            children: [
+              FlatButton(
+                key: ValueKey(AppKeys.dialogConfirmButton),
+                onPressed: onConfirm,
+                child: Text('yes'.tr),
+              ),
+              Spacer(),
+              FlatButton(
+                key: ValueKey(AppKeys.dialogCancelButton),
+                onPressed: onCancel,
+                child: Text('cancel'.tr),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
