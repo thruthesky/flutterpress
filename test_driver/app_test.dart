@@ -20,7 +20,7 @@ class TestUser {
   static String get email => 'berry@test.com';
   static String get password => '--00,*';
   static String get nickname => 'berry';
-  static String get nickname2 => 'berry2';
+  static String get nickname2 => 'apple';
 }
 
 void main() {
@@ -176,8 +176,10 @@ void main() {
       await driver.tap(confirmButton);
 
       await driver.waitFor(find.byValueKey(AppKeys.homeScaffold));
-
-      await helper.isNotPresent(find.byValueKey(AppRoutes.profile));
+      expect(
+        await helper.isNotPresent(find.byValueKey(AppRoutes.profile)),
+        true,
+      );
     });
   });
 }
