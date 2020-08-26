@@ -111,7 +111,7 @@ class WordpressController extends GetxController {
 
   /// This adds a single post to a list.
   ///
-  /// This is used under [_postEdit] and [getPost] method.
+  /// This is used under [postEdit] and [getPost] method.
   _addPostToList(Map<String, dynamic> postData) {
     posts.insert(0, PostModel.fromBackendData(postData));
   }
@@ -121,7 +121,7 @@ class WordpressController extends GetxController {
   _updatePost(Map<String, dynamic> postData) {
     var id = postData['ID'];
     int i = posts.indexWhere((post) => post.id == id);
-    posts.replaceRange(i-1, i, [PostModel.fromBackendData(postData)]);
+    posts.replaceRange(i, i + 1, [PostModel.fromBackendData(postData)]);
   }
 
   /// This will make an Http request for editting post.
@@ -130,8 +130,7 @@ class WordpressController extends GetxController {
   postEdit(Map<String, dynamic> params, {isUpdate = false}) async {
     params['route'] = 'post.edit';
     params['session_id'] = user.sessionId;
-
-    if (isEmpty(params['slug'])) {
+    if (isEmpty(params['slug']) && !isUpdate) {
       params['slug'] = 'uncategorized';
     }
 
