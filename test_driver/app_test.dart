@@ -32,25 +32,6 @@ void main() {
       // });
     });
 
-    test('Profile Screen', () async {
-      var button = find.byValueKey(AppRoutes.profile);
-      await helper.exitIfNotExists(
-        button,
-        'Register button does not exists on home screen.',
-      );
-      await driver.tap(button);
-
-      var scaffold = find.byValueKey(AppKeys.profileScaffold);
-      await helper.exitIfNotExists(
-        scaffold,
-        'Scaffold key not exists in Register screen.',
-      );
-      await driver.tap(find.pageBack());
-
-      var logoutButton = find.byValueKey(AppKeys.logoutButton);
-      await driver.tap(logoutButton);
-    });
-
     test('Login Screen', () async {
       var button = find.byValueKey(AppRoutes.login);
       await helper.exitIfNotExists(
@@ -80,5 +61,24 @@ void main() {
       );
       await driver.tap(find.pageBack());
     });
+
+    // test('Profile Screen', () async {
+    //   var button = find.byValueKey(AppRoutes.profile);
+    //   await helper.exitIfNotExists(
+    //     button,
+    //     'Register button does not exists on home screen.',
+    //   );
+    //   await driver.tap(button);
+
+    //   var scaffold = find.byValueKey(AppKeys.profileScaffold);
+    //   await helper.exitIfNotExists(
+    //     scaffold,
+    //     'Scaffold key not exists in Register screen.',
+    //   );
+    //   await driver.tap(find.pageBack());
+
+    //   var logoutButton = find.byValueKey(AppKeys.logoutButton);
+    //   await driver.tap(logoutButton);
+    // });
   });
 }
