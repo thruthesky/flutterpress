@@ -109,17 +109,56 @@ class WordpressController extends GetxController {
     update();
   }
 
-  /// Create new post
+  /// This adds a single post to a list.
   ///
-  postCreate() {}
+  /// This is used under [_postEdit] and [getPost] method.
+  _addPostToList(Map<String, dynamic> postData) {
+    posts.insert(0, PostModel.fromBackendData(postData));
+  }
 
-  /// Update an existing post.
+  /// Updates an specific post on the list.
   ///
-  postUpdate() {}
+  _updatePost(Map<String, dynamic> postData) {
+    var id = postData['ID'];
+    int i = posts.indexWhere((post) => post.id == id);
+    posts.replaceRange(i-1, i, [PostModel.fromBackendData(postData)]);
+  }
+
+  /// This will make an Http request for editting post.
+  ///
+  /// Editting can either be creating or updating.
+  postEdit(Map<String, dynamic> params, {isUpdate = false}) async {
+    params['route'] = 'post.edit';
+    params['session_id'] = user.sessionId;
+
+    if (isEmpty(params['slug'])) {
+      params['slug'] = 'uncategorized';
+    }
+
+    var reqs = ['post_title'];
+    if (isUpdate) reqs.add('ID');
+
+    var postData = await getHttp(params, require: reqs);
+
+    if (isUpdate) {
+      _updatePost(postData);
+    } else {
+      _addPostToList(postData);
+    }
+
+    update(['postList']);
+  }
 
   /// Delete an existing post.
   ///
-  postDelete() {}
+  postDelete(Map<String, dynamic> params) async {
+    params['route'] = 'post.delete';
+    params['session_id'] = user.sessionId;
+
+    var data = await getHttp(params, require: ['ID']);
+    posts.removeWhere((post) => post.id == data['ID']);
+    update(['postList']);
+  }
 
   /// Get a single post from backend.
   ///
@@ -131,7 +170,7 @@ class WordpressController extends GetxController {
   getPosts(Map<String, dynamic> params) async {
     params['route'] = 'post.search';
     List<dynamic> ps = await getHttp(params);
-    ps.forEach((post) => posts.add(PostModel.fromBackendData(post)));
+    ps.forEach((post) => _addPostToList(post));
     update(['postList']);
   }
 

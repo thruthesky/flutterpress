@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/screens/post_list/post_list.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
@@ -16,7 +17,7 @@ class _PostListScreenState extends State<PostListScreen> {
 
   @override
   void initState() {
-    wc.getPosts({'slug': 'uncategorized'});
+    wc.getPosts({});
     super.initState();
   }
 

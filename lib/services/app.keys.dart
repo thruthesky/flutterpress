@@ -15,4 +15,7 @@ class AppKeys {
 
   static String dialogConfirmButton = 'dialogConfirmButton';
   static String dialogCancelButton = 'dialogCancelButton';
+
+  static String postTitleInput = 'postTitleInput';
+  static String postContentInput = 'contentTitleInput';
 }

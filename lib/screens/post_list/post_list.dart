@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/screens/post_list/post.dart';
 import 'package:get/get.dart';
 
 class PostList extends StatelessWidget {
@@ -11,7 +12,9 @@ class PostList extends StatelessWidget {
     return GetBuilder<WordpressController>(
       id: 'postList',
       builder: (_) {
-        if (isEmpty(_.posts))
+        var postList = _.posts;
+
+        if (isEmpty(postList))
           return Center(
             child: Padding(
               padding: EdgeInsets.all(8.0),
@@ -20,16 +23,10 @@ class PostList extends StatelessWidget {
           );
         return ListView.builder(
           shrinkWrap: true,
-          itemCount: _.posts.length,
+          itemCount: postList.length,
           itemBuilder: (context, i) {
-            final post = _.posts[i];
-            return ListTile(
-              contentPadding: EdgeInsets.all(20),
-              title: Text(post.title),
-              subtitle: Column(
-                children: [Text(post.content)],
-              ),
-            );
+            final post = postList[i];
+            return Post(post: post);
           },
         );
       },
