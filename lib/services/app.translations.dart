@@ -28,6 +28,10 @@ class AppTranslations extends Translations {
           'nickname_empty': 'Nickname is empty!',
           'wrong_password': 'Invalid login credential',
           'invalid_email_format': 'Invalid Email format.',
+
+          'postList': 'Post list',
+          'loading': 'Loading posts ..',
+          'createPost': 'Create Post',
         },
         'ko': {
           'version': '@T Version',
@@ -55,6 +59,11 @@ class AppTranslations extends Translations {
           'nickname_empty': '@T Nickname is empty!',
           'wrong_password': '@T Invalid login credential',
           'invalid_email_format': '@T Invalid Email format.',
+
+
+          'postList': '@T Post list',
+          'loading': '@T Loading posts ..',
+          'createPost': '@T Create Post',
         },
       };
 }

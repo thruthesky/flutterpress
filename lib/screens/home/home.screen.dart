@@ -36,6 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text('Is user logged in: ${wc.isUserLoggedIn}'),
                 Divider(),
+                RaisedButton(
+                  key: ValueKey(AppRoutes.postList),
+                  child: Text('postList'.tr),
+                  onPressed: () => Get.toNamed(AppRoutes.postList),
+                ),
+                Divider(),
                 if (!wc.isUserLoggedIn)
                   RaisedButton(
                     key: ValueKey(AppRoutes.login),

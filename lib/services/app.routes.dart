@@ -3,4 +3,6 @@ class AppRoutes {
   static final String login = '/login';
   static final String register = '/register';
   static final String profile = '/profile';
+  static final String postList = '/postList';
+  static final String postEdit = '/postEdit';
 }

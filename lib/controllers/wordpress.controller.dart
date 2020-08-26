@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/models/forum.model.dart';
 import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:get/state_manager.dart';
@@ -12,7 +13,9 @@ class WordpressController extends GetxController {
   }
 
   Box userBox = Hive.box(HiveBox.user);
+
   UserModel user;
+  List<PostModel> posts = [];
 
   bool get isUserLoggedIn => user != null;
 
@@ -125,7 +128,12 @@ class WordpressController extends GetxController {
   /// Gets more than one posts
   ///
   /// To get only one post, use [getPost]
-  getPosts() {}
+  getPosts(Map<String, dynamic> params) async {
+    params['route'] = 'post.search';
+    List<dynamic> ps = await getHttp(params);
+    ps.forEach((post) => posts.add(PostModel.fromBackendData(post)));
+    update(['postList']);
+  }
 
   /// Create a new comment
   ///

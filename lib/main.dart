@@ -4,6 +4,8 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_i18n/locale.dart';
 import 'package:flutterpress/screens/home/home.screen.dart';
 import 'package:flutterpress/screens/login/login.screen.dart';
+import 'package:flutterpress/screens/post_edit/post_edit.screen.dart';
+import 'package:flutterpress/screens/post_list/post_list.screen.dart';
 import 'package:flutterpress/screens/profile/profile.screen.dart';
 import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/app.routes.dart';
@@ -54,6 +56,8 @@ class _FlutterPressState extends State<FlutterPress>
         GetPage(name: AppRoutes.login, page: () => LoginScreen()),
         GetPage(name: AppRoutes.register, page: () => RegisterScreen()),
         GetPage(name: AppRoutes.profile, page: () => ProfileScreen()),
+        GetPage(name: AppRoutes.postList, page: () => PostListScreen()),
+        GetPage(name: AppRoutes.postEdit, page: () => PostEditScreen()),
       ],
     );
   }
