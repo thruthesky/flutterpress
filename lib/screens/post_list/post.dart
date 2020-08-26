@@ -52,7 +52,7 @@ class _PostState extends State<Post> {
                       arguments: {'post': post},
                     );
                     if (!isEmpty(res)) {
-                      updatePost(post);
+                      updatePost(res);
                     }
                   },
                 ),
