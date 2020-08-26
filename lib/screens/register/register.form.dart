@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,8 @@ class RegisterFormState extends State<RegisterForm> {
         'user_pass': pass.text,
         'nickname': nickname.text,
       });
-      Get.back();
+      // Get.back();
+      Get.offAllNamed(AppRoutes.home);
     } catch (e) {
       AppService.error('$e'.tr);
     }
