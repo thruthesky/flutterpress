@@ -108,7 +108,10 @@ class WordpressController extends GetxController {
   /// This will make an Http request for editting post.
   ///
   /// Editting can either be creating or updating.
-  postEdit(Map<String, dynamic> params, {isUpdate = false}) async {
+  Future<PostModel> postEdit(
+    Map<String, dynamic> params, {
+    isUpdate = false,
+  }) async {
     params['route'] = 'post.edit';
     params['session_id'] = user.sessionId;
     if (isEmpty(params['slug']) && !isUpdate) {
@@ -118,15 +121,15 @@ class WordpressController extends GetxController {
     var reqs = ['post_title'];
     if (isUpdate) reqs.add('ID');
 
-    var postData = await AppService.getHttp(params, require: reqs);
+    var res = await AppService.getHttp(params, require: reqs);
+    return PostModel.fromBackendData(res);
+    // if (isUpdate) {
+    //   _updatePost(postData);
+    // } else {
+    //   _addPostToList(postData);
+    // }
 
-    if (isUpdate) {
-      _updatePost(postData);
-    } else {
-      _addPostToList(postData);
-    }
-
-    update(['postList']);
+    // update(['postList']);
   }
 
   /// Delete an existing post.

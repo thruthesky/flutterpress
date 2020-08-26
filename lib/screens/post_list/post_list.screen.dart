@@ -35,9 +35,11 @@ class _PostListScreenState extends State<PostListScreen>
     getPosts();
   }
 
-  /// This adds a single post to a list.
-  ///
-  /// This is used under [postEdit] and [getPost] method.
+  addPost(PostModel post) {
+    posts.add(post);
+    setState(() {});
+  }
+
   addPosts(List<dynamic> postData) {
     for (var p in postData) {
       posts.add(PostModel.fromBackendData(p));
@@ -68,8 +70,15 @@ class _PostListScreenState extends State<PostListScreen>
                 RaisedButton(
                   key: ValueKey(AppKeys.postEditButton),
                   child: Text('createPost'.tr),
-                  onPressed: () => Get.toNamed(AppRoutes.postEdit,
-                      arguments: {'slug': slug}),
+                  onPressed: () async {
+                    var post = await Get.toNamed(
+                      AppRoutes.postEdit,
+                      arguments: {'slug': slug},
+                    );
+                    if (!isEmpty(post)) {
+                      addPost(post);
+                    }
+                  },
                 ),
               PostList(posts),
             ],

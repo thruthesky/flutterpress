@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/forum.model.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
-class Post extends StatelessWidget {
-  final WordpressController wc = Get.find();
+class Post extends StatefulWidget {
   final PostModel post;
 
   Post({
     Key key,
     @required this.post,
   }) : super(key: key);
+
+  @override
+  _PostState createState() => _PostState();
+}
+
+class _PostState extends State<Post> {
+  final WordpressController wc = Get.find();
+  PostModel post;
+
+  updatePost(PostModel post) {
+    post = post;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    post = widget.post;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +46,15 @@ class Post extends StatelessWidget {
               children: [
                 RaisedButton(
                   child: Text('update'.tr),
-                  onPressed: () => Get.toNamed(
-                    AppRoutes.postEdit,
-                    arguments: post,
-                  ),
+                  onPressed: () async {
+                    var res = await Get.toNamed(
+                      AppRoutes.postEdit,
+                      arguments: {'post': post},
+                    );
+                    if (!isEmpty(res)) {
+                      updatePost(post);
+                    }
+                  },
                 ),
                 RaisedButton(
                   child: Text('delete'.tr),

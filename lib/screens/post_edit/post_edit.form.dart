@@ -26,11 +26,6 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
 
   @override
   void initState() {
-    if (!isEmpty(post)) {
-      isUpdate = true;
-      title.text = post.title;
-      content.text = post.content;
-    }
     super.initState();
   }
 
@@ -41,6 +36,9 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
       slug = args['slug'];
     } else {
       post = args['post'];
+      isUpdate = true;
+      title.text = post.title;
+      content.text = post.content;
     }
   }
 
@@ -73,8 +71,8 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
                     'post_content': content.text,
                   };
                   if (isUpdate) params['ID'] = post.id.toString();
-                  await wc.postEdit(params, isUpdate: isUpdate);
-                  Get.back();
+                  var res = await wc.postEdit(params, isUpdate: isUpdate);
+                  Get.back(result: res);
                 } catch (e) {
                   AppService.error('$e'.tr);
                 }

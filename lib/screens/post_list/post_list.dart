@@ -28,11 +28,12 @@ class _PostListState extends State<PostList> {
       );
 
     return ListView.builder(
-        shrinkWrap: true,
-        itemCount: postList.length,
-        itemBuilder: (context, i) {
-          final post = postList[i];
-          return Post(post: post);
-        });
+      shrinkWrap: true,
+      itemCount: postList.length,
+      itemBuilder: (context, i) {
+        final post = postList[i];
+        return Post(post: post);
+      },
+    );
   }
 }
