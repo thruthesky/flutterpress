@@ -4,6 +4,7 @@ import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/forum.model.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
 
 class Post extends StatefulWidget {
@@ -35,48 +36,61 @@ class _PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.all(20),
-      title: Text(post.title),
-      subtitle: Column(
-        children: [
-          Text(post.content),
-          if (AppService.isMyPost(post))
-            Row(
-              children: [
-                RaisedButton(
-                  child: Text('update'.tr),
-                  onPressed: () async {
-                    var res = await Get.toNamed(
-                      AppRoutes.postEdit,
-                      arguments: {'post': post},
-                    );
-                    if (!isEmpty(res)) {
-                      updatePost(res);
-                    }
-                  },
-                ),
-                RaisedButton(
-                  child: Text('delete'.tr),
-                  onPressed: () {
-                    AppService.confirmDialog(
-                      'delete'.tr,
-                      Text('confirmPostDelete'.tr),
-                      onConfirm: () async {
-                        Get.back();
-                        try {
-                          await wc.postDelete({'ID': post.id});
-                        } catch (e) {
-                          AppService.error('$e'.tr);
+    return Card(
+      margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(post.title),
+            Text(post.content),
+            if (AppService.isMyPost(post))
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    Divider(),
+                    RaisedButton(
+                      child: Text('update'.tr),
+                      onPressed: () async {
+                        var res = await Get.toNamed(
+                          AppRoutes.postEdit,
+                          arguments: {'post': post},
+                        );
+                        if (!isEmpty(res)) {
+                          updatePost(res);
                         }
                       },
-                      onCancel: Get.back,
-                    );
-                  },
-                )
-              ],
-            )
-        ],
+                    ),
+                    RaisedButton(
+                      child: Text('delete'.tr),
+                      onPressed: () {
+                        AppService.confirmDialog(
+                          'delete'.tr,
+                          Text('confirmPostDelete'.tr),
+                          onConfirm: () async {
+                            Get.back();
+                            try {
+                              await wc.postDelete({'ID': post.id});
+                            } catch (e) {
+                              AppService.error('$e'.tr);
+                            }
+                          },
+                          onCancel: Get.back,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+            /// TODO
+            ///  - Comment CRUD
+            if (AppService.wc.isUserLoggedIn)
+              AppTextInputField(hintText: 'Comment')
+          ],
+        ),
       ),
     );
   }
