@@ -21,17 +21,10 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
   final WordpressController wc = Get.find();
-  PostModel post;
 
   updatePost(PostModel post) {
-    post = post;
+    widget.post.update(post);
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    post = widget.post;
-    super.initState();
   }
 
   @override
@@ -43,9 +36,9 @@ class _PostState extends State<Post> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(post.title),
-            Text(post.content),
-            if (AppService.isMyPost(post))
+            Text(widget.post.title),
+            Text(widget.post.content),
+            if (AppService.isMyPost(widget.post))
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 child: Row(
@@ -56,7 +49,7 @@ class _PostState extends State<Post> {
                       onPressed: () async {
                         var res = await Get.toNamed(
                           AppRoutes.postEdit,
-                          arguments: {'post': post},
+                          arguments: {'post': widget.post},
                         );
                         if (!isEmpty(res)) {
                           updatePost(res);
@@ -72,7 +65,7 @@ class _PostState extends State<Post> {
                           onConfirm: () async {
                             Get.back();
                             try {
-                              await wc.postDelete({'ID': post.id});
+                              await wc.postDelete({'ID': widget.post.id});
                             } catch (e) {
                               AppService.error('$e'.tr);
                             }
