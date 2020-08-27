@@ -33,6 +33,13 @@ class PostModel {
     );
   }
 
+  update(PostModel post) {
+    data = post.data;
+    title = post.title;
+    content = post.content;
+    slug = post.slug;
+  }
+
   @override
   String toString() {
     return data.toString();

@@ -38,10 +38,13 @@ class WordpressController extends GetxController {
 
   /// Updates the user instance and notify or update listeners.
   ///
-  _updateCurrentUser(Map<String, dynamic> res) {
+  UserModel _updateCurrentUser(Map<String, dynamic> res) {
     this.user = UserModel.fromBackendData(res);
     userBox.put(BoxKey.currentUser, res);
     update();
+
+    /// @add return
+    return user;
   }
 
   /// Login a user.
