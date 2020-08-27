@@ -119,6 +119,7 @@ class AppService {
   static isMyPost(PostModel post) {
     if (wc.isUserLoggedIn == false) return false;
     if (post == null) return false;
+    if (post.deleted) return false;
 
     return post.authorId == wc.user.id;
   }

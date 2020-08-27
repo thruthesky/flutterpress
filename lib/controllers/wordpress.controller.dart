@@ -90,21 +90,6 @@ class WordpressController extends GetxController {
     update();
   }
 
-  /// This adds a single post to a list.
-  ///
-  /// This is used under [postEdit] and [getPost] method.
-  _addPostToList(Map<String, dynamic> postData) {
-    posts.insert(0, PostModel.fromBackendData(postData));
-  }
-
-  /// Updates an specific post on the list.
-  ///
-  _updatePost(Map<String, dynamic> postData) {
-    var id = postData['ID'];
-    int i = posts.indexWhere((post) => post.id == id);
-    posts.replaceRange(i, i + 1, [PostModel.fromBackendData(postData)]);
-  }
-
   /// This will make an Http request for editting post.
   ///
   /// Editting can either be creating or updating.
@@ -123,51 +108,44 @@ class WordpressController extends GetxController {
 
     var res = await AppService.getHttp(params, require: reqs);
     return PostModel.fromBackendData(res);
-    // if (isUpdate) {
-    //   _updatePost(postData);
-    // } else {
-    //   _addPostToList(postData);
-    // }
-
-    // update(['postList']);
   }
 
   /// Delete an existing post.
   ///
-  postDelete(Map<String, dynamic> params) async {
+  Future<PostModel> postDelete(Map<String, dynamic> params) async {
     params['route'] = 'post.delete';
     params['session_id'] = user.sessionId;
 
     var data = await AppService.getHttp(params, require: ['ID']);
-    posts.removeWhere((post) => post.id == data['ID']);
-    update(['postList']);
+    return PostModel(id: data['ID'], data: data);
   }
 
   /// Get a single post from backend.
   ///
   getPost() {}
 
-  /// Gets more than one posts
-  ///
-  /// To get only one post, use [getPost]
-  getPosts(Map<String, dynamic> params) async {
-    params['route'] = 'post.search';
-    List<dynamic> ps = await AppService.getHttp(params);
-    ps.forEach((post) => _addPostToList(post));
-    update(['postList']);
-  }
-
   /// Create a new comment
   ///
-  commentCreate() {}
-
-  /// Update an existing comment.
-  ///
-  commentUpdate() {}
+  Future<CommentModel> commentEdit(Map<String, dynamic> params) async {
+    params['route'] =  'comment.edit';
+    params['session_id'] = user.sessionId;
+    var reqs = [
+      'comment_content',
+      if (isEmpty(params['comment_ID'])) 'comment_post_ID',
+    ];
+    var res = await AppService.getHttp(params, require: reqs);
+    return CommentModel.fromBackendData(res);
+  }
 
   /// Delete an existing comment.
   ///
-  commentDelete() {}
+  Future<CommentModel> commentDelete(Map<String, dynamic> params) async {
+    params['route'] = 'comment.delete';
+    params['session_id'] = user.sessionId;
+    var data = await AppService.getHttp(params, require: ['comment_ID']);
+    print(data);
+    return CommentModel(id: data['ID'], data: data);
+  }
 
   /// Upload a file to backend.
   ///

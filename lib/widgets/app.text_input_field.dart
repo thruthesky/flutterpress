@@ -23,6 +23,7 @@ class AppTextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+    
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(hintText: hintText),
       keyboardType: inputType,

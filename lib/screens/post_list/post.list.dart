@@ -27,13 +27,8 @@ class _PostListState extends State<PostList> {
         ),
       );
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: postList.length,
-      itemBuilder: (context, i) {
-        final post = postList[i];
-        return Post(post: post);
-      },
+    return Column(
+      children: [for (PostModel post in widget.posts) Post(post: post)],
     );
   }
 }

@@ -22,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('User:${wc.user}');
+
     return Scaffold(
       key: ValueKey(AppKeys.homeScaffold),
       appBar: AppBar(
