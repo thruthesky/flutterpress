@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/models/forum.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
+import 'package:flutterpress/screens/post_list/comment_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
@@ -50,34 +51,26 @@ class _CommentState extends State<Comment> {
                 ),
 
                 /// comment buttons
-                Row(
-                  children: [
-                    RaisedButton(
-                      child: Text('update'),
-                      onPressed: () => changeInEditState(true),
-                    ),
-                    RaisedButton(
-                      child: Text('delete'),
-                      onPressed: () {
-                        AppService.confirmDialog(
-                          'delete'.tr,
-                          Text('confirmDelete'.tr),
-                          onConfirm: () async {
-                            try {
-                              await wc.commentDelete(
-                                {'comment_ID': widget.comment.id},
-                              );
-                              widget.comment.delete();
-                              setState(() {});
-                            } catch (e) {
-                              AppService.error('$e'.tr);
-                            }
-                          },
-                          onCancel: Get.back,
-                        );
+                CommentButtons(
+                  onUpdateTap: () => changeInEditState(true),
+                  onDeleteTap: () {
+                    AppService.confirmDialog(
+                      'delete'.tr,
+                      Text('confirmDelete'.tr),
+                      onConfirm: () async {
+                        try {
+                          await wc.commentDelete(
+                            {'comment_ID': widget.comment.id},
+                          );
+                          widget.comment.delete();
+                          setState(() {});
+                        } catch (e) {
+                          AppService.error('$e'.tr);
+                        }
                       },
-                    ),
-                  ],
+                      onCancel: Get.back,
+                    );
+                  },
                 )
               ],
             ),
