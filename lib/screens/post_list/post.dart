@@ -54,9 +54,7 @@ class _PostState extends State<Post> {
                 onDelete: onPostDeleted,
               ),
 
-            /// TODO: comment box
-            ///
-            ///  - Comment CRUD
+            /// comment box
             if (AppService.wc.isUserLoggedIn && !widget.post.deleted)
               CommentBox(
                   post: widget.post,
@@ -66,8 +64,6 @@ class _PostState extends State<Post> {
                   }),
 
             /// Comments
-            ///
-            /// TODO: seperate to widget
             if (!isEmpty(widget.post.comments.length))
               for (CommentModel comment in widget.post.comments)
                 Comment(
