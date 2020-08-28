@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/models/forum.model.dart';
+import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';

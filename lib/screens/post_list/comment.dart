@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-import 'package:flutterpress/models/forum.model.dart';
+import 'package:flutterpress/models/comment.model.dart';
+import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/comment_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -9,8 +10,9 @@ import 'package:get/get.dart';
 class Comment extends StatefulWidget {
   final CommentModel comment;
   final PostModel post;
+  final Function onReplied;
 
-  Comment(this.post, this.comment);
+  Comment(this.post, this.comment, {this.onReplied});
 
   @override
   _CommentState createState() => _CommentState();
@@ -20,9 +22,15 @@ class _CommentState extends State<Comment> {
   final WordpressController wc = Get.find();
 
   bool inEdit = false;
+  bool inReply = false;
 
   changeInEditState(bool val) {
     inEdit = val;
+    setState(() {});
+  }
+
+  changeInReplyState(bool val) {
+    inReply = val;
     setState(() {});
   }
 
@@ -30,7 +38,7 @@ class _CommentState extends State<Comment> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey[200],
-      margin: EdgeInsets.only(top: 20, left: 10),
+      margin: EdgeInsets.only(top: 20, left: 10 * widget.comment.depth.toDouble()),
       child: inEdit
           ? CommentBox(
               post: widget.post,
@@ -50,28 +58,44 @@ class _CommentState extends State<Comment> {
                   subtitle: Text(widget.comment.content),
                 ),
 
+                /// Reply box
+                if (inReply)
+                  CommentBox(
+                    post: widget.post,
+                    parent: widget.comment.id,
+                    onCancel: () => changeInReplyState(false),
+                    onEditted: (comment) {
+                      widget.post.insertComment(widget.comment.id, comment);
+                      changeInEditState(false);
+                      widget.onReplied();
+                    },
+                  ),
+
                 /// comment buttons
-                CommentButtons(
-                  onUpdateTap: () => changeInEditState(true),
-                  onDeleteTap: () {
-                    AppService.confirmDialog(
-                      'delete'.tr,
-                      Text('confirmDelete'.tr),
-                      onConfirm: () async {
-                        try {
-                          await wc.commentDelete(
-                            {'comment_ID': widget.comment.id},
-                          );
-                          widget.comment.delete();
-                          setState(() {});
-                        } catch (e) {
-                          AppService.error('$e'.tr);
-                        }
-                      },
-                      onCancel: Get.back,
-                    );
-                  },
-                )
+                if (wc.isUserLoggedIn && !inReply)
+                  CommentButtons(
+                    comment: widget.comment,
+                    onReplyTap: () => changeInReplyState(true),
+                    onUpdateTap: () => changeInEditState(true),
+                    onDeleteTap: () {
+                      AppService.confirmDialog(
+                        'delete'.tr,
+                        Text('confirmDelete'.tr),
+                        onConfirm: () async {
+                          try {
+                            await wc.commentDelete(
+                              {'comment_ID': widget.comment.id},
+                            );
+                            widget.comment.delete();
+                            setState(() {});
+                          } catch (e) {
+                            AppService.error('$e'.tr);
+                          }
+                        },
+                        onCancel: Get.back,
+                      );
+                    },
+                  )
               ],
             ),
     );

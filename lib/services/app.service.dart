@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/models/forum.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:get/get.dart';
@@ -116,11 +115,15 @@ class AppService {
     return response.data;
   }
 
-  static isMyPost(PostModel post) {
+  /// check if the `item` belongs to the current logged in user.
+  ///
+  /// item can be either a model of `PostModel` or `CommentModel`.
+  static isMine(item) {
     if (wc.isUserLoggedIn == false) return false;
-    if (post == null) return false;
-    if (post.deleted) return false;
+    if (item == null) return false;
 
-    return post.authorId == wc.user.id;
+    /// it is safe to check for this since both Model have the same property.
+    if (item.deleted) return false;
+    return item.authorId == wc.user.id;
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/models/forum.model.dart';
+import 'package:flutterpress/models/comment.model.dart';
+import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/post_buttons.dart';
@@ -46,7 +47,7 @@ class _PostState extends State<Post> {
             Divider(),
 
             /// post buttons
-            if (AppService.isMyPost(widget.post))
+            if (AppService.isMine(widget.post))
               PostButtons(
                 post: widget.post,
                 onUpdate: onPostUpdated,
@@ -69,7 +70,13 @@ class _PostState extends State<Post> {
             /// TODO: seperate to widget
             if (!isEmpty(widget.post.comments.length))
               for (CommentModel comment in widget.post.comments)
-                Comment(widget.post, comment)
+                Comment(
+                  widget.post,
+                  comment,
+                  onReplied: () {
+                    setState(() {});
+                  },
+                )
           ],
         ),
       ),

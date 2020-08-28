@@ -1,3 +1,5 @@
+import 'package:flutterpress/models/comment.model.dart';
+
 class PostModel {
   dynamic data;
 
@@ -48,12 +50,18 @@ class PostModel {
 
   bool deleted = false;
 
-  insertComment(int parent, CommentModel comment) {
-    if (parent == 0) {
-      comments.insert(0, comment); // Add to first
-    } else {
-      // repply ....
+  insertComment(int commentParentId, CommentModel comment) {
+    int i = 0;
+    int depth = 1;
+    if (commentParentId > 0) {
+      i = comments.indexWhere((c) {
+            depth = c.depth + 1;
+            return c.id == commentParentId;
+          }) +
+          1;
     }
+    comment.depth = depth;
+    comments.insert(i, comment);
   }
 
   delete() {
@@ -73,54 +81,5 @@ class PostModel {
   @override
   String toString() {
     return data.toString();
-  }
-}
-
-class CommentModel {
-  dynamic data;
-  int id;
-  int postId;
-  int userId;
-  int parent;
-  String author;
-  String content;
-  int depth;
-
-  CommentModel({
-    this.data,
-    this.id,
-    this.postId,
-    this.userId,
-    this.parent,
-    this.author,
-    this.content,
-    this.depth,
-  });
-
-  factory CommentModel.fromBackendData(dynamic data) {
-    if (data is String) {
-      return CommentModel(data: data);
-    }
-    return CommentModel(
-        data: data,
-        id: int.parse(data['comment_ID']),
-        postId: int.parse(data['comment_post_ID']),
-        userId: int.parse(data['user_id']),
-        parent: int.parse(data['comment_parent']),
-        author: data['comment_author'],
-        content: data['comment_content'],
-        depth: data['depth']);
-  }
-
-  bool deleted = false;
-
-  delete() {
-    this.deleted = true;
-    author = '( deleted )';
-  }
-
-  update(CommentModel comment) {
-    data = comment;
-    content = comment.content;
   }
 }

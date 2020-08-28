@@ -1,6 +1,7 @@
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/models/forum.model.dart';
+import 'package:flutterpress/models/comment.model.dart';
+import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/state_manager.dart';

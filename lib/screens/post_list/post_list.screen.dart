@@ -2,7 +2,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/models/forum.model.dart';
+import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/post.list.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
