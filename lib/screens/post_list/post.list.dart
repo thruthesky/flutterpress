@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-// import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/post.dart';
 import 'package:get/get.dart';
@@ -17,15 +16,6 @@ class _PostListState extends State<PostList> {
 
   @override
   Widget build(BuildContext context) {
-
-    // if (isEmpty(postList))
-    //   return Center(
-    //     child: Padding(
-    //       padding: EdgeInsets.all(8.0),
-    //       child: Text('loading'.tr),
-    //     ),
-    //   );
-
     return Column(
       children: [for (PostModel post in widget.posts) Post(post: post)],
     );

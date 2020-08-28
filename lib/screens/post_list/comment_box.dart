@@ -63,7 +63,7 @@ class CommentBox extends StatelessWidget {
       ),
       Expanded(
         child: AppTextInputField(
-          hintText: 'Comment',
+          hintText: 'comment'.tr,
           inputType: TextInputType.text,
           inputAction: TextInputAction.done,
           controller: controller,

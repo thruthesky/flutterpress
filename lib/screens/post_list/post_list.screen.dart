@@ -120,7 +120,7 @@ class _PostListScreenState extends State<PostListScreen>
 
                 if (noMorePost) Center(child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('No more posts ..'),
+                  child: Text('noMorePost'.tr),
                 ))
               ],
             ),
