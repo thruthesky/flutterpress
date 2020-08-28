@@ -27,6 +27,7 @@ class _PostListScreenState extends State<PostListScreen>
   bool loading = false;
   bool noMorePost = false;
   int page = 1;
+  int postPerPage = 2;
 
   @override
   void initState() {
@@ -69,7 +70,12 @@ class _PostListScreenState extends State<PostListScreen>
     var re = await AppService.getHttp({
       'route': 'post.search',
       'slug': slug ?? '',
+      'posts_per_page': postPerPage,
+      'paged': page
     });
+    page += 1;
+
+    if (re.length < postPerPage) noMorePost = true;
     addPosts(re);
   }
 
@@ -104,13 +110,18 @@ class _PostListScreenState extends State<PostListScreen>
                 PostList(posts),
 
                 /// loader
-                if (loading)
+                if (loading && !noMorePost)
                   Center(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text('loading'.tr),
                     ),
                   ),
+
+                if (noMorePost) Center(child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('No more posts ..'),
+                ))
               ],
             ),
           ),
