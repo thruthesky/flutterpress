@@ -83,6 +83,7 @@ class _CommentState extends State<Comment> {
                         Text('confirmDelete'.tr),
                         onConfirm: () async {
                           try {
+                            Get.back();
                             await wc.commentDelete(
                               {'comment_ID': widget.comment.id},
                             );

@@ -30,6 +30,7 @@ class _PostState extends State<Post> {
   }
 
   onPostDeleted() {
+    widget.post.delete();
     setState(() {});
   }
 
