@@ -39,6 +39,7 @@ class CommentModel {
 
   delete() {
     this.deleted = true;
+    content = '';
     author = '( deleted )';
   }
 

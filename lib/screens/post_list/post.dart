@@ -44,7 +44,7 @@ class _PostState extends State<Post> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(widget.post.title),
-            Text(widget.post.content),
+            if (!isEmpty(widget.post.content)) Text(widget.post.content),
             Divider(),
 
             /// post buttons

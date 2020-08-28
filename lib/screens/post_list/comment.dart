@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
@@ -55,7 +56,7 @@ class _CommentState extends State<Comment> {
               children: [
                 ListTile(
                   title: Text(widget.comment.author),
-                  subtitle: Text(widget.comment.content),
+                  subtitle: !isEmpty(widget.comment.content) ? Text(widget.comment.content) : null,
                 ),
 
                 /// Reply box
@@ -66,13 +67,13 @@ class _CommentState extends State<Comment> {
                     onCancel: () => changeInReplyState(false),
                     onEditted: (comment) {
                       widget.post.insertComment(widget.comment.id, comment);
-                      changeInEditState(false);
+                      changeInReplyState(false);
                       widget.onReplied();
                     },
                   ),
 
                 /// comment buttons
-                if (wc.isUserLoggedIn && !inReply)
+                if (wc.isUserLoggedIn && !inReply && !widget.comment.deleted)
                   CommentButtons(
                     comment: widget.comment,
                     onReplyTap: () => changeInReplyState(true),

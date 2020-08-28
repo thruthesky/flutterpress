@@ -36,7 +36,6 @@ class PostButtons extends StatelessWidget {
                 arguments: {'post': post},
               );
               if (!isEmpty(res)) {
-                post.delete();
                 onUpdate(res);
               }
             },

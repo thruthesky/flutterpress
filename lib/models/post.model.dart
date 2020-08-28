@@ -10,6 +10,8 @@ class PostModel {
   String content;
   String slug;
 
+  bool deleted;
+
   List<CommentModel> comments;
 
   PostModel({
@@ -21,6 +23,7 @@ class PostModel {
     this.content,
     this.slug,
     this.comments,
+    this.deleted,
   });
 
   factory PostModel.fromBackendData(dynamic data) {
@@ -38,17 +41,17 @@ class PostModel {
     data['comments'].map((c) => CommentModel.fromBackendData(c));
 
     return PostModel(
-        data: data,
-        id: data['ID'],
-        authorId: int.parse(data['post_author']),
-        authorName: data['author_name'],
-        title: data['post_title'],
-        content: data['post_content'],
-        slug: data['slug'],
-        comments: _comments);
+      data: data,
+      id: data['ID'],
+      authorId: int.parse(data['post_author']),
+      authorName: data['author_name'],
+      title: data['post_title'],
+      content: data['post_content'],
+      slug: data['slug'],
+      comments: _comments,
+      deleted: false,
+    );
   }
-
-  bool deleted = false;
 
   insertComment(int commentParentId, CommentModel comment) {
     int i = 0;
@@ -66,7 +69,7 @@ class PostModel {
 
   delete() {
     deleted = true;
-    content = '( deleted )';
+    content = '';
     title = '( deleted )';
     id = 0;
   }

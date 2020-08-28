@@ -27,7 +27,7 @@ class _PostListScreenState extends State<PostListScreen>
   bool loading = false;
   bool noMorePost = false;
   int page = 1;
-  int postPerPage = 2;
+  int postPerPage = 10;
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _PostListScreenState extends State<PostListScreen>
   }
 
   addPost(PostModel post) {
-    posts.add(post);
+    posts.insert(0, post);
     setState(() {});
   }
 

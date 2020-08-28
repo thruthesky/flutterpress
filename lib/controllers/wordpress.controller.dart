@@ -143,9 +143,9 @@ class WordpressController extends GetxController {
   Future<CommentModel> commentDelete(Map<String, dynamic> params) async {
     params['route'] = 'comment.delete';
     params['session_id'] = user.sessionId;
-    print(params);
+    // print(params);
     var data = await AppService.getHttp(params, require: ['comment_ID']);
-    print(data);
+    // print(data);
     return CommentModel(id: data['ID'], data: data);
   }
 
