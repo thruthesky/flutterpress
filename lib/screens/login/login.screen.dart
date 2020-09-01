@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/screens/login/login.form.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
       endDrawer: AppDrawer(),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -21,8 +22,8 @@ class LoginScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(FontAwesomeIcons.chevronLeft),
-                    SizedBox(width: 20),
-                    Text('Back', style: TextStyle(fontSize: 18)),
+                    SizedBox(width: lg),
+                    Text('Back', style: TextStyle(fontSize: md)),
                   ],
                 ),
                 onTap: () => Get.back(),
@@ -30,16 +31,16 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: 100),
               Text(
                 'Proceed with your',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: lg),
               ),
               Text(
                 'login'.tr,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: xl,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: xl),
               LoginForm(),
             ],
           ),

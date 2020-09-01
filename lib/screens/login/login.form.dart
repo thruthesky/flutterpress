@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
@@ -69,7 +70,7 @@ class LoginFormState extends State<LoginForm> {
             validator: (email) => AppService.isValidEmail(email),
             sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: sm),
           AppTextInputField(
             key: ValueKey(AppKeys.passwordInput),
             hintText: 'password'.tr,
@@ -90,7 +91,7 @@ class LoginFormState extends State<LoginForm> {
               },
             ),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: xl),
           SizedBox(
             width: double.infinity,
             child: RaisedButton(
@@ -100,7 +101,7 @@ class LoginFormState extends State<LoginForm> {
                 color: Colors.blue[600],
                 textColor: Colors.white),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: sm),
           SizedBox(
             width: double.infinity,
             child: FlatButton(
