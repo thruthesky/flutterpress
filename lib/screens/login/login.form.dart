@@ -67,7 +67,7 @@ class LoginFormState extends State<LoginForm> {
         children: <Widget>[
           AppTextInputField(
             key: ValueKey(AppKeys.emailInput),
-            hintText: 'email'.tr,
+            labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
             inputType: TextInputType.emailAddress,
@@ -79,7 +79,7 @@ class LoginFormState extends State<LoginForm> {
           SizedBox(height: sm),
           AppTextInputField(
             key: ValueKey(AppKeys.passwordInput),
-            hintText: 'password'.tr,
+            labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.done,
             obscureText: hidePassword,

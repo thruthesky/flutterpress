@@ -7,9 +7,7 @@ import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
 
-class CommentBox extends StatelessWidget {
-  final WordpressController wc = Get.find();
-
+class CommentBox extends StatefulWidget {
   final int parent;
   final int commentId;
 
@@ -29,25 +27,49 @@ class CommentBox extends StatelessWidget {
     content, // should only have value when updating a comment.
   }) : controller = TextEditingController(text: content ?? '');
 
+  @override
+  _CommentBoxState createState() => _CommentBoxState();
+}
+
+class _CommentBoxState extends State<CommentBox> {
+  final WordpressController wc = Get.find();
+
+  bool loading = false;
+  bool submittable;
+
+  @override
+  initState() {
+    submittable = !isEmpty(widget.controller.text);
+
+    super.initState();
+  }
+
   onSubmit() async {
-    if (isEmpty(controller.text)) return;
+    if (isEmpty(widget.controller.text) || loading) return;
+
+    loading = true;
+    setState(() {});
 
     var params = {
-      'comment_content': controller.text,
-      'comment_parent': parent,
+      'comment_content': widget.controller.text,
+      'comment_parent': widget.parent,
     };
 
-    if (!isEmpty(commentId)) {
-      params['comment_ID'] = commentId.toString();
+    if (!isEmpty(widget.commentId)) {
+      params['comment_ID'] = widget.commentId.toString();
     } else {
-      params['comment_post_ID'] = post.id.toString();
+      params['comment_post_ID'] = widget.post.id.toString();
     }
 
     try {
       var res = await wc.commentEdit(params);
-      controller.text = '';
-      onEditted(res);
+      widget.controller.text = '';
+      widget.onEditted(res);
+      loading = false;
+      if (mounted) setState(() {});
     } catch (e) {
+      loading = false;
+      setState(() {});
       AppService.error('$e'.tr);
     }
   }
@@ -55,21 +77,23 @@ class CommentBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      if (!isEmpty(parent) || !isEmpty(commentId))
-        Padding(
-          padding: EdgeInsets.all(5),
-          child: GestureDetector(
-            child: Icon(Icons.close),
-            onTap: onCancel,
-          ),
-        ),
       Expanded(
         child: AppTextInputField(
           hintText: 'comment'.tr,
           inputType: TextInputType.text,
           inputAction: TextInputAction.done,
-          controller: controller,
-          sufficIcon: IconButton(icon: Icon(Icons.send), onPressed: onSubmit),
+          controller: widget.controller,
+          autoValidate: true,
+          icon: (!isEmpty(widget.parent) || !isEmpty(widget.commentId))
+              ? IconButton(icon: Icon(Icons.close), onPressed: widget.onCancel)
+              : null,
+          sufficIcon: IconButton(
+            icon: Icon(Icons.send),
+            onPressed: isEmpty(widget.controller.text) ? null : onSubmit,
+          ),
+          onChanged: (value) {
+            setState(() {});
+          }
         ),
       ),
     ]);

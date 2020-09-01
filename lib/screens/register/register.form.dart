@@ -65,7 +65,7 @@ class RegisterFormState extends State<RegisterForm> {
         children: <Widget>[
           AppTextInputField(
             key: ValueKey(AppKeys.emailInput),
-            hintText: 'email'.tr,
+            labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
             inputType: TextInputType.emailAddress,
@@ -76,7 +76,7 @@ class RegisterFormState extends State<RegisterForm> {
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.passwordInput),
-            hintText: 'password'.tr,
+            labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.next,
             obscureText: hidePassword,
@@ -96,7 +96,7 @@ class RegisterFormState extends State<RegisterForm> {
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.nicknameInput),
-            hintText: 'nickname'.tr,
+            labelText: 'nickname'.tr,
             controller: nickname,
             inputAction: TextInputAction.done,
             inputType: TextInputType.text,
