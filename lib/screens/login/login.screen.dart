@@ -13,31 +13,33 @@ class LoginScreen extends StatelessWidget {
       key: ValueKey(AppKeys.loginScaffold),
       endDrawer: AppDrawer(),
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(lg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FlatButton(
-                padding: EdgeInsets.all(0),
-                child: Row(
-                  children: [
-                    Icon(FontAwesomeIcons.chevronLeft),
-                    SizedBox(width: lg),
-                    Text('Back', style: TextStyle(fontSize: md)),
-                  ],
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(lg),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FlatButton(
+                  padding: EdgeInsets.all(0),
+                  child: Row(
+                    children: [
+                      Icon(FontAwesomeIcons.chevronLeft),
+                      SizedBox(width: lg),
+                      Text('Back', style: TextStyle(fontSize: md)),
+                    ],
+                  ),
+                  onPressed: () => Get.back(),
                 ),
-                onPressed: () => Get.back(),
-              ),
-              SizedBox(height: 100),
-              Text('Proceed with your', style: TextStyle(fontSize: lg)),
-              Text(
-                'login'.tr,
-                style: TextStyle(fontSize: xl, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: xl),
-              LoginForm(),
-            ],
+                SizedBox(height: 100),
+                Text('Proceed with your', style: TextStyle(fontSize: lg)),
+                Text(
+                  'login'.tr,
+                  style: TextStyle(fontSize: xl, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: xl),
+                LoginForm(),
+              ],
+            ),
           ),
         ),
       ),
