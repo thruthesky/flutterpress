@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
@@ -29,6 +30,7 @@ class PostButtons extends StatelessWidget {
 
           /// update
           RaisedButton(
+            key: ValueKey(AppKeys.postUpdateButton),
             child: Text('update'.tr),
             onPressed: () async {
               var res = await Get.toNamed(
@@ -43,6 +45,7 @@ class PostButtons extends StatelessWidget {
 
           /// delete
           RaisedButton(
+            key: ValueKey(AppKeys.postDeleteButton),
             child: Text('delete'.tr),
             onPressed: () {
               AppService.confirmDialog(

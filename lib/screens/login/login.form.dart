@@ -27,7 +27,7 @@ class LoginFormState extends State<LoginForm> {
   final passNode = FocusNode();
 
   bool isFormSubmitted = false;
-  bool showPassword = false;
+  bool hidePassword = true;
   bool loading = false;
 
   /// This function is moved here so it can be reference
@@ -82,17 +82,17 @@ class LoginFormState extends State<LoginForm> {
             hintText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.done,
-            obscureText: showPassword,
+            obscureText: hidePassword,
             focusNode: passNode,
             autoValidate: isFormSubmitted,
             validator: (pass) => AppService.isValidPassword(pass),
             onEditingComplete: _onFormSubmit,
             sufficIcon: IconButton(
               icon: Icon(
-                showPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+                hidePassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
               ),
               onPressed: () {
-                showPassword = !showPassword;
+                hidePassword = !hidePassword;
                 setState(() {});
               },
             ),

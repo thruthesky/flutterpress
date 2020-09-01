@@ -4,6 +4,7 @@ class AppKeys {
   static String registerScaffold = 'registerScaffold';
   static String profileScaffold = 'profileScaffold';
   static String postListScaffold = 'postListScaffold';
+  static String postEditScreenScaffold = 'postEditScreenScaffold';
 
   static String emailInput = 'emailInput';
   static String passwordInput = 'passwordInput';
@@ -13,10 +14,15 @@ class AppKeys {
   static String logoutButton = 'logoutButton';
   static String postEditButton = 'postEditButton';
   static String forgotPasswordButton = 'forgotPasswordButton';
+  static String postUpdateButton = 'postUpdateButton';
+  static String postDeleteButton = 'postDeleteButton';
 
   static String dialogConfirmButton = 'dialogConfirmButton';
   static String dialogCancelButton = 'dialogCancelButton';
 
   static String postTitleInput = 'postTitleInput';
-  static String postContentInput = 'contentTitleInput';
+  static String postContentInput = 'postContentInput';
+
+  static String post = 'post';
+  static String postList = 'postList';
 }

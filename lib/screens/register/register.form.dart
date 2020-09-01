@@ -16,7 +16,7 @@ class RegisterForm extends StatefulWidget {
 }
 
 bool isFormSubmitted = false;
-bool showPassword = false;
+bool hidePassword = true;
 bool loading = false;
 
 /// TODO
@@ -79,17 +79,17 @@ class RegisterFormState extends State<RegisterForm> {
             hintText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.next,
-            obscureText: showPassword,
+            obscureText: hidePassword,
             onEditingComplete: nicknameNode.requestFocus,
             focusNode: passNode,
             autoValidate: isFormSubmitted,
             validator: (pass) => AppService.isValidPassword(pass),
             sufficIcon: IconButton(
               icon: Icon(
-                showPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+                hidePassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
               ),
               onPressed: () {
-                showPassword = !showPassword;
+                hidePassword = !hidePassword;
                 setState(() {});
               },
             ),

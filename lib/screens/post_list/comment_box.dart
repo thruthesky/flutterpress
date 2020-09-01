@@ -30,6 +30,8 @@ class CommentBox extends StatelessWidget {
   }) : controller = TextEditingController(text: content ?? '');
 
   onSubmit() async {
+    if (isEmpty(controller.text)) return;
+
     var params = {
       'comment_content': controller.text,
       'comment_parent': parent,
@@ -54,28 +56,22 @@ class CommentBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       if (!isEmpty(parent) || !isEmpty(commentId))
-      Padding(
-        padding: EdgeInsets.all(5),
-        child: GestureDetector(
-          child: Icon(Icons.close),
-          onTap: onCancel,
+        Padding(
+          padding: EdgeInsets.all(5),
+          child: GestureDetector(
+            child: Icon(Icons.close),
+            onTap: onCancel,
+          ),
         ),
-      ),
       Expanded(
         child: AppTextInputField(
           hintText: 'comment'.tr,
           inputType: TextInputType.text,
           inputAction: TextInputAction.done,
           controller: controller,
+          sufficIcon: IconButton(icon: Icon(Icons.send), onPressed: onSubmit),
         ),
       ),
-      Padding(
-        padding: EdgeInsets.all(5),
-        child: GestureDetector(
-          child: Icon(Icons.send),
-          onTap: onSubmit,
-        ),
-      )
     ]);
   }
 }

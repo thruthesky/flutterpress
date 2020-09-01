@@ -38,7 +38,10 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
   Widget build(BuildContext context) {
     return TextFormField(
       textInputAction: TextInputAction.done,
-      decoration: InputDecoration(labelText: widget.hintText, suffixIcon: widget.sufficIcon),
+      decoration: InputDecoration(
+        labelText: widget.hintText,
+        suffixIcon: widget.sufficIcon,
+      ),
       keyboardType: widget.inputType,
       controller: widget.controller,
       focusNode: widget.focusNode,
@@ -49,7 +52,7 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       onChanged: (value) {
         if (widget.autoValidate) {
           validate = true;
-          setState(() {});
+          if (mounted) setState(() {});
         }
       },
     );

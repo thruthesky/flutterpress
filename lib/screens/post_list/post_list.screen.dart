@@ -83,7 +83,35 @@ class _PostListScreenState extends State<PostListScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(AppKeys.postListScaffold),
-      appBar: AppBar(title: Text('postList'.tr)),
+      appBar: AppBar(
+        title: Text('postList'.tr),
+        actions: [
+          if (wc.isUserLoggedIn)
+            IconButton(
+              key: ValueKey(AppKeys.postEditButton),
+              icon: Icon(Icons.add),
+              onPressed: () async {
+                var post = await Get.toNamed(
+                  AppRoutes.postEdit,
+                  arguments: {'slug': slug},
+                );
+                if (!isEmpty(post)) {
+                  addPost(post);
+                }
+              },
+            ),
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            },
+          )
+        ],
+      ),
       endDrawer: AppDrawer(),
       body: Container(
         child: SingleChildScrollView(
@@ -91,23 +119,8 @@ class _PostListScreenState extends State<PostListScreen>
           child: SafeArea(
             child: Column(
               children: [
-                if (wc.user != null)
-                  RaisedButton(
-                    key: ValueKey(AppKeys.postEditButton),
-                    child: Text('createPost'.tr),
-                    onPressed: () async {
-                      var post = await Get.toNamed(
-                        AppRoutes.postEdit,
-                        arguments: {'slug': slug},
-                      );
-                      if (!isEmpty(post)) {
-                        addPost(post);
-                      }
-                    },
-                  ),
-
                 /// post list
-                PostList(posts),
+                if (!isEmpty(posts.length)) PostList(posts),
 
                 /// loader
                 if (loading && !noMorePost)
@@ -118,10 +131,12 @@ class _PostListScreenState extends State<PostListScreen>
                     ),
                   ),
 
-                if (noMorePost) Center(child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('noMorePost'.tr),
-                ))
+                if (noMorePost)
+                  Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('noMorePost'.tr),
+                  ))
               ],
             ),
           ),

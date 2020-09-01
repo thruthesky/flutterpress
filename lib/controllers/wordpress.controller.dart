@@ -15,7 +15,6 @@ class WordpressController extends GetxController {
   Box userBox = Hive.box(HiveBox.user);
 
   UserModel user;
-  List<PostModel> posts = [];
 
   bool get isUserLoggedIn => user != null;
 
