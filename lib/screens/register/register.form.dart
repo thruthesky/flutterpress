@@ -4,6 +4,7 @@ import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -15,6 +16,8 @@ class RegisterForm extends StatefulWidget {
 }
 
 bool isFormSubmitted = false;
+bool showPassword = false;
+bool loading = false;
 
 /// TODO
 ///   - Add validation
@@ -37,15 +40,18 @@ class RegisterFormState extends State<RegisterForm> {
     isFormSubmitted = true;
     setState(() {});
     if (_formKey.currentState.validate()) {
+      loading = true;
+      setState(() {});
       try {
         await wc.register({
           'user_email': email.text,
           'user_pass': pass.text,
           'nickname': nickname.text,
         });
-        // Get.back();
         Get.offAllNamed(AppRoutes.home);
       } catch (e) {
+        loading = false;
+        setState(() {});
         AppService.error('$e'.tr);
       }
     }
@@ -66,17 +72,27 @@ class RegisterFormState extends State<RegisterForm> {
             onEditingComplete: passNode.requestFocus,
             autoValidate: isFormSubmitted,
             validator: (email) => AppService.isValidEmail(email),
+            sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.passwordInput),
             hintText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.next,
-            obscureText: true,
+            obscureText: showPassword,
             onEditingComplete: nicknameNode.requestFocus,
             focusNode: passNode,
             autoValidate: isFormSubmitted,
             validator: (pass) => AppService.isValidPassword(pass),
+            sufficIcon: IconButton(
+              icon: Icon(
+                showPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+              ),
+              onPressed: () {
+                showPassword = !showPassword;
+                setState(() {});
+              },
+            ),
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.nicknameInput),

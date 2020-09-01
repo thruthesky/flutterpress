@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,7 @@ class LoginFormState extends State<LoginForm> {
 
   bool isFormSubmitted = false;
   bool showPassword = false;
+  bool loading = false;
 
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
@@ -35,13 +37,17 @@ class LoginFormState extends State<LoginForm> {
     isFormSubmitted = true;
     setState(() {});
     if (_formKey.currentState.validate()) {
+      loading = true;
+      setState(() {});
       try {
         await wc.login({
           'user_email': email.value.text,
           'user_pass': pass.value.text,
         });
-        Get.back();
+        Get.offAllNamed(AppRoutes.home);
       } catch (e) {
+        loading = false;
+        setState(() {});
         AppService.error('$e'.tr);
       }
     }
@@ -92,15 +98,18 @@ class LoginFormState extends State<LoginForm> {
             ),
           ),
           SizedBox(height: xl),
-          SizedBox(
-            width: double.infinity,
-            child: RaisedButton(
+          if (loading) Center(child: CircularProgressIndicator()),
+          if (!loading)
+            SizedBox(
+              width: double.infinity,
+              child: RaisedButton(
                 key: ValueKey(AppKeys.formSubmitButton),
                 onPressed: _onFormSubmit,
                 child: Text('login'.tr.toUpperCase()),
                 color: Colors.blue[600],
-                textColor: Colors.white),
-          ),
+                textColor: Colors.white,
+              ),
+            ),
           SizedBox(height: sm),
           SizedBox(
             width: double.infinity,

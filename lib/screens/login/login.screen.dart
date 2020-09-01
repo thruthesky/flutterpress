@@ -18,7 +18,8 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(
+              FlatButton(
+                padding: EdgeInsets.all(0),
                 child: Row(
                   children: [
                     Icon(FontAwesomeIcons.chevronLeft),
@@ -26,19 +27,13 @@ class LoginScreen extends StatelessWidget {
                     Text('Back', style: TextStyle(fontSize: md)),
                   ],
                 ),
-                onTap: () => Get.back(),
+                onPressed: () => Get.back(),
               ),
               SizedBox(height: 100),
-              Text(
-                'Proceed with your',
-                style: TextStyle(fontSize: lg),
-              ),
+              Text('Proceed with your', style: TextStyle(fontSize: lg)),
               Text(
                 'login'.tr,
-                style: TextStyle(
-                  fontSize: xl,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: xl, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: xl),
               LoginForm(),
