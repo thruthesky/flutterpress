@@ -18,9 +18,16 @@ import 'package:test/test.dart';
 
 class TestUser {
   static String get email => 'berry@test.com';
-  static String get password => '--00,*';
+  static String get password => '-000,*';
   static String get nickname => 'berry';
   static String get nickname2 => 'apple';
+}
+
+class TestPost {
+  static String get title => 'test post title - 1';
+  static String get content => 'test  post content - 1';
+  static String get title2 => 'test post title - 2';
+  static String get content2 => 'test post content - 2';
 }
 
 void main() {
@@ -144,6 +151,7 @@ void main() {
       await delay(2000);
       await driver.tap(find.pageBack());
       await driver.tap(button);
+      await driver.tap(find.pageBack());
 
       /// enabling this piece of code will break the test.
       /// somehow the test driver doesn't support getting text form text input field.
@@ -156,9 +164,54 @@ void main() {
       /// expect(updatedNickname, TestUser.nickname2);
     });
 
-    // test('Post Create', () async {});
+    test('Post Create', () async {
+      var postListButton = find.byValueKey(AppRoutes.postList);
+      await driver.tap(postListButton);
 
-    // test('Post Update', () async {});
+      var postListScaffold = find.byValueKey(AppKeys.postListScaffold);
+      await helper.exitIfNotExists(
+        postListScaffold,
+        'Scaffold key not exists in Post list screen.',
+      );
+
+      var postEditButton = find.byValueKey(AppKeys.postEditButton);
+      await driver.tap(postEditButton);
+
+      var postEditScaffold = find.byValueKey(AppKeys.postEditScreenScaffold);
+      await helper.exitIfNotExists(
+        postEditScaffold,
+        'Scaffold key not exists in Post edit screen.',
+      );
+
+      var titleInput = find.byValueKey(AppKeys.postTitleInput);
+      await driver.tap(titleInput);
+      await driver.enterText(TestPost.title);
+
+      var contentInput = find.byValueKey(AppKeys.postContentInput);
+      await driver.tap(contentInput);
+      await driver.enterText(TestPost.content);
+
+      var submitButton = find.byValueKey(AppKeys.formSubmitButton);
+      await driver.tap(submitButton);
+    });
+
+    test('Post Update', () async {
+      await driver.waitFor(find.byValueKey(AppKeys.postListScaffold));
+
+      var updateButton = find.byValueKey(AppKeys.postUpdateButton);
+      await driver.tap(updateButton);
+
+      var titleInput = find.byValueKey(AppKeys.postTitleInput);
+      await driver.tap(titleInput);
+      await driver.enterText(TestPost.title2);
+
+      var contentInput = find.byValueKey(AppKeys.postContentInput);
+      await driver.tap(contentInput);
+      await driver.enterText(TestPost.content2);
+
+      var submitButton = find.byValueKey(AppKeys.formSubmitButton);
+      await driver.tap(submitButton);
+    });
 
     // test('Comment Create', () async {});
 
@@ -166,9 +219,21 @@ void main() {
 
     // test('Comment Delete', () async {});
 
-    // test('Post Delete', () async {});
+    test('Post Delete', () async {
+      var deleteButton = find.byValueKey(AppKeys.postDeleteButton);
+      await driver.tap(deleteButton);
+
+      var confirmButton = find.byValueKey(AppKeys.dialogConfirmButton);
+      await driver.tap(confirmButton);
+
+      await delay(500);
+      await driver.tap(find.pageBack());
+    });
 
     test('Resign', () async {
+      var profileButton = find.byValueKey(AppRoutes.profile);
+      await driver.tap(profileButton);
+
       var resignButton = find.byValueKey(AppKeys.resignButton);
       await driver.tap(resignButton);
 

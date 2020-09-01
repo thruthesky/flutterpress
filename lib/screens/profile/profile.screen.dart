@@ -12,9 +12,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(AppKeys.profileScaffold),
-      appBar: AppBar(
-        title: Text('profile'.tr),
-      ),
+      appBar: AppBar(title: Text('profile'.tr)),
       endDrawer: AppDrawer(),
       body: Container(
         padding: EdgeInsets.all(10),

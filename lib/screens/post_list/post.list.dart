@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/post.dart';
+import 'package:flutterpress/services/app.keys.dart';
 import 'package:get/get.dart';
 
 class  PostList extends StatefulWidget {
@@ -17,6 +18,7 @@ class _PostListState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: ValueKey(AppKeys.postList),
       children: [for (PostModel post in widget.posts) Post(post: post)],
     );
   }

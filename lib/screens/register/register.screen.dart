@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/screens/register/register.form.dart';
 import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -12,7 +11,6 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('register'.tr),
       ),
-      endDrawer: AppDrawer(),
       body: Container(
         padding: EdgeInsets.all(10),
         child: RegisterForm(),

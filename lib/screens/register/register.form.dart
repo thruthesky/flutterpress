@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -12,6 +14,10 @@ class RegisterForm extends StatefulWidget {
     return RegisterFormState();
   }
 }
+
+bool isFormSubmitted = false;
+bool hidePassword = true;
+bool loading = false;
 
 /// TODO
 ///   - Add validation
@@ -31,16 +37,23 @@ class RegisterFormState extends State<RegisterForm> {
   /// by both the submit button and the password textfield.
   ///
   _onFormSubmit() async {
-    try {
-      await wc.register({
-        'user_email': email.text,
-        'user_pass': pass.text,
-        'nickname': nickname.text,
-      });
-      // Get.back();
-      Get.offAllNamed(AppRoutes.home);
-    } catch (e) {
-      AppService.error('$e'.tr);
+    isFormSubmitted = true;
+    setState(() {});
+    if (_formKey.currentState.validate()) {
+      loading = true;
+      setState(() {});
+      try {
+        await wc.register({
+          'user_email': email.text,
+          'user_pass': pass.text,
+          'nickname': nickname.text,
+        });
+        Get.offAllNamed(AppRoutes.home);
+      } catch (e) {
+        loading = false;
+        setState(() {});
+        AppService.error('$e'.tr);
+      }
     }
   }
 
@@ -52,29 +65,47 @@ class RegisterFormState extends State<RegisterForm> {
         children: <Widget>[
           AppTextInputField(
             key: ValueKey(AppKeys.emailInput),
-            hintText: 'email'.tr,
+            labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
             inputType: TextInputType.emailAddress,
             onEditingComplete: passNode.requestFocus,
+            autoValidate: isFormSubmitted,
+            validator: (email) => AppService.isValidEmail(email),
+            sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.passwordInput),
-            hintText: 'password'.tr,
+            labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.next,
-            obscureText: true,
+            obscureText: hidePassword,
             onEditingComplete: nicknameNode.requestFocus,
             focusNode: passNode,
+            autoValidate: isFormSubmitted,
+            validator: (pass) => AppService.isValidPassword(pass),
+            sufficIcon: IconButton(
+              icon: Icon(
+                hidePassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+              ),
+              onPressed: () {
+                hidePassword = !hidePassword;
+                setState(() {});
+              },
+            ),
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.nicknameInput),
-            hintText: 'nickname'.tr,
+            labelText: 'nickname'.tr,
             controller: nickname,
             inputAction: TextInputAction.done,
             inputType: TextInputType.text,
             onEditingComplete: _onFormSubmit,
             focusNode: nicknameNode,
+            autoValidate: isFormSubmitted,
+            validator: (nickname) {
+              if (isEmpty(nickname)) return 'nickname_empty'.tr;
+            },
           ),
           RaisedButton(
             key: ValueKey(AppKeys.formSubmitButton),

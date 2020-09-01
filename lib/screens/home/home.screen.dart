@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('User:${wc.user}');
+    // print('User:${wc.user}');
 
     return Scaffold(
       key: ValueKey(AppKeys.homeScaffold),
@@ -39,13 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text('Is user logged in: ${wc.isUserLoggedIn}'),
                 Divider(),
-                Row(
+                Wrap(
+                  alignment: WrapAlignment.center,
                   children: [
                     RaisedButton(
                       key: ValueKey(AppRoutes.postList),
                       child: Text('postList'.tr),
-                      onPressed: () =>
-                          Get.toNamed(AppRoutes.postList, arguments: {}),
+                      onPressed: () => Get.toNamed(
+                        AppRoutes.postList,
+                        arguments: {},
+                      ),
                     ),
                     RaisedButton(
                       key: ValueKey('discuss'),

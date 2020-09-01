@@ -92,12 +92,12 @@ class _PostListScreenState extends State<PostListScreen>
               key: ValueKey(AppKeys.postEditButton),
               icon: Icon(Icons.add),
               onPressed: () async {
-                dynamic post = await Get.toNamed(
+                var post = await Get.toNamed(
                   AppRoutes.postEdit,
                   arguments: {'slug': slug},
                 );
                 if (!isEmpty(post)) {
-                  addOnTop(post);
+                  addPost(post);
                 }
               },
             ),
@@ -134,7 +134,7 @@ class _PostListScreenState extends State<PostListScreen>
                 //   ),
 
                 /// post list
-                PostList(posts),
+                if (!isEmpty(posts.length)) PostList(posts),
 
                 /// loader
                 if (loading)

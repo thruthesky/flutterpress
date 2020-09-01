@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -23,18 +26,30 @@ class LoginFormState extends State<LoginForm> {
   final pass = TextEditingController();
   final passNode = FocusNode();
 
+  bool isFormSubmitted = false;
+  bool hidePassword = true;
+  bool loading = false;
+
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
   ///
   _onFormSubmit() async {
-    try {
-      await wc.login({
-        'user_email': email.value.text,
-        'user_pass': pass.value.text,
-      });
-      Get.back();
-    } catch (e) {
-      AppService.error('$e'.tr);
+    isFormSubmitted = true;
+    setState(() {});
+    if (_formKey.currentState.validate()) {
+      loading = true;
+      setState(() {});
+      try {
+        await wc.login({
+          'user_email': email.value.text,
+          'user_pass': pass.value.text,
+        });
+        Get.offAllNamed(AppRoutes.home);
+      } catch (e) {
+        loading = false;
+        setState(() {});
+        AppService.error('$e'.tr);
+      }
     }
   }
 
@@ -52,24 +67,59 @@ class LoginFormState extends State<LoginForm> {
         children: <Widget>[
           AppTextInputField(
             key: ValueKey(AppKeys.emailInput),
-            hintText: 'email'.tr,
+            labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
             inputType: TextInputType.emailAddress,
             onEditingComplete: passNode.requestFocus,
+            autoValidate: isFormSubmitted,
+            validator: (email) => AppService.isValidEmail(email),
+            sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
+          SizedBox(height: sm),
           AppTextInputField(
             key: ValueKey(AppKeys.passwordInput),
-            hintText: 'password'.tr,
+            labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.done,
-            obscureText: true,
+            obscureText: hidePassword,
             focusNode: passNode,
+            autoValidate: isFormSubmitted,
+            validator: (pass) => AppService.isValidPassword(pass),
+            onEditingComplete: _onFormSubmit,
+            sufficIcon: IconButton(
+              icon: Icon(
+                hidePassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+              ),
+              onPressed: () {
+                hidePassword = !hidePassword;
+                setState(() {});
+              },
+            ),
           ),
-          RaisedButton(
-            key: ValueKey(AppKeys.formSubmitButton),
-            onPressed: _onFormSubmit,
-            child: Text('submit'.tr),
+          SizedBox(height: xl),
+          if (loading) Center(child: CircularProgressIndicator()),
+          if (!loading)
+            SizedBox(
+              width: double.infinity,
+              child: RaisedButton(
+                key: ValueKey(AppKeys.formSubmitButton),
+                onPressed: _onFormSubmit,
+                child: Text('login'.tr.toUpperCase()),
+                color: Colors.blue[600],
+                textColor: Colors.white,
+              ),
+            ),
+          SizedBox(height: sm),
+          SizedBox(
+            width: double.infinity,
+            child: FlatButton(
+              key: ValueKey(AppKeys.forgotPasswordButton),
+              onPressed: () {
+                print('TODO: FORGOT PASSWORD');
+              },
+              child: Text('forgotPassword'.tr),
+            ),
           ),
         ],
       ),
