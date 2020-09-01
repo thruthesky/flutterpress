@@ -9,6 +9,8 @@ class AppTextInputField extends StatelessWidget {
   final Function onEditingComplete;
   final bool obscureText;
 
+  final Function validator;
+
   AppTextInputField({
     this.inputAction,
     this.hintText,
@@ -18,12 +20,12 @@ class AppTextInputField extends StatelessWidget {
     this.onEditingComplete,
     this.obscureText = false,
     Key key,
+    this.validator(String value)
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-    
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(hintText: hintText),
       keyboardType: inputType,
@@ -31,6 +33,7 @@ class AppTextInputField extends StatelessWidget {
       focusNode: focusNode,
       obscureText: obscureText,
       onEditingComplete: onEditingComplete ?? () {},
+      validator: validator,
     );
   }
 }
