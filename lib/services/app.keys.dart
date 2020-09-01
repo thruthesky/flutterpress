@@ -12,6 +12,7 @@ class AppKeys {
   static String resignButton = 'resignButton';
   static String logoutButton = 'logoutButton';
   static String postEditButton = 'postEditButton';
+  static String forgotPasswordButton = 'forgotPasswordButton';
 
   static String dialogConfirmButton = 'dialogConfirmButton';
   static String dialogCancelButton = 'dialogCancelButton';

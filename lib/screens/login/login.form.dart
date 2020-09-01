@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 
@@ -25,6 +25,7 @@ class LoginFormState extends State<LoginForm> {
   final passNode = FocusNode();
 
   bool isFormSubmitted = false;
+  bool showPassword = false;
 
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
@@ -66,21 +67,49 @@ class LoginFormState extends State<LoginForm> {
             onEditingComplete: passNode.requestFocus,
             autoValidate: isFormSubmitted,
             validator: (email) => AppService.isValidEmail(email),
+            sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
+          SizedBox(height: 10),
           AppTextInputField(
-              key: ValueKey(AppKeys.passwordInput),
-              hintText: 'password'.tr,
-              controller: pass,
-              inputAction: TextInputAction.done,
-              obscureText: true,
-              focusNode: passNode,
-              autoValidate: isFormSubmitted,
-              validator: (pass) => AppService.isValidPassword(pass),
-              onEditingComplete: _onFormSubmit),
-          RaisedButton(
-            key: ValueKey(AppKeys.formSubmitButton),
-            onPressed: _onFormSubmit,
-            child: Text('submit'.tr),
+            key: ValueKey(AppKeys.passwordInput),
+            hintText: 'password'.tr,
+            controller: pass,
+            inputAction: TextInputAction.done,
+            obscureText: showPassword,
+            focusNode: passNode,
+            autoValidate: isFormSubmitted,
+            validator: (pass) => AppService.isValidPassword(pass),
+            onEditingComplete: _onFormSubmit,
+            sufficIcon: IconButton(
+              icon: Icon(
+                showPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+              ),
+              onPressed: () {
+                showPassword = !showPassword;
+                setState(() {});
+              },
+            ),
+          ),
+          SizedBox(height: 40),
+          SizedBox(
+            width: double.infinity,
+            child: RaisedButton(
+                key: ValueKey(AppKeys.formSubmitButton),
+                onPressed: _onFormSubmit,
+                child: Text('login'.tr.toUpperCase()),
+                color: Colors.blue[600],
+                textColor: Colors.white),
+          ),
+          SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: FlatButton(
+              key: ValueKey(AppKeys.forgotPasswordButton),
+              onPressed: () {
+                print('TODO: FORGOT PASSWORD');
+              },
+              child: Text('forgotPassword'.tr),
+            ),
           ),
         ],
       ),

@@ -9,6 +9,7 @@ class AppTextInputField extends StatefulWidget {
   final Function onEditingComplete;
   final bool obscureText;
   final bool autoValidate;
+  final Widget sufficIcon;
 
   final Function validator;
 
@@ -20,6 +21,7 @@ class AppTextInputField extends StatefulWidget {
     this.focusNode,
     this.onEditingComplete,
     this.obscureText = false,
+    this.sufficIcon,
     Key key,
     this.autoValidate = false,
     this.validator(String value),
@@ -36,7 +38,7 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
   Widget build(BuildContext context) {
     return TextFormField(
       textInputAction: TextInputAction.done,
-      decoration: InputDecoration(hintText: widget.hintText),
+      decoration: InputDecoration(labelText: widget.hintText, suffixIcon: widget.sufficIcon),
       keyboardType: widget.inputType,
       controller: widget.controller,
       focusNode: widget.focusNode,
