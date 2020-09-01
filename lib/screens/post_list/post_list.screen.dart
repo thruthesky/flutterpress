@@ -114,30 +114,37 @@ class _PostListScreenState extends State<PostListScreen>
       ),
       endDrawer: AppDrawer(),
       body: Container(
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: SafeArea(
-            child: Column(
-              children: [
-                /// post list
-                if (!isEmpty(posts.length)) PostList(posts),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onPanDown: (_) {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  /// post list
+                  if (!isEmpty(posts.length)) PostList(posts),
 
-                /// loader
-                if (loading && !noMorePost)
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('loading'.tr),
-                    ),
-                  ),
-
-                if (noMorePost)
-                  Center(
+                  /// loader
+                  if (loading && !noMorePost)
+                    Center(
                       child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('noMorePost'.tr),
-                  ))
-              ],
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('loading'.tr),
+                      ),
+                    ),
+
+                  if (noMorePost)
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('noMorePost'.tr),
+                      ),
+                    )
+                ],
+              ),
             ),
           ),
         ),
