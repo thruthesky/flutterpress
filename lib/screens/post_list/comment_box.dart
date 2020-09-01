@@ -34,12 +34,15 @@ class CommentBox extends StatefulWidget {
 class _CommentBoxState extends State<CommentBox> {
   final WordpressController wc = Get.find();
 
+  final focusNode = FocusNode();
+
   bool loading = false;
-  bool submittable;
 
   @override
   initState() {
-    submittable = !isEmpty(widget.controller.text);
+    if (!isEmpty(widget.parent) || !isEmpty(widget.commentId)) {
+      focusNode.requestFocus();
+    }
 
     super.initState();
   }
@@ -79,22 +82,22 @@ class _CommentBoxState extends State<CommentBox> {
     return Row(children: [
       Expanded(
         child: AppTextInputField(
-          hintText: 'comment'.tr,
-          inputType: TextInputType.text,
-          inputAction: TextInputAction.done,
-          controller: widget.controller,
-          autoValidate: true,
-          icon: (!isEmpty(widget.parent) || !isEmpty(widget.commentId))
-              ? IconButton(icon: Icon(Icons.close), onPressed: widget.onCancel)
-              : null,
-          sufficIcon: IconButton(
-            icon: Icon(Icons.send),
-            onPressed: isEmpty(widget.controller.text) ? null : onSubmit,
-          ),
-          onChanged: (value) {
-            setState(() {});
-          }
-        ),
+            hintText: 'comment'.tr,
+            inputType: TextInputType.text,
+            inputAction: TextInputAction.done,
+            controller: widget.controller,
+            focusNode: focusNode,
+            icon: (!isEmpty(widget.parent) || !isEmpty(widget.commentId))
+                ? IconButton(
+                    icon: Icon(Icons.close), onPressed: widget.onCancel)
+                : null,
+            sufficIcon: IconButton(
+              icon: Icon(Icons.send),
+              onPressed: !isEmpty(widget.controller.text) ? onSubmit : null,
+            ),
+            onChanged: (value) {
+              setState(() {});
+            }),
       ),
     ]);
   }
