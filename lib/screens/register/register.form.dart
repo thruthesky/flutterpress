@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -12,6 +13,8 @@ class RegisterForm extends StatefulWidget {
     return RegisterFormState();
   }
 }
+
+bool isFormSubmitted = false;
 
 /// TODO
 ///   - Add validation
@@ -31,16 +34,20 @@ class RegisterFormState extends State<RegisterForm> {
   /// by both the submit button and the password textfield.
   ///
   _onFormSubmit() async {
-    try {
-      await wc.register({
-        'user_email': email.text,
-        'user_pass': pass.text,
-        'nickname': nickname.text,
-      });
-      // Get.back();
-      Get.offAllNamed(AppRoutes.home);
-    } catch (e) {
-      AppService.error('$e'.tr);
+    isFormSubmitted = true;
+    setState(() {});
+    if (_formKey.currentState.validate()) {
+      try {
+        await wc.register({
+          'user_email': email.text,
+          'user_pass': pass.text,
+          'nickname': nickname.text,
+        });
+        // Get.back();
+        Get.offAllNamed(AppRoutes.home);
+      } catch (e) {
+        AppService.error('$e'.tr);
+      }
     }
   }
 
@@ -57,6 +64,8 @@ class RegisterFormState extends State<RegisterForm> {
             inputAction: TextInputAction.next,
             inputType: TextInputType.emailAddress,
             onEditingComplete: passNode.requestFocus,
+            autoValidate: isFormSubmitted,
+            validator: (email) => AppService.isValidEmail(email),
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.passwordInput),
@@ -66,6 +75,8 @@ class RegisterFormState extends State<RegisterForm> {
             obscureText: true,
             onEditingComplete: nicknameNode.requestFocus,
             focusNode: passNode,
+            autoValidate: isFormSubmitted,
+            validator: (pass) => AppService.isValidPassword(pass),
           ),
           AppTextInputField(
             key: ValueKey(AppKeys.nicknameInput),
@@ -75,6 +86,10 @@ class RegisterFormState extends State<RegisterForm> {
             inputType: TextInputType.text,
             onEditingComplete: _onFormSubmit,
             focusNode: nicknameNode,
+            autoValidate: isFormSubmitted,
+            validator: (nickname) {
+              if (isEmpty(nickname)) return 'nickname_empty'.tr;
+            },
           ),
           RaisedButton(
             key: ValueKey(AppKeys.formSubmitButton),

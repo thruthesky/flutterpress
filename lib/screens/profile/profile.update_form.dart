@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
@@ -11,6 +12,8 @@ class ProfileUpdateForm extends StatefulWidget {
     return ProfileUpdateFormState();
   }
 }
+
+bool isFormSubmitted = false;
 
 /// TODO
 ///   - Add validation
@@ -43,6 +46,10 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
             controller: nickname,
             inputAction: TextInputAction.done,
             inputType: TextInputType.text,
+            autoValidate: isFormSubmitted,
+            validator: (nickname) {
+              if (isEmpty(nickname)) return 'nickname_empty'.tr;
+            },
           ),
           AppTextInputField(
             hintText: 'firstname'.tr,
@@ -62,14 +69,16 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
               RaisedButton(
                 key: ValueKey(AppKeys.formSubmitButton),
                 onPressed: () async {
-                  try {
-                    await wc.profileUpdate({
-                      'nickname': nickname.text,
-                      'first_name': firstname.text,
-                      'last_name': lastname.text,
-                    });
-                  } catch (e) {
-                    AppService.error('$e'.tr);
+                  if (_formKey.currentState.validate()) {
+                    try {
+                      await wc.profileUpdate({
+                        'nickname': nickname.text,
+                        'first_name': firstname.text,
+                        'last_name': lastname.text,
+                      });
+                    } catch (e) {
+                      AppService.error('$e'.tr);
+                    }
                   }
                 },
                 child: Text('update'.tr),

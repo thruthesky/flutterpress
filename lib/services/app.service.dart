@@ -126,4 +126,19 @@ class AppService {
     if (item.deleted) return false;
     return item.authorId == wc.user.id;
   }
+
+  static String isValidEmail(String email) {
+    if (isEmpty(email)) return 'user_email_empty'.tr;
+
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return regex.hasMatch(email) ? null : 'invalid_email_format'.tr;
+  }
+
+  static String isValidPassword(String pass) {
+    if (isEmpty(pass)) return 'user_pass_empty'.tr;
+    if (pass.length < 6) return 'password_too_short'.tr;
+    return null;
+  }
 }

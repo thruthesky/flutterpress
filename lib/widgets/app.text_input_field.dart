@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppTextInputField extends StatelessWidget {
+class AppTextInputField extends StatefulWidget {
   final TextInputAction inputAction;
   final String hintText;
   final TextEditingController controller;
@@ -8,6 +8,7 @@ class AppTextInputField extends StatelessWidget {
   final FocusNode focusNode;
   final Function onEditingComplete;
   final bool obscureText;
+  final bool autoValidate;
 
   final Function validator;
 
@@ -20,20 +21,35 @@ class AppTextInputField extends StatelessWidget {
     this.onEditingComplete,
     this.obscureText = false,
     Key key,
-    this.validator(String value)
+    this.autoValidate = false,
+    this.validator(String value),
   }) : super(key: key);
+
+  @override
+  _AppTextInputFieldState createState() => _AppTextInputFieldState();
+}
+
+class _AppTextInputFieldState extends State<AppTextInputField> {
+  bool validate = false;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       textInputAction: TextInputAction.done,
-      decoration: InputDecoration(hintText: hintText),
-      keyboardType: inputType,
-      controller: controller,
-      focusNode: focusNode,
-      obscureText: obscureText,
-      onEditingComplete: onEditingComplete ?? () {},
-      validator: validator,
+      decoration: InputDecoration(hintText: widget.hintText),
+      keyboardType: widget.inputType,
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      obscureText: widget.obscureText,
+      onEditingComplete: widget.onEditingComplete ?? () {},
+      validator: widget.validator,
+      autovalidate: validate,
+      onChanged: (value) {
+        if (widget.autoValidate) {
+          validate = true;
+          setState(() {});
+        }
+      },
     );
   }
 }
