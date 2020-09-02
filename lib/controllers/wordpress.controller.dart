@@ -74,7 +74,7 @@ class WordpressController extends GetxController {
     params['route'] = 'user.update';
     params['session_id'] = user.sessionId;
     var data = await AppService.getHttp(params);
-    return await _updateCurrentUser(data);
+    return _updateCurrentUser(data);
   }
 
   /// Resigns or removes the user information from the backend.

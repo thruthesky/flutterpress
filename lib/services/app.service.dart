@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.config.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AppService {
   static final WordpressController wc = Get.find();
@@ -140,5 +145,42 @@ class AppService {
     if (isEmpty(pass)) return 'user_pass_empty'.tr;
     if (pass.length < 6) return 'password_too_short'.tr;
     return null;
+  }
+
+  /// image picker
+  ///
+  /// Example)
+  ///```
+  ///   var image = await AppService.pickImage(
+  ///       context,
+  ///       index,
+  ///       maxWidth: 640,
+  ///       imageQuality: 80,
+  ///    );
+  ///```
+  static Future<File> pickImage(
+    context,
+    ImageSource source, {
+    double maxWidth = 1024,
+    int imageQuality = 80,
+  }) async {
+    final picker = ImagePicker();
+    File file;
+
+    final permission =
+        source == ImageSource.camera ? Permission.camera : Permission.photos;
+    bool haveAccess = await checkPermission(permission);
+
+    if (haveAccess) {
+      PickedFile pickedFile = await picker.getImage(
+        source: source,
+        maxWidth: maxWidth,
+        imageQuality: imageQuality,
+      );
+      if (!isEmpty(pickedFile)) {
+        file = await compressAndGetImage(File(pickedFile.path));
+      }
+    }
+    return file;
   }
 }

@@ -45,6 +45,12 @@
     <array>
        <string>en</string>
        <string>ko</string>
-    </array>
+		</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(EXECUTABLE_NAME) need access to Photo Library.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(EXECUTABLE_NAME) need access to Camera.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(EXECUTABLE_NAME) need access to Microphone.</string>
 </dict>
 </plist>
