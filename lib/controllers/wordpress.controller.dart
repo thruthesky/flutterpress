@@ -185,11 +185,13 @@ class WordpressController extends GetxController {
       fileName = 'flutter-$ms.png';
     }
 
-    FormData formData = FormData.fromMap({
-      "route": "file.upload",
-      "session_id": user.sessionId,
-      "files": await MultipartFile.fromFile(image.path, filename: fileName),
-    });
+    FormData formData = FormData();
+    formData.fields.add(MapEntry('session_id', user.sessionId));
+    formData.fields.add(MapEntry('route', 'file.upload'));
+    formData.files.add(MapEntry(
+      'userfile',
+      await MultipartFile.fromFile(image.path, filename: fileName),
+    ));
 
     var response = await dio.post(
       AppConfig.apiUrl,
@@ -202,8 +204,6 @@ class WordpressController extends GetxController {
     );
 
     if (response.data is String) throw response.data;
-    print(response);
-    print(response.data);
     return FileModel.fromBackendData(response.data);
   }
 }

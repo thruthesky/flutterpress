@@ -3,7 +3,7 @@ class FileModel {
 
   String url;
   String thumbnailUrl;
-  String id;
+  int id;
   String name;
 
   FileModel({this.data, this.url, this.thumbnailUrl, this.id});

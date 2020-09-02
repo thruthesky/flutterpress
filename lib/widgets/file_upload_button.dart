@@ -48,7 +48,12 @@ class _FileUploadButtonState extends State<FileUploadButton> {
 
           if (isEmpty(source)) return null;
           print(source);
-          file = await AppService.pickImage(context, source);
+          file = await AppService.pickImage(
+            context,
+            source,
+            maxWidth: 640,
+            imageQuality: 80,
+          );
 
           if (isEmpty(file)) return null;
           try {
