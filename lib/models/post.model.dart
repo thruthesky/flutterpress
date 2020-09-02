@@ -24,10 +24,11 @@ class PostModel {
     this.title,
     this.content,
     this.slug,
-    this.comments,
-    this.files,
+    comments,
+    files,
     this.deleted,
-  });
+  })  : this.comments = comments ?? [],
+        this.files = files ?? [];
 
   factory PostModel.fromBackendData(dynamic data) {
     if (data is String) {
@@ -43,7 +44,7 @@ class PostModel {
 
     List<FileModel> _files = [];
     if (data['files'] != null && data['files'].length > 0) {
-      _comments = data['files'].map<CommentModel>((f) {
+      _files = data['files'].map<FileModel>((f) {
         return FileModel.fromBackendData(f);
       }).toList();
     }
@@ -81,6 +82,10 @@ class PostModel {
     content = '';
     title = '( deleted )';
     id = 0;
+  }
+
+  deleteFile(FileModel file) {
+    files.removeWhere((f) => f.id == file.id);
   }
 
   update(PostModel post) {

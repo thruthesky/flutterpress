@@ -48,13 +48,18 @@ class AppService {
             children: [
               FlatButton(
                 key: ValueKey(AppKeys.dialogConfirmButton),
-                onPressed: onConfirm,
+                onPressed: onConfirm != null
+                    ? () {
+                        Get.back();
+                        onConfirm();
+                      }
+                    : null,
                 child: Text('yes'.tr),
               ),
               Spacer(),
               FlatButton(
                 key: ValueKey(AppKeys.dialogCancelButton),
-                onPressed: onCancel,
+                onPressed: onCancel ?? Get.back,
                 child: Text('cancel'.tr),
               ),
             ],
@@ -89,7 +94,7 @@ class AppService {
   /// `title` and `message` will not be automatically translated.
   /// make sure to supply it with the proper translated text.
   ///
-  static error(String message, {String title}) {
+  static error(dynamic message, {String title}) {
     openSnackbar(
       title ?? 'error'.tr,
       message,

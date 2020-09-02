@@ -155,10 +155,6 @@ class WordpressController extends GetxController {
     return CommentModel(id: data['ID'], data: data);
   }
 
-  /// Delete an existing file from backend.
-  ///
-  fileDelete() {}
-
   /// Like a post or comment.
   ///
   like() {}
@@ -186,8 +182,11 @@ class WordpressController extends GetxController {
     }
 
     FormData formData = FormData();
-    formData.fields.add(MapEntry('session_id', user.sessionId));
-    formData.fields.add(MapEntry('route', 'file.upload'));
+    formData.fields.addAll([
+      MapEntry('session_id', user.sessionId),
+      MapEntry('route', 'file.upload')
+    ]);
+
     formData.files.add(MapEntry(
       'userfile',
       await MultipartFile.fromFile(image.path, filename: fileName),
@@ -202,8 +201,17 @@ class WordpressController extends GetxController {
         onUploadProgress(progress);
       },
     );
-
     if (response.data is String) throw response.data;
     return FileModel.fromBackendData(response.data);
+  }
+
+  /// Delete an existing file from backend.
+  ///
+  Future<FileModel> fileDelete(Map<String, dynamic> params) async {
+    params['route'] = 'file.delete';
+    params['session_id'] = user.sessionId;
+
+    var data = await AppService.getHttp(params);
+    return FileModel(id: data['ID']);
   }
 }

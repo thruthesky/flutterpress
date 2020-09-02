@@ -8,6 +8,7 @@ import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/post_buttons.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/widgets/file_display.dart';
 import 'package:get/get.dart';
 
 class Post extends StatefulWidget {
@@ -48,6 +49,9 @@ class _PostState extends State<Post> {
             Text(widget.post.title),
             if (!isEmpty(widget.post.content)) Text(widget.post.content),
             Divider(),
+
+            /// post images
+            FileDisplay(widget.post.files),
 
             /// post buttons
             if (AppService.isMine(widget.post))

@@ -57,12 +57,13 @@ class _FileUploadButtonState extends State<FileUploadButton> {
 
           if (isEmpty(file)) return null;
           try {
-            return await AppService.wc.fileUpload(
+            final uploadedFile = await AppService.wc.fileUpload(
               file,
               onUploadProgress: widget.onProgress,
             );
+            widget.onUploaded(uploadedFile);
           } catch (e) {
-            print(e.toString());
+            AppService.error(e.toString());
           }
         },
       ),
