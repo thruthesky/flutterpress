@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
+import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/models/user.model.dart';
+import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/state_manager.dart';
 import 'package:hive/hive.dart';
@@ -151,10 +155,6 @@ class WordpressController extends GetxController {
     return CommentModel(id: data['ID'], data: data);
   }
 
-  /// Upload a file to backend.
-  ///
-  fileUpload() {}
-
   /// Delete an existing file from backend.
   ///
   fileDelete() {}
@@ -166,4 +166,44 @@ class WordpressController extends GetxController {
   /// Dislike a post or comment.
   ///
   dislike() {}
+
+  /// Upload a file to backend.
+  Future<FileModel> fileUpload(
+    File image, {
+    String fileName = '',
+    bool custom = false,
+    void onUploadProgress(double progress),
+  }) async {
+    Dio dio = Dio();
+
+    if (!isUserLoggedIn) {
+      throw 'login_first';
+    }
+    if (fileName == '') {
+      var now = new DateTime.now();
+      final num ms = now.millisecondsSinceEpoch;
+      fileName = 'flutter-$ms.png';
+    }
+
+    FormData formData = FormData.fromMap({
+      "route": "file.upload",
+      "session_id": user.sessionId,
+      "files": await MultipartFile.fromFile(image.path, filename: fileName),
+    });
+
+    var response = await dio.post(
+      AppConfig.apiUrl,
+      data: formData,
+      onSendProgress: (received, total) {
+        double progress = received / total;
+        progress = double.parse(progress.toStringAsFixed(3));
+        onUploadProgress(progress);
+      },
+    );
+
+    if (response.data is String) throw response.data;
+    print(response);
+    print(response.data);
+    return FileModel.fromBackendData(response.data);
+  }
 }

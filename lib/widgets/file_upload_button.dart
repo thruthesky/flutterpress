@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/services/app.globals.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/flutter_library/library.dart';
@@ -9,9 +10,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FileUploadButton extends StatefulWidget {
-  final Function onPicked;
+  final Function onUploaded;
+  final Function onProgress;
 
-  FileUploadButton({this.onPicked(File file)});
+  FileUploadButton({
+    this.onUploaded(FileModel file),
+    this.onProgress(double progress),
+  });
 
   @override
   _FileUploadButtonState createState() => _FileUploadButtonState();
@@ -37,18 +42,22 @@ class _FileUploadButtonState extends State<FileUploadButton> {
         onPressed: () async {
           File file;
           var source = await Get.bottomSheet(
-            CustomBottomSheet(
-              title: 'Choose source',
-              options: options,
-            ),
+            CustomBottomSheet(title: 'Choose source', options: options),
             backgroundColor: Colors.white,
           );
 
+          if (isEmpty(source)) return null;
           print(source);
-          if (!isEmpty(source)) {
-            file = await AppService.pickImage(context, source);
-            if (isEmpty(file)) return;
-            if (widget.onPicked != null) widget.onPicked(file);
+          file = await AppService.pickImage(context, source);
+
+          if (isEmpty(file)) return null;
+          try {
+            return await AppService.wc.fileUpload(
+              file,
+              onUploadProgress: widget.onProgress,
+            );
+          } catch (e) {
+            print(e.toString());
           }
         },
       ),

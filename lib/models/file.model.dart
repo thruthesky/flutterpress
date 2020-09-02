@@ -1,4 +1,4 @@
-class UploadedFile {
+class FileModel {
   dynamic data;
 
   String url;
@@ -6,13 +6,13 @@ class UploadedFile {
   String id;
   String name;
 
-  UploadedFile({this.data, this.url, this.thumbnailUrl, this.id});
+  FileModel({this.data, this.url, this.thumbnailUrl, this.id});
 
-  factory UploadedFile.fromBackendData(Map<String, dynamic> data) {
+  factory FileModel.fromBackendData(Map<String, dynamic> data) {
     if (data is String) {
-      return UploadedFile(data: data);
+      return FileModel(data: data);
     }
-    return UploadedFile(
+    return FileModel(
       data: data,
       url: data['url'],
       thumbnailUrl: data['url'],

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/file_upload_button.dart';
 import 'package:get/get.dart';
 
 class PostEditForm extends StatefulWidget {
@@ -45,6 +47,7 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(md),
       child: Form(
         key: _formKey,
         child: Column(
@@ -61,24 +64,39 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
               controller: content,
               inputAction: TextInputAction.done,
             ),
-            RaisedButton(
-              key: ValueKey(AppKeys.formSubmitButton),
-              onPressed: () async {
-                try {
-                  var params = {
-                    'slug': routerArguments(context)['slug'] ?? '',
-                    'post_title': title.text,
-                    'post_content': content.text,
-                  };
-                  if (isUpdate) params['ID'] = post.id.toString();
-                  var res = await wc.postEdit(params, isUpdate: isUpdate);
-                  Get.back(result: res);
-                } catch (e) {
-                  AppService.error('$e'.tr);
-                }
-              },
-              child: Text('submit'.tr),
-            ),
+            SizedBox(height: lg),
+            Row(
+              children: [
+                FileUploadButton(
+                  onProgress: (progress) {
+                    print(progress);
+                  },
+                  onUploaded: (file) {
+                    // post.files.add(file);
+                    print(file);
+                  },
+                ),
+                Spacer(),
+                RaisedButton(
+                  key: ValueKey(AppKeys.formSubmitButton),
+                  onPressed: () async {
+                    try {
+                      var params = {
+                        'slug': routerArguments(context)['slug'] ?? '',
+                        'post_title': title.text,
+                        'post_content': content.text,
+                      };
+                      if (isUpdate) params['ID'] = post.id.toString();
+                      var res = await wc.postEdit(params, isUpdate: isUpdate);
+                      Get.back(result: res);
+                    } catch (e) {
+                      AppService.error('$e'.tr);
+                    }
+                  },
+                  child: Text('submit'.tr),
+                ),
+              ],
+            )
           ],
         ),
       ),

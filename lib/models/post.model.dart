@@ -1,4 +1,5 @@
 import 'package:flutterpress/models/comment.model.dart';
+import 'package:flutterpress/models/file.model.dart';
 
 class PostModel {
   dynamic data;
@@ -13,6 +14,7 @@ class PostModel {
   bool deleted;
 
   List<CommentModel> comments;
+  List<FileModel> files;
 
   PostModel({
     this.data,
@@ -23,6 +25,7 @@ class PostModel {
     this.content,
     this.slug,
     this.comments,
+    this.files,
     this.deleted,
   });
 
@@ -38,7 +41,12 @@ class PostModel {
       }).toList();
     }
 
-    data['comments'].map((c) => CommentModel.fromBackendData(c));
+    List<FileModel> _files = [];
+    if (data['files'] != null && data['files'].length > 0) {
+      _comments = data['files'].map<CommentModel>((f) {
+        return FileModel.fromBackendData(f);
+      }).toList();
+    }
 
     return PostModel(
       data: data,
@@ -49,6 +57,7 @@ class PostModel {
       content: data['post_content'],
       slug: data['slug'],
       comments: _comments,
+      files: _files,
       deleted: false,
     );
   }
