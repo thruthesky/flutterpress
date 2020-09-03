@@ -16,7 +16,6 @@ class LoginForm extends StatefulWidget {
 }
 
 /// TODO
-///   - Add validation
 ///   - Update UI
 class LoginFormState extends State<LoginForm> {
   final WordpressController wc = Get.find();

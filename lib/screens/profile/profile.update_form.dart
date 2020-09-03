@@ -16,7 +16,6 @@ class ProfileUpdateForm extends StatefulWidget {
 bool isFormSubmitted = false;
 
 /// TODO
-///   - Add validation
 ///   - Update UI
 class ProfileUpdateFormState extends State<ProfileUpdateForm> {
   final WordpressController wc = Get.find();

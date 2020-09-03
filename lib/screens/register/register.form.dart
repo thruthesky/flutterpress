@@ -20,7 +20,6 @@ bool hidePassword = true;
 bool loading = false;
 
 /// TODO
-///   - Add validation
 ///   - Update UI
 class RegisterFormState extends State<RegisterForm> {
   final WordpressController wc = Get.find();

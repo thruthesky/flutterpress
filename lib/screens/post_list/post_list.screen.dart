@@ -73,6 +73,7 @@ class _PostListScreenState extends State<PostListScreen>
       'posts_per_page': postPerPage,
       'paged': page
     });
+    if (isEmpty(re)) return;
     page += 1;
 
     if (re.length < postPerPage) noMorePost = true;
