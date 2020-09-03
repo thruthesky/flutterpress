@@ -58,7 +58,9 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       validator: widget.validator,
       autovalidate: validate,
       onChanged: (value) {
-        widget.onChanged(value);
+        if (widget.onChanged != null) {
+          widget.onChanged(value);
+        }
         if (widget.autoValidate) {
           validate = true;
           if (mounted) setState(() {});

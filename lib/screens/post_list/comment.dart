@@ -6,6 +6,7 @@ import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/comment_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/widgets/file_display.dart';
 import 'package:get/get.dart';
 
 class Comment extends StatefulWidget {
@@ -39,12 +40,12 @@ class _CommentState extends State<Comment> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey[200],
-      margin: EdgeInsets.only(top: 20, left: 10 * widget.comment.depth.toDouble()),
+      margin:
+          EdgeInsets.only(top: 20, left: 10 * widget.comment.depth.toDouble()),
       child: inEdit
           ? CommentBox(
               post: widget.post,
-              content: widget.comment.content,
-              commentId: widget.comment.id,
+              comment: widget.comment,
               onCancel: () => changeInEditState(false),
               onEditted: (comment) {
                 widget.comment.update(comment);
@@ -56,8 +57,13 @@ class _CommentState extends State<Comment> {
               children: [
                 ListTile(
                   title: Text(widget.comment.author),
-                  subtitle: !isEmpty(widget.comment.content) ? Text(widget.comment.content) : null,
+                  subtitle: !isEmpty(widget.comment.content)
+                      ? Text(widget.comment.content)
+                      : null,
                 ),
+
+                /// File Display
+                if (!inEdit) FileDisplay(widget.comment.files, inEdit: inEdit),
 
                 /// Reply box
                 if (inReply)
@@ -84,7 +90,6 @@ class _CommentState extends State<Comment> {
                         Text('confirmDelete'.tr),
                         onConfirm: () async {
                           try {
-                            Get.back();
                             await wc.commentDelete(
                               {'comment_ID': widget.comment.id},
                             );

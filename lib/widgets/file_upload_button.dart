@@ -12,8 +12,10 @@ import 'package:image_picker/image_picker.dart';
 class FileUploadButton extends StatefulWidget {
   final Function onUploaded;
   final Function onProgress;
+  final double iconSize;
 
   FileUploadButton({
+    this.iconSize = lg,
     this.onUploaded(FileModel file),
     this.onProgress(double progress),
   });
@@ -38,7 +40,10 @@ class _FileUploadButtonState extends State<FileUploadButton> {
   Widget build(BuildContext context) {
     return Container(
       child: IconButton(
-        icon: Icon(FontAwesomeIcons.camera),
+        icon: Icon(
+          FontAwesomeIcons.camera,
+          size: widget.iconSize,
+        ),
         onPressed: () async {
           File file;
           var source = await Get.bottomSheet(
@@ -47,7 +52,6 @@ class _FileUploadButtonState extends State<FileUploadButton> {
           );
 
           if (isEmpty(source)) return null;
-          print(source);
           file = await AppService.pickImage(
             context,
             source,

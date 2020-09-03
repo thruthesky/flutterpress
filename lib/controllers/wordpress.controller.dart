@@ -192,6 +192,7 @@ class WordpressController extends GetxController {
       await MultipartFile.fromFile(image.path, filename: fileName),
     ));
 
+    dio.interceptors.add(LogInterceptor());
     var response = await dio.post(
       AppConfig.apiUrl,
       data: formData,
@@ -202,6 +203,8 @@ class WordpressController extends GetxController {
       },
     );
     if (response.data is String) throw response.data;
+    print('responseData');
+    print(response.data);
     return FileModel.fromBackendData(response.data);
   }
 

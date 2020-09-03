@@ -10,7 +10,9 @@ class PostEditScreen extends StatelessWidget {
       key: ValueKey(AppKeys.postEditScreenScaffold),
       appBar: AppBar(),
       endDrawer: AppDrawer(),
-      body: PostEditForm(),
+      body: SafeArea(
+        child: SingleChildScrollView(child: PostEditForm()),
+      ),
     );
   }
 }

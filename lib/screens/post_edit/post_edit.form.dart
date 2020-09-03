@@ -55,9 +55,8 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
     var fileIds = [];
     if (post.files.length > 0) {
       for (var file in post.files) fileIds.add(file.id);
+      params['files'] = fileIds.join(',');
     }
-    
-    params['files'] = fileIds.join();
 
     try {
       if (isUpdate) params['ID'] = post.id.toString();
@@ -66,23 +65,6 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
     } catch (e) {
       AppService.error('$e'.tr);
     }
-  }
-
-  void onFileDelete(int fileID) {
-    AppService.confirmDialog(
-      'deleteImage',
-      Text('confirmDelete'.tr),
-      onConfirm: () async {
-        print('file ID: $fileID');
-        try {
-          var file = await wc.fileDelete({'ID': fileID});
-          post.deleteFile(file);
-          setState(() {});
-        } catch (e) {
-          print(e.toString());
-        }
-      },
-    );
   }
 
   @override
@@ -106,7 +88,10 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
               inputAction: TextInputAction.done,
             ),
             SizedBox(height: lg),
-            FileDisplay(post.files, inEdit: true, onDeleteTap: onFileDelete),
+            FileDisplay(post.files, inEdit: true, onFileDeleted: (file) {
+              post.deleteFile(file);
+              setState(() {});
+            }),
             SizedBox(height: lg),
             Row(
               children: [

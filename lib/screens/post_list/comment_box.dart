@@ -3,29 +3,29 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/file_display.dart';
+import 'package:flutterpress/widgets/file_upload_button.dart';
 import 'package:get/get.dart';
 
 class CommentBox extends StatefulWidget {
   final int parent;
-  final int commentId;
+  final CommentModel comment;
 
   final PostModel post;
 
   final Function onEditted;
   final Function onCancel;
 
-  final TextEditingController controller;
-
   CommentBox({
     @required this.post, // this should always have a value.
     this.parent = 0,
-    this.commentId, // if this have value, it will update a comment.
+    comment, // if this have value, it will update a comment.
     this.onCancel,
     this.onEditted(CommentModel comment), // emits whenever eddtiting is done.
-    content, // should only have value when updating a comment.
-  }) : controller = TextEditingController(text: content ?? '');
+  }) : this.comment = comment ?? CommentModel();
 
   @override
   _CommentBoxState createState() => _CommentBoxState();
@@ -33,40 +33,48 @@ class CommentBox extends StatefulWidget {
 
 class _CommentBoxState extends State<CommentBox> {
   final WordpressController wc = Get.find();
+  TextEditingController controller;
 
   final focusNode = FocusNode();
 
   bool loading = false;
+  double uploadProgress = 0;
 
   @override
   initState() {
-    if (!isEmpty(widget.parent) || !isEmpty(widget.commentId)) {
+    controller = TextEditingController(text: widget.comment.content);
+    if (!isEmpty(widget.parent) || !isEmpty(widget.comment.id)) {
       focusNode.requestFocus();
     }
-
     super.initState();
   }
 
   onSubmit() async {
-    if (isEmpty(widget.controller.text) || loading) return;
+    if (isEmpty(controller.text) || loading) return;
 
     loading = true;
     setState(() {});
 
     var params = {
-      'comment_content': widget.controller.text,
+      'comment_content': controller.text,
       'comment_parent': widget.parent,
     };
 
-    if (!isEmpty(widget.commentId)) {
-      params['comment_ID'] = widget.commentId.toString();
+    var fileIds = [];
+    if (widget.comment.files.length > 0) {
+      for (var file in widget.comment.files) fileIds.add(file.id);
+      params['files'] = fileIds.join(',');
+    }
+
+    if (!isEmpty(widget.comment.id)) {
+      params['comment_ID'] = widget.comment.id.toString();
     } else {
       params['comment_post_ID'] = widget.post.id.toString();
     }
 
     try {
       var res = await wc.commentEdit(params);
-      widget.controller.text = '';
+      controller.text = '';
       widget.onEditted(res);
       loading = false;
       if (mounted) setState(() {});
@@ -79,26 +87,59 @@ class _CommentBoxState extends State<CommentBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
-        child: AppTextInputField(
-            hintText: 'comment'.tr,
-            inputType: TextInputType.text,
-            inputAction: TextInputAction.done,
-            controller: widget.controller,
-            focusNode: focusNode,
-            icon: (!isEmpty(widget.parent) || !isEmpty(widget.commentId))
-                ? IconButton(
-                    icon: Icon(Icons.close), onPressed: widget.onCancel)
-                : null,
-            sufficIcon: IconButton(
-              icon: Icon(Icons.send),
-              onPressed: !isEmpty(widget.controller.text) ? onSubmit : null,
-            ),
-            onChanged: (value) {
-              setState(() {});
-            }),
-      ),
+    return Column(children: [
+      Row(children: [
+        Expanded(
+          child: AppTextInputField(
+              hintText: 'comment'.tr,
+              inputType: TextInputType.text,
+              inputAction: TextInputAction.done,
+              controller: controller,
+              focusNode: focusNode,
+              icon: (!isEmpty(widget.parent) || !isEmpty(widget.comment.id))
+                  ? IconButton(
+                      icon: Icon(Icons.close), onPressed: widget.onCancel)
+                  : null,
+              sufficIcon: Wrap(
+                children: [
+                  FileUploadButton(
+                    onProgress: (p) {
+                      uploadProgress = p;
+                      setState(() {});
+                    },
+                    onUploaded: (file) {
+                      widget.comment.files.add(file);
+                      uploadProgress = 0;
+                      setState(() {});
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.send,
+                      size: lg,
+                    ),
+                    onPressed: !isEmpty(controller.text) ? onSubmit : null,
+                  ),
+                ],
+              ),
+              onChanged: (value) {
+                setState(() {});
+              }),
+        ),
+      ]),
+      if (uploadProgress > 0)
+        LinearProgressIndicator(
+          value: uploadProgress,
+          backgroundColor: Colors.grey,
+        ),
+      FileDisplay(
+        widget.comment.files,
+        inEdit: true,
+        onFileDeleted: (file) {
+          widget.comment.deleteFile(file);
+          setState(() {});
+        },
+      )
     ]);
   }
 }

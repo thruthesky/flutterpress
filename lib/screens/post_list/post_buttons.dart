@@ -52,7 +52,6 @@ class PostButtons extends StatelessWidget {
                 'delete'.tr,
                 Text('confirmPostDelete'.tr),
                 onConfirm: () async {
-                  Get.back();
                   try {
                     await wc.postDelete({'ID': post.id});
                     onDelete();
