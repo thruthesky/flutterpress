@@ -42,7 +42,11 @@ class _CommentState extends State<Comment> {
       color: Colors.grey[200],
       margin:
           EdgeInsets.only(top: 20, left: 10 * widget.comment.depth.toDouble()),
-      child: inEdit
+      child: 
+      
+      
+      
+      inEdit
           ? CommentBox(
               post: widget.post,
               comment: widget.comment,
