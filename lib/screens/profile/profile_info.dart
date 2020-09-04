@@ -62,7 +62,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     );
                   },
                 ),
-              )
+              ),
           ],
         ),
         if (uploadProgress > 0) Text('$uploadProgress'),

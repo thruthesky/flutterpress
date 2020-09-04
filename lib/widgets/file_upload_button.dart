@@ -48,14 +48,13 @@ class _FileUploadButtonState extends State<FileUploadButton> {
           color: widget.iconColor,
         ),
         onPressed: () async {
-          File file;
           var source = await Get.bottomSheet(
             CustomBottomSheet(title: 'Choose source', options: options),
             backgroundColor: Colors.white,
           );
 
           if (isEmpty(source)) return null;
-          file = await AppService.pickImage(
+          File file = await AppService.pickImage(
             context,
             source,
             maxWidth: 640,
