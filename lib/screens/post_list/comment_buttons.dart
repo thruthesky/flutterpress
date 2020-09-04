@@ -8,22 +8,25 @@ class CommentButtons extends StatelessWidget {
   final Function onReplyTap;
   final Function onUpdateTap;
   final Function onDeleteTap;
+  final bool showReplyButton;
 
   CommentButtons({
     this.comment,
     this.onReplyTap,
     this.onUpdateTap,
     this.onDeleteTap,
+    this.showReplyButton,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        RaisedButton(
-          child: Text('reply'.tr),
-          onPressed: onReplyTap,
-        ),
+        if (showReplyButton)
+          RaisedButton(
+            child: Text('reply'.tr),
+            onPressed: onReplyTap,
+          ),
         if (AppService.isMine(comment))
           RaisedButton(
             child: Text('update'.tr),
@@ -34,6 +37,14 @@ class CommentButtons extends StatelessWidget {
             child: Text('delete'.tr),
             onPressed: onDeleteTap,
           ),
+        RaisedButton(
+          child: Text('like'.tr),
+          onPressed: () {},
+        ),
+        RaisedButton(
+          child: Text('dislike'.tr),
+          onPressed: () {},
+        ),
       ],
     );
   }

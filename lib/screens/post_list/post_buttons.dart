@@ -49,18 +49,15 @@ class PostButtons extends StatelessWidget {
             child: Text('delete'.tr),
             onPressed: () {
               AppService.confirmDialog(
-                'delete'.tr,
-                Text('confirmPostDelete'.tr),
-                onConfirm: () async {
-                  try {
-                    await wc.postDelete({'ID': post.id});
-                    onDelete();
-                  } catch (e) {
-                    AppService.error('$e'.tr);
-                  }
-                },
-                onCancel: Get.back,
-              );
+                  'delete'.tr, Text('confirmPostDelete'.tr),
+                  onConfirm: () async {
+                try {
+                  await wc.postDelete({'ID': post.id});
+                  onDelete();
+                } catch (e) {
+                  AppService.error('$e'.tr);
+                }
+              }, onCancel: Get.back);
             },
           ),
         ],
