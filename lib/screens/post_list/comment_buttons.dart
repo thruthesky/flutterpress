@@ -22,7 +22,7 @@ class CommentButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
       children: [
         if (showReplyButton)
           RaisedButton(
