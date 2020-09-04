@@ -9,6 +9,7 @@ class CommentButtons extends StatelessWidget {
   final Function onUpdateTap;
   final Function onDeleteTap;
   final bool showReplyButton;
+  final bool inEdit;
 
   CommentButtons({
     this.comment,
@@ -16,6 +17,7 @@ class CommentButtons extends StatelessWidget {
     this.onUpdateTap,
     this.onDeleteTap,
     this.showReplyButton,
+    this.inEdit = false,
   });
 
   @override
@@ -27,12 +29,12 @@ class CommentButtons extends StatelessWidget {
             child: Text('reply'.tr),
             onPressed: onReplyTap,
           ),
-        if (AppService.isMine(comment))
+        if (AppService.isMine(comment) && !inEdit)
           RaisedButton(
             child: Text('update'.tr),
             onPressed: onUpdateTap,
           ),
-        if (AppService.isMine(comment))
+        if (AppService.isMine(comment) && !inEdit)
           RaisedButton(
             child: Text('delete'.tr),
             onPressed: onDeleteTap,

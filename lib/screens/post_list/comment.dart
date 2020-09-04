@@ -5,6 +5,7 @@ import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/comment_buttons.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/file_display.dart';
 import 'package:get/get.dart';
@@ -70,6 +71,7 @@ class _CommentState extends State<Comment> {
           /// comment buttons
           if (wc.isUserLoggedIn && !widget.comment.deleted)
             CommentButtons(
+              inEdit: inEdit,
               comment: widget.comment,
               showReplyButton: !inReply,
               onReplyTap: () => changeInReplyState(true),

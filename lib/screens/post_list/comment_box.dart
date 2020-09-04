@@ -128,9 +128,12 @@ class _CommentBoxState extends State<CommentBox> {
         ),
       ]),
       if (uploadProgress > 0)
-        LinearProgressIndicator(
-          value: uploadProgress,
-          backgroundColor: Colors.grey,
+        Padding(
+          padding: EdgeInsets.only(top: sm),
+          child: LinearProgressIndicator(
+            value: uploadProgress,
+            backgroundColor: Colors.grey,
+          ),
         ),
       FileDisplay(
         widget.comment.files,

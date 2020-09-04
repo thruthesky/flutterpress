@@ -84,8 +84,10 @@ class WordpressController extends GetxController {
   /// Resigns or removes the user information from the backend.
   ///
   Future resign() async {
-    await AppService.getHttp(
-        {'route': 'user.resign', 'session_id': user.sessionId});
+    await AppService.getHttp({
+      'route': 'user.resign',
+      'session_id': user.sessionId,
+    });
     logout();
   }
 
@@ -179,8 +181,6 @@ class WordpressController extends GetxController {
       var now = new DateTime.now();
       final num ms = now.millisecondsSinceEpoch;
 
-      /// @TODO: update file format
-      /// userId-$ms.png
       fileName = '${user.id}-$ms.png';
     }
 
