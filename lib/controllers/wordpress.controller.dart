@@ -181,7 +181,7 @@ class WordpressController extends GetxController {
 
       /// @TODO: update file format
       /// userId-$ms.png
-      fileName = 'flutter-$ms.png';
+      fileName = '${user.id}-$ms.png';
     }
 
     FormData formData = FormData();
