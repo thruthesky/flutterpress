@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -9,16 +11,23 @@ class FileDisplay extends StatelessWidget {
   final bool inEdit;
   final Function onFileDeleted;
 
-  FileDisplay(this.files,
-      {this.inEdit = false, this.onFileDeleted(FileModel file)});
+  FileDisplay(
+    this.files, {
+    this.inEdit = false,
+    this.onFileDeleted(FileModel file),
+  });
 
   Widget buildImageStack(FileModel file) {
     return Stack(children: [
-      Image.network(file.thumbnailUrl),
+      CachedNetworkImage(
+        imageUrl: file.thumbnailUrl,
+        placeholder: (context, url) => CircularProgressIndicator(),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
       if (inEdit)
         Positioned(
-          top: 20,
-          right: 20,
+          top: xs,
+          right: xs,
           child: IconButton(
               icon: Icon(FontAwesomeIcons.trash, color: Colors.red),
               onPressed: () {
