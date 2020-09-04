@@ -178,13 +178,16 @@ class WordpressController extends GetxController {
     if (fileName == '') {
       var now = new DateTime.now();
       final num ms = now.millisecondsSinceEpoch;
+
+      /// @TODO: update file format
+      /// userId-$ms.png
       fileName = 'flutter-$ms.png';
     }
 
     FormData formData = FormData();
     formData.fields.addAll([
       MapEntry('session_id', user.sessionId),
-      MapEntry('route', 'file.upload')
+      MapEntry('route', 'file.upload'),
     ]);
 
     formData.files.add(MapEntry(
