@@ -13,11 +13,13 @@ class FileUploadButton extends StatefulWidget {
   final Function onUploaded;
   final Function onProgress;
   final double iconSize;
+  final Color iconColor;
 
   FileUploadButton({
     this.iconSize = lg,
     this.onUploaded(FileModel file),
     this.onProgress(double progress),
+    this.iconColor = Colors.black,
   });
 
   @override
@@ -43,6 +45,7 @@ class _FileUploadButtonState extends State<FileUploadButton> {
         icon: Icon(
           FontAwesomeIcons.camera,
           size: widget.iconSize,
+          color: widget.iconColor,
         ),
         onPressed: () async {
           File file;

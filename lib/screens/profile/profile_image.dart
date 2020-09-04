@@ -4,39 +4,40 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:get/get.dart';
 
-class ProfileImage extends StatefulWidget {
+class ProfileImage extends StatelessWidget {
   final double size;
 
   ProfileImage({this.size = 150.0});
 
-  @override
-  _ProfileImageState createState() => _ProfileImageState();
-}
+  Widget buildRoundImage(ImageProvider provider) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: provider,
+        ),
+      ),
+    );
+  }
 
-class _ProfileImageState extends State<ProfileImage> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<WordpressController>(
       builder: (wc) {
-        var image = wc.isUserLoggedIn && !isEmpty(wc.user.photoURL)
+        return wc.isUserLoggedIn && !isEmpty(wc.user.photoURL)
             ? CachedNetworkImage(
+                width: size,
+                height: size,
                 imageUrl: wc.user.photoURL,
-                placeholder: (context, url) => CircularProgressIndicator(),
+                imageBuilder: (context, provider) {
+                  return buildRoundImage(provider);
+                },
                 errorWidget: (context, url, error) => Icon(Icons.error),
               )
-            : AssetImage('assets/images/anonymous.jpg');
-
-        return Container(
-          width: widget.size,
-          height: widget.size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.fill,
-              image: image,
-            ),
-          ),
-        );
+            : buildRoundImage(AssetImage('assets/images/anonymous.jpg'));
       },
     );
   }
