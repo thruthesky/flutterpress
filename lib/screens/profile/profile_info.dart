@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/screens/profile/profile_image.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/file_upload_button.dart';
@@ -45,20 +46,23 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 },
               ),
             ),
-            Positioned(
-              bottom: 1,
-              right: 1,
-              child: IconButton(
-                icon: Icon(FontAwesomeIcons.trash, color: Colors.red[500]),
-                onPressed: () {
-                  AppService.confirmDialog(
-                      'deleteProfileImage', Text('confirmDelete'.tr),
+            if (!isEmpty(AppService.wc.user.photoURL))
+              Positioned(
+                bottom: 1,
+                right: 1,
+                child: IconButton(
+                  icon: Icon(FontAwesomeIcons.trash, color: Colors.red[500]),
+                  onPressed: () {
+                    AppService.confirmDialog(
+                      'deleteProfileImage',
+                      Text('confirmDelete'.tr),
                       onConfirm: () {
-                    updateUserProfile('');
-                  });
-                },
-              ),
-            )
+                        updateUserProfile('');
+                      },
+                    );
+                  },
+                ),
+              )
           ],
         ),
         if (uploadProgress > 0) Text('$uploadProgress'),
