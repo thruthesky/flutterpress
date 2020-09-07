@@ -1,11 +1,14 @@
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/file.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
 
 class PostModel {
   dynamic data;
 
   int id;
   int authorId;
+  String like;
+  String dislike;
   String authorName;
   String title;
   String content;
@@ -19,6 +22,8 @@ class PostModel {
   PostModel({
     this.data,
     this.id,
+    this.like,
+    this.dislike,
     this.authorId,
     this.authorName,
     this.title,
@@ -52,6 +57,8 @@ class PostModel {
     return PostModel(
       data: data,
       id: data['ID'],
+      like: data['like'] != null ? data['like'] : '0',
+      dislike: data['dislike'] != null ? data['dislike'] : '0',
       authorId: int.parse(data['post_author']),
       authorName: data['author_name'],
       title: data['post_title'],
@@ -93,6 +100,11 @@ class PostModel {
     title = post.title;
     content = post.content;
     slug = post.slug;
+  }
+
+  updateVote(VoteModel vote) {
+    like = vote.like;
+    dislike = vote.dislike;
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutterpress/models/file.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
 
 class CommentModel {
   dynamic data;
@@ -6,6 +7,8 @@ class CommentModel {
   int postId;
   int authorId;
   int parent;
+  String like;
+  String dislike;
   String author;
   String content;
   int depth;
@@ -15,6 +18,8 @@ class CommentModel {
   CommentModel({
     this.data,
     this.id,
+    this.like,
+    this.dislike,
     this.postId,
     this.authorId,
     this.parent,
@@ -39,6 +44,8 @@ class CommentModel {
     return CommentModel(
       data: data,
       id: int.parse(data['comment_ID']),
+      like: data['like'] != null ? data['like'] : '0',
+      dislike: data['dislike'] != null ? data['dislike'] : '0',
       postId: int.parse(data['comment_post_ID']),
       authorId: int.parse(data['user_id']),
       parent: int.parse(data['comment_parent']),
@@ -60,6 +67,11 @@ class CommentModel {
   update(CommentModel comment) {
     data = comment;
     content = comment.content;
+  }
+
+  updateVote(VoteModel vote) {
+    like = vote.like;
+    dislike = vote.like;
   }
 
   deleteFile(FileModel file) {

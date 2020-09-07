@@ -106,6 +106,7 @@ class AppService {
   static Future<dynamic> getHttp(
     Map<String, dynamic> params, {
     List<String> require,
+    bool showLogs = false,
   }) async {
     Dio dio = Dio();
 
@@ -116,11 +117,20 @@ class AppService {
       });
     }
 
-    dio.interceptors.add(LogInterceptor());
-    Response response = await dio.get(
-      AppConfig.apiUrl,
-      queryParameters: params,
-    );
+    if (showLogs) dio.interceptors.add(LogInterceptor());
+
+    Response response;
+
+    try {
+      response = await dio.get(
+        AppConfig.apiUrl,
+        queryParameters: params,
+      );
+    } catch (e) {
+      // TODO: Handle errors
+      throw 'Unexpected error happened!';
+    }
+
     if (response.data is String) throw response.data;
     return response.data;
   }

@@ -3,6 +3,7 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/comment_buttons.dart';
 import 'package:flutterpress/services/app.globals.dart';
@@ -35,6 +36,30 @@ class _CommentState extends State<Comment> {
   changeInReplyState(bool val) {
     inReply = val;
     setState(() {});
+  }
+
+  onDeleteTapped() {
+    AppService.confirmDialog(
+      'delete'.tr,
+      Text('confirmDelete'.tr),
+      onConfirm: () async {
+        try {
+          await wc.commentDelete(
+            {'comment_ID': widget.comment.id},
+          );
+          widget.comment.delete();
+          setState(() {});
+        } catch (e) {
+          AppService.error('$e'.tr);
+        }
+      },
+      onCancel: Get.back,
+    );
+  }
+
+  onVoted(VoteModel vote) {
+    widget.comment.updateVote(vote);
+    if (mounted) setState(() {});
   }
 
   @override
@@ -76,24 +101,8 @@ class _CommentState extends State<Comment> {
               showReplyButton: !inReply,
               onReplyTap: () => changeInReplyState(true),
               onUpdateTap: () => changeInEditState(true),
-              onDeleteTap: () {
-                AppService.confirmDialog(
-                  'delete'.tr,
-                  Text('confirmDelete'.tr),
-                  onConfirm: () async {
-                    try {
-                      await wc.commentDelete(
-                        {'comment_ID': widget.comment.id},
-                      );
-                      widget.comment.delete();
-                      setState(() {});
-                    } catch (e) {
-                      AppService.error('$e'.tr);
-                    }
-                  },
-                  onCancel: Get.back,
-                );
-              },
+              onDeleteTap: () => onDeleteTapped(),
+              onVoted: onVoted,
             ),
 
           /// Reply box

@@ -16,6 +16,8 @@ class AppKeys {
   static String forgotPasswordButton = 'forgotPasswordButton';
   static String postUpdateButton = 'postUpdateButton';
   static String postDeleteButton = 'postDeleteButton';
+  static String postLikeButton = 'postLikeButton';
+  static String postDislikeButton = 'postDislikeButton';
 
   static String dialogConfirmButton = 'dialogConfirmButton';
   static String dialogCancelButton = 'dialogCancelButton';

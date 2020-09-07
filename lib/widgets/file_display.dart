@@ -6,6 +6,8 @@ import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// TODO: make image tappable and show in large view.
+/// 
 class FileDisplay extends StatelessWidget {
   final List<FileModel> files;
   final bool inEdit;
@@ -56,9 +58,24 @@ class FileDisplay extends StatelessWidget {
         mainAxisSpacing: 1,
         crossAxisCount: 3,
         shrinkWrap: true,
-        children: [for (var file in files) buildImageStack(file)],
+        children: [
+          /// show only six image if images count exceed 6
+          if (files.length > 6)
+            for (var i = 1; i <= 6; i++)
+              buildImageStack(
+                files[i - 1],
+              ),
+
+          /// show all image if image is below or equal 6
+          if (files.length <= 6)
+            for (var file in files)
+              buildImageStack(
+                file,
+              )
+        ],
       );
 
+    /// show big image if there is only 1 to show
     return buildImageStack(files[0]);
   }
 }

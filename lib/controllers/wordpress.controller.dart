@@ -6,6 +6,7 @@ import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/models/user.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/state_manager.dart';
@@ -157,13 +158,27 @@ class WordpressController extends GetxController {
     return CommentModel(id: data['ID'], data: data);
   }
 
-  /// Like a post or comment.
+  /// vote for a post or comment.
+  /// performs like and dislike.
   ///
-  like() {}
+  Future<VoteModel> _vote(Map<String, dynamic> params) async {
+    params['session_id'] = user.sessionId;
 
-  /// Dislike a post or comment.
-  ///
-  dislike() {}
+    print(params);
+    var data = await AppService.getHttp(params, require: ['ID', 'choice']);
+    print(data);
+    return VoteModel.fromBackendData(data);
+  }
+
+  Future<VoteModel> postVote(Map<String, dynamic> params) async {
+    params['route'] = 'post.vote';
+    return _vote(params);
+  }
+
+  Future<VoteModel> commentVote(Map<String, dynamic> params) async {
+    params['route'] = 'comment.vote';
+    return _vote(params);
+  }
 
   /// Upload a file to backend.
   Future<FileModel> fileUpload(

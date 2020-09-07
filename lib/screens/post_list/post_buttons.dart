@@ -2,23 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
 class PostButtons extends StatelessWidget {
-  final WordpressController wc = Get.find();
-
   final PostModel post;
   final Function onUpdate;
   final Function onDelete;
+  final Function onVoted;
 
   PostButtons({
     this.post,
     this.onUpdate(PostModel post),
+    this.onVoted(VoteModel vote),
     this.onDelete,
   });
+
+  vote(String choice) async {
+    try {
+      var vote = await AppService.wc.postVote({
+        'choice': choice,
+        'ID': post.id,
+      });
+      onVoted(vote);
+    } catch (e) {
+      AppService.error(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,37 +42,55 @@ class PostButtons extends StatelessWidget {
           Divider(),
 
           /// update
-          RaisedButton(
-            key: ValueKey(AppKeys.postUpdateButton),
-            child: Text('update'.tr),
-            onPressed: () async {
-              var res = await Get.toNamed(
-                AppRoutes.postEdit,
-                arguments: {'post': post},
-              );
-              if (!isEmpty(res)) {
-                onUpdate(res);
-              }
-            },
-          ),
+          if (AppService.isMine(post))
+            RaisedButton(
+              key: ValueKey(AppKeys.postUpdateButton),
+              child: Text('update'.tr),
+              onPressed: () async {
+                var res = await Get.toNamed(
+                  AppRoutes.postEdit,
+                  arguments: {'post': post},
+                );
+                if (!isEmpty(res)) {
+                  onUpdate(res);
+                }
+              },
+            ),
 
           /// delete
-          RaisedButton(
-            key: ValueKey(AppKeys.postDeleteButton),
-            child: Text('delete'.tr),
-            onPressed: () {
-              AppService.confirmDialog(
-                  'delete'.tr, Text('confirmPostDelete'.tr),
-                  onConfirm: () async {
-                try {
-                  await wc.postDelete({'ID': post.id});
-                  onDelete();
-                } catch (e) {
-                  AppService.error('$e'.tr);
-                }
-              }, onCancel: Get.back);
-            },
-          ),
+          if (AppService.isMine(post))
+            RaisedButton(
+              key: ValueKey(AppKeys.postDeleteButton),
+              child: Text('delete'.tr),
+              onPressed: () {
+                AppService.confirmDialog(
+                    'delete'.tr, Text('confirmPostDelete'.tr),
+                    onConfirm: () async {
+                  try {
+                    await AppService.wc.postDelete({'ID': post.id});
+                    onDelete();
+                  } catch (e) {
+                    AppService.error('$e'.tr);
+                  }
+                }, onCancel: Get.back);
+              },
+            ),
+
+          /// Like
+          if (!AppService.isMine(post))
+            RaisedButton(
+              key: ValueKey(AppKeys.postLikeButton),
+              child: Text('like'.tr + post.like),
+              onPressed: () => vote('like'),
+            ),
+
+          /// dislike
+          if (!AppService.isMine(post))
+            RaisedButton(
+              key: ValueKey(AppKeys.postDislikeButton),
+              child: Text('dislike'.tr + post.dislike),
+              onPressed: () => vote('dislike'),
+            ),
         ],
       ),
     );

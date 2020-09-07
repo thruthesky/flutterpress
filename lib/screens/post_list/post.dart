@@ -3,6 +3,7 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/screens/post_list/comment.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/post_buttons.dart';
@@ -36,6 +37,11 @@ class _PostState extends State<Post> {
     if (mounted) setState(() {});
   }
 
+  onPostVoted(VoteModel vote) {
+    widget.post.updateVote(vote);
+    if (mounted) setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -54,11 +60,12 @@ class _PostState extends State<Post> {
             FileDisplay(widget.post.files),
 
             /// post buttons
-            if (AppService.isMine(widget.post))
+            if (AppService.wc.isUserLoggedIn)
               PostButtons(
                 post: widget.post,
                 onUpdate: onPostUpdated,
                 onDelete: onPostDeleted,
+                onVoted: onPostVoted,
               ),
 
             /// comment box

@@ -67,12 +67,19 @@ class _PostListScreenState extends State<PostListScreen>
 
   getPosts() async {
     if (noMorePost) return;
-    var re = await AppService.getHttp({
-      'route': 'post.search',
-      'slug': slug ?? '',
-      'posts_per_page': postPerPage,
-      'paged': page
-    });
+
+    var re;
+    try {
+      re = await AppService.getHttp({
+        'route': 'post.search',
+        'slug': slug ?? '',
+        'posts_per_page': postPerPage,
+        'paged': page
+      });
+    } catch (e) {
+      AppService.error(e);
+    }
+
     if (isEmpty(re)) return;
     page += 1;
 
