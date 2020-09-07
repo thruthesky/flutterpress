@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/models/vote.model.dart';
