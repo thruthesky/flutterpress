@@ -1,4 +1,5 @@
 import 'package:after_layout/after_layout.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_i18n/locale.dart';
@@ -11,9 +12,12 @@ import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/app.translations.dart';
+import 'package:flutterpress/controllers/flutterbase.controller.dart';
 import 'package:get/get.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await AppService.initBoxes();
   runApp(FlutterPress());
 }
@@ -26,6 +30,8 @@ class FlutterPress extends StatefulWidget {
 class _FlutterPressState extends State<FlutterPress>
     with AfterLayoutMixin<FlutterPress> {
   final WordpressController wc = Get.put(WordpressController());
+  final FlutterbaseController flutterbaseController =
+      Get.put(FlutterbaseController());
 
   @override
   void afterFirstLayout(BuildContext context) async {
