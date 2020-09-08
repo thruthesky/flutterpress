@@ -163,7 +163,6 @@ class WordpressController extends GetxController {
   ///
   Future<VoteModel> _vote(Map<String, dynamic> params) async {
     params['session_id'] = user.sessionId;
-    print(params);
     var data = await AppService.getHttp(params, require: ['ID', 'choice']);
     return VoteModel.fromBackendData(data);
   }

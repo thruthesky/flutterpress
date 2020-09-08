@@ -54,6 +54,7 @@ class FileDisplay extends StatelessWidget {
 
     if (files.length > 1)
       return GridView.count(
+        physics: NeverScrollableScrollPhysics(),
         crossAxisSpacing: 1,
         mainAxisSpacing: 1,
         crossAxisCount: 3,
