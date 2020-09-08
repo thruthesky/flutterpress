@@ -4,6 +4,7 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/post.list.dart';
+import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -27,13 +28,13 @@ class _PostListScreenState extends State<PostListScreen>
   bool loading = false;
   bool noMorePost = false;
   int page = 1;
-  int postPerPage = 10;
-
   @override
   void initState() {
     loading = true;
     _scrollController.addListener(() {
-      if (loading) return;
+      if (loading || noMorePost) return;
+
+      /// @TODO: change from 0.9 (90%) to 250 from bottom.
       if (_scrollController.position.pixels >
           (_scrollController.position.maxScrollExtent - 250)) {
         loading = true;
@@ -52,7 +53,7 @@ class _PostListScreenState extends State<PostListScreen>
     getPosts();
   }
 
-  addPost(PostModel post) {
+  addOnTop(PostModel post) {
     posts.insert(0, post);
     setState(() {});
   }
@@ -67,6 +68,7 @@ class _PostListScreenState extends State<PostListScreen>
 
   getPosts() async {
     if (noMorePost) return;
+<<<<<<< HEAD
 
     var re;
     try {
@@ -81,9 +83,17 @@ class _PostListScreenState extends State<PostListScreen>
     }
 
     if (isEmpty(re)) return;
+=======
+    var re = await AppService.getHttp({
+      'route': 'post.search',
+      'slug': slug ?? '',
+      'posts_per_page': AppConfig.noOfPostsPerPage,
+      'paged': page
+    });
+>>>>>>> ae58d3bab59d6afebdb4a5c99fd5fbc0ad91070f
     page += 1;
 
-    if (re.length < postPerPage) noMorePost = true;
+    if (re.length < AppConfig.noOfPostsPerPage) noMorePost = true;
     addPosts(re);
   }
 
@@ -109,15 +119,13 @@ class _PostListScreenState extends State<PostListScreen>
               },
             ),
           Builder(
-            builder: (context) {
-              return IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-              );
-            },
-          )
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+            ),
+          ),
         ],
       ),
       endDrawer: AppDrawer(),
