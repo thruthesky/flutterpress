@@ -3,7 +3,6 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/app.keys.dart';
 import 'package:flutterpress/services/app.routes.dart';
-import 'package:flutterpress/services/auth.service.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final WordpressController wc = Get.find();
-  FlutterbaseAuthService auth = FlutterbaseAuthService();
   @override
   void initState() {
     super.initState();
@@ -94,16 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('logout'.tr),
                     onPressed: () => wc.logout(),
                   ),
-                RaisedButton(
-                  child: Text('login with google'),
-                  onPressed: () async {
-                    try {
-                      await auth.loginWithGoogleAccount();
-                    } catch (e) {
-                      Get.snackbar('loginError'.tr, e.toString());
-                    }
-                  },
-                ),
               ],
             );
           },

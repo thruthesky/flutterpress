@@ -25,11 +25,17 @@ dependencies:
   image_picker: ^0.6.7+7
   permission_handler: ^5.0.1+1
   flutter_image_compress: ^0.7.0
-  cached_network_image: ^2.3.1
+  cached_network_image: ^2.3.1  
 
+  ## social auth dependencies
   firebase_core: ^0.5.0
   firebase_auth: ^0.18.0+1
+
+  ## google sign in
   google_sign_in: ^4.5.3
+
+  ## Apple sign in
+  apple_sign_in: ^0.1.0
 
 dev_dependencies:
   flutter_test:
