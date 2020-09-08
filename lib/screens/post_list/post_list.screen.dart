@@ -68,14 +68,13 @@ class _PostListScreenState extends State<PostListScreen>
 
   getPosts() async {
     if (noMorePost) return;
-<<<<<<< HEAD
 
     var re;
     try {
       re = await AppService.getHttp({
         'route': 'post.search',
         'slug': slug ?? '',
-        'posts_per_page': postPerPage,
+        'posts_per_page': AppConfig.noOfPostsPerPage,
         'paged': page
       });
     } catch (e) {
@@ -83,14 +82,6 @@ class _PostListScreenState extends State<PostListScreen>
     }
 
     if (isEmpty(re)) return;
-=======
-    var re = await AppService.getHttp({
-      'route': 'post.search',
-      'slug': slug ?? '',
-      'posts_per_page': AppConfig.noOfPostsPerPage,
-      'paged': page
-    });
->>>>>>> ae58d3bab59d6afebdb4a5c99fd5fbc0ad91070f
     page += 1;
 
     if (re.length < AppConfig.noOfPostsPerPage) noMorePost = true;
@@ -114,7 +105,7 @@ class _PostListScreenState extends State<PostListScreen>
                   arguments: {'slug': slug},
                 );
                 if (!isEmpty(post)) {
-                  addPost(post);
+                  addOnTop(post);
                 }
               },
             ),
