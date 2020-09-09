@@ -61,3 +61,9 @@
     * And wait for the app download resources, video, audios, photos. ( It will take some minutes but it's only one time process. No need to wait on second run.)
   * `Reset test` on English test screen.
   * Run `export VM_SERVICE_URL="http://127.0.0.1:8181/"; dart test_driver/app_test.dart` to test. You can run this after updating the source code.
+
+
+## Social login
+
+* For Firebase, we use 'sonub' project.
+* For Facebook, we use 'sonub' project
