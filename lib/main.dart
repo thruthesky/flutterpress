@@ -33,7 +33,7 @@ class _FlutterPressState extends State<FlutterPress>
   final FlutterbaseController flutterbaseController = Get.put(
     // TODO: change to proper IDs
     FlutterbaseController(
-      facebookAppId: 0,
+      facebookAppId: 204627950607047,
       facebookRedirectUrl: 'https://www.facebook.com/connect/login_success.html',
       kakaotalkClientId: '',
       kakaotalkJavascriptClientId: '',

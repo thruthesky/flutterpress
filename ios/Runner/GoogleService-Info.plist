@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>593030267816-s5ngkvj3ko8j5p19qft81d6lesap22bj.apps.googleusercontent.com</string>
+	<string>446424199137-4bsom5d6kvro3l9009bh51buq1f1au5o.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.593030267816-s5ngkvj3ko8j5p19qft81d6lesap22bj</string>
+	<string>com.googleusercontent.apps.446424199137-4bsom5d6kvro3l9009bh51buq1f1au5o</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDgjQppab_Q1LWzdNWDFPBIzIE0NO4o6HE</string>
+	<string>AIzaSyBrz8URq-PdQaCjSiHrOEsoSaTPmS8OghE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>593030267816</string>
+	<string>446424199137</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.sonub.flutterpress</string>
 	<key>PROJECT_ID</key>
-	<string>flutterpress-test</string>
+	<string>sonub-version-2020</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flutterpress-test.appspot.com</string>
+	<string>sonub-version-2020.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:593030267816:ios:b065e8291395da5953939d</string>
+	<string>1:446424199137:ios:e4df3d5adae31d7c89aca0</string>
 	<key>DATABASE_URL</key>
-	<string>https://flutterpress-test.firebaseio.com</string>
+	<string>https://sonub-version-2020.firebaseio.com</string>
 </dict>
 </plist>
