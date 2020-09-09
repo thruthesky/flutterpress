@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
 import 'package:flutterpress/flutterbase_v2/widgets/login_social_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,7 +8,16 @@ import 'package:get/get.dart';
 
 class LoginSocialButtons extends StatelessWidget {
   final FlutterbaseAuthService auth = FlutterbaseAuthService();
+  final WordpressController wc = Get.find();
 
+
+  register(options) async {
+        await wc.loginOrRegister({
+          'user_email': email.text,
+          'user_pass': pass.text,
+          'nickname': nickname.text,
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -52,6 +62,10 @@ class LoginSocialButtons extends StatelessWidget {
           onTap: () async {
             try {
               await auth.loginWithGoogleAccount();
+              register({
+                'email': 'uid@google.com',
+                'password': wc.password('uid')
+              });
             } catch (e) {
               Get.snackbar('loginError'.tr, e.toString());
             }

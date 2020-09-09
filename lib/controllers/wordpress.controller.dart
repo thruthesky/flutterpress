@@ -73,6 +73,22 @@ class WordpressController extends GetxController {
     return _updateCurrentUser(data);
   }
 
+  Future<UserModel> loginOrRegister() async {
+    try {
+
+    await login();
+    } catch(e) {
+      if ( e == 'user not found' ) {
+        try {
+          await register();
+        } catch(e) {
+          /// alert or toast error.
+        }
+      }
+    }
+
+  }
+
   /// Update user information.
   ///
   Future<UserModel> profileUpdate(Map<String, dynamic> params) async {
@@ -231,5 +247,9 @@ class WordpressController extends GetxController {
 
     var data = await AppService.getHttp(params);
     return FileModel(id: data['ID']);
+  }
+
+  password(salt) {
+    return '$salt/Password~9.,*';
   }
 }
