@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -22,6 +23,7 @@ bool loading = false;
 /// TODO
 ///   - Update UI
 class RegisterFormState extends State<RegisterForm> {
+  final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
@@ -42,6 +44,12 @@ class RegisterFormState extends State<RegisterForm> {
       loading = true;
       setState(() {});
       try {
+        var res = await auth.register({
+          'email': email.text,
+          'password': pass.text,
+          'displayName': nickname.text,
+        });
+        print(res);
         await wc.register({
           'user_email': email.text,
           'user_pass': pass.text,
