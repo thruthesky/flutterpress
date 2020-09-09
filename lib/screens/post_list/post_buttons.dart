@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/models/vote.model.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
@@ -43,11 +43,11 @@ class PostButtons extends StatelessWidget {
           /// update
           if (AppService.isMine(post))
             RaisedButton(
-              key: ValueKey(AppKeys.postUpdateButton),
+              key: ValueKey(Keys.postUpdateButton),
               child: Text('update'.tr),
               onPressed: () async {
                 var res = await Get.toNamed(
-                  AppRoutes.postEdit,
+                  Routes.postEdit,
                   arguments: {'post': post},
                 );
                 if (!isEmpty(res)) {
@@ -59,7 +59,7 @@ class PostButtons extends StatelessWidget {
           /// delete
           if (AppService.isMine(post))
             RaisedButton(
-              key: ValueKey(AppKeys.postDeleteButton),
+              key: ValueKey(Keys.postDeleteButton),
               child: Text('delete'.tr),
               onPressed: () {
                 AppService.confirmDialog(
@@ -78,7 +78,7 @@ class PostButtons extends StatelessWidget {
           /// Like
           if (!AppService.isMine(post))
             RaisedButton(
-              key: ValueKey(AppKeys.postLikeButton),
+              key: ValueKey(Keys.postLikeButton),
               child: Text('like'.tr + post.like),
               onPressed: () => vote('like'),
             ),
@@ -86,7 +86,7 @@ class PostButtons extends StatelessWidget {
           /// dislike
           if (!AppService.isMine(post))
             RaisedButton(
-              key: ValueKey(AppKeys.postDislikeButton),
+              key: ValueKey(Keys.postDislikeButton),
               child: Text('dislike'.tr + post.dislike),
               onPressed: () => vote('dislike'),
             ),

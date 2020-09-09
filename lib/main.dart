@@ -9,7 +9,7 @@ import 'package:flutterpress/screens/post_edit/post_edit.screen.dart';
 import 'package:flutterpress/screens/post_list/post_list.screen.dart';
 import 'package:flutterpress/screens/profile/profile.screen.dart';
 import 'package:flutterpress/screens/register/register.screen.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/app.translations.dart';
 import 'package:get/get.dart';
@@ -54,14 +54,14 @@ class _FlutterPressState extends State<FlutterPress>
       ),
       locale: Locale('ko'),
       translations: AppTranslations(),
-      initialRoute: AppRoutes.home,
+      initialRoute: Routes.home,
       getPages: [
-        GetPage(name: AppRoutes.home, page: () => HomeScreen()),
-        GetPage(name: AppRoutes.login, page: () => LoginScreen()),
-        GetPage(name: AppRoutes.register, page: () => RegisterScreen()),
-        GetPage(name: AppRoutes.profile, page: () => ProfileScreen()),
-        GetPage(name: AppRoutes.postList, page: () => PostListScreen()),
-        GetPage(name: AppRoutes.postEdit, page: () => PostEditScreen()),
+        GetPage(name: Routes.home, page: () => HomeScreen()),
+        GetPage(name: Routes.login, page: () => LoginScreen()),
+        GetPage(name: Routes.register, page: () => RegisterScreen()),
+        GetPage(name: Routes.profile, page: () => ProfileScreen()),
+        GetPage(name: Routes.postList, page: () => PostListScreen()),
+        GetPage(name: Routes.postEdit, page: () => PostEditScreen()),
       ],
     );
   }

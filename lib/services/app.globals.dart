@@ -1,20 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:get/route_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 openForum(String slug) {
-  Get.toNamed(AppRoutes.postList, arguments: {'slug': slug});
+  Get.toNamed(Routes.postList, arguments: {'slug': slug});
 }
-
-const double xs = 8;
-const double sm = 12;
-const double md = 16;
-const double lg = 24;
-const double xl = 32;
-const double xxl = 64;
 
 /// it evaluates the status
 ///

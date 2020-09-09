@@ -7,7 +7,7 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.globals.dart';
-import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/services/keys.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -47,7 +47,7 @@ class AppService {
           Row(
             children: [
               FlatButton(
-                key: ValueKey(AppKeys.dialogConfirmButton),
+                key: ValueKey(Keys.dialogConfirmButton),
                 onPressed: onConfirm != null
                     ? () {
                         Get.back();
@@ -58,7 +58,7 @@ class AppService {
               ),
               Spacer(),
               FlatButton(
-                key: ValueKey(AppKeys.dialogCancelButton),
+                key: ValueKey(Keys.dialogCancelButton),
                 onPressed: onCancel ?? Get.back,
                 child: Text('cancel'.tr),
               ),

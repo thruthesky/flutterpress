@@ -5,8 +5,8 @@ import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/post.list.dart';
 import 'package:flutterpress/services/app.config.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:get/get.dart';
@@ -91,17 +91,17 @@ class _PostListScreenState extends State<PostListScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: ValueKey(AppKeys.postListScaffold),
+      key: ValueKey(Keys.postListScaffold),
       appBar: AppBar(
         title: Text('postList'.tr),
         actions: [
           if (wc.isUserLoggedIn)
             IconButton(
-              key: ValueKey(AppKeys.postEditButton),
+              key: ValueKey(Keys.postEditButton),
               icon: Icon(Icons.add),
               onPressed: () async {
                 var post = await Get.toNamed(
-                  AppRoutes.postEdit,
+                  Routes.postEdit,
                   arguments: {'slug': slug},
                 );
                 if (!isEmpty(post)) {

@@ -3,7 +3,7 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/services/app.globals.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:flutterpress/widgets/file_display.dart';

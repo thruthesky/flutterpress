@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,7 +47,7 @@ class RegisterFormState extends State<RegisterForm> {
           'user_pass': pass.text,
           'nickname': nickname.text,
         });
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(Routes.home);
       } catch (e) {
         loading = false;
         setState(() {});
@@ -63,7 +63,7 @@ class RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: <Widget>[
           AppTextInputField(
-            key: ValueKey(AppKeys.emailInput),
+            key: ValueKey(Keys.emailInput),
             labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
@@ -74,7 +74,7 @@ class RegisterFormState extends State<RegisterForm> {
             sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
           AppTextInputField(
-            key: ValueKey(AppKeys.passwordInput),
+            key: ValueKey(Keys.passwordInput),
             labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.next,
@@ -94,7 +94,7 @@ class RegisterFormState extends State<RegisterForm> {
             ),
           ),
           AppTextInputField(
-            key: ValueKey(AppKeys.nicknameInput),
+            key: ValueKey(Keys.nicknameInput),
             labelText: 'nickname'.tr,
             controller: nickname,
             inputAction: TextInputAction.done,
@@ -107,7 +107,7 @@ class RegisterFormState extends State<RegisterForm> {
             },
           ),
           RaisedButton(
-            key: ValueKey(AppKeys.formSubmitButton),
+            key: ValueKey(Keys.formSubmitButton),
             onPressed: _onFormSubmit,
             child: Text('submit'.tr),
           ),

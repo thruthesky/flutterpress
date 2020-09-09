@@ -1,4 +1,4 @@
-class AppKeys {
+class Keys {
   static String homeScaffold = 'homeScaffold';
   static String loginScaffold = 'loginScaffold';
   static String registerScaffold = 'registerScaffold';
@@ -27,4 +27,6 @@ class AppKeys {
 
   static String post = 'post';
   static String postList = 'postList';
+
+  static String chatWidgetColumn = 'chatWidgetColumn';
 }

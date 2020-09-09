@@ -2,8 +2,8 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/services/app.globals.dart';
-import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:flutterpress/widgets/file_display.dart';
@@ -76,13 +76,13 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
         child: Column(
           children: <Widget>[
             AppTextInputField(
-              key: ValueKey(AppKeys.postTitleInput),
+              key: ValueKey(Keys.postTitleInput),
               hintText: 'title'.tr,
               controller: title,
               inputAction: TextInputAction.done,
             ),
             AppTextInputField(
-              key: ValueKey(AppKeys.postContentInput),
+              key: ValueKey(Keys.postContentInput),
               hintText: 'content'.tr,
               controller: content,
               inputAction: TextInputAction.done,
@@ -117,7 +117,7 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
                   ),
                 ),
                 RaisedButton(
-                  key: ValueKey(AppKeys.formSubmitButton),
+                  key: ValueKey(Keys.formSubmitButton),
                   onPressed: onSubmit,
                   child: Text('submit'.tr),
                 ),

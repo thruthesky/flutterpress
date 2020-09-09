@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/services/app.globals.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -44,7 +44,7 @@ class LoginFormState extends State<LoginForm> {
           'user_email': email.value.text,
           'user_pass': pass.value.text,
         });
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(Routes.home);
       } catch (e) {
         loading = false;
         setState(() {});
@@ -66,7 +66,7 @@ class LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           AppTextInputField(
-            key: ValueKey(AppKeys.emailInput),
+            key: ValueKey(Keys.emailInput),
             labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
@@ -78,7 +78,7 @@ class LoginFormState extends State<LoginForm> {
           ),
           SizedBox(height: sm),
           AppTextInputField(
-            key: ValueKey(AppKeys.passwordInput),
+            key: ValueKey(Keys.passwordInput),
             labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.done,
@@ -103,7 +103,7 @@ class LoginFormState extends State<LoginForm> {
             SizedBox(
               width: double.infinity,
               child: RaisedButton(
-                key: ValueKey(AppKeys.formSubmitButton),
+                key: ValueKey(Keys.formSubmitButton),
                 onPressed: _onFormSubmit,
                 child: Text('login'.tr.toUpperCase()),
                 color: Colors.blue[600],
@@ -125,7 +125,7 @@ class LoginFormState extends State<LoginForm> {
           SizedBox(
             width: double.infinity,
             child: FlatButton(
-              key: ValueKey(AppKeys.forgotPasswordButton),
+              key: ValueKey(Keys.forgotPasswordButton),
               onPressed: () {
                 print('TODO: FORGOT PASSWORD');
               },

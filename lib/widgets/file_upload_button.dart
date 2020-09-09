@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/file.model.dart';
-import 'package:flutterpress/services/app.globals.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.service.dart';

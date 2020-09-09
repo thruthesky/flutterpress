@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:get/get.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -24,27 +24,27 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
               ),
               FlatButton(
-                key: ValueKey(AppRoutes.home),
+                key: ValueKey(Routes.home),
                 child: Text('home'.tr),
-                onPressed: () => Get.toNamed(AppRoutes.home),
+                onPressed: () => Get.toNamed(Routes.home),
               ),
               if (!_.isUserLoggedIn)
                 FlatButton(
-                  key: ValueKey(AppRoutes.login),
+                  key: ValueKey(Routes.login),
                   child: Text('login'.tr),
-                  onPressed: () => Get.toNamed(AppRoutes.login),
+                  onPressed: () => Get.toNamed(Routes.login),
                 ),
               if (!_.isUserLoggedIn)
                 FlatButton(
-                  key: ValueKey(AppRoutes.register),
+                  key: ValueKey(Routes.register),
                   child: Text('register'.tr),
-                  onPressed: () => Get.toNamed(AppRoutes.register),
+                  onPressed: () => Get.toNamed(Routes.register),
                 ),
               if (_.isUserLoggedIn)
                 FlatButton(
-                  key: ValueKey(AppRoutes.profile),
+                  key: ValueKey(Routes.profile),
                   child: Text('profile'.tr),
-                  onPressed: () => Get.toNamed(AppRoutes.profile),
+                  onPressed: () => Get.toNamed(Routes.profile),
                 ),
               if (_.isUserLoggedIn)
                 FlatButton(

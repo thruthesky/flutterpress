@@ -7,7 +7,7 @@ import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/screens/post_list/comment.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/post_buttons.dart';
-import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/file_display.dart';
 import 'package:get/get.dart';
@@ -45,7 +45,7 @@ class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      key: ValueKey(AppKeys.post),
+      key: ValueKey(Keys.post),
       margin: EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Container(
         padding: EdgeInsets.all(10),
