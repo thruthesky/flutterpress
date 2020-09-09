@@ -113,8 +113,6 @@ class LoginFormState extends State<LoginForm> {
               ),
             ),
           SizedBox(height: sm),
-          LoginSocialButtons(),
-          SizedBox(height: sm),
           SizedBox(
             width: double.infinity,
             child: FlatButton(
@@ -125,6 +123,12 @@ class LoginFormState extends State<LoginForm> {
               child: Text('forgotPassword'.tr),
             ),
           ),
+          SizedBox(height: md),
+          Divider(),
+          SizedBox(height: md),
+          Text('Login with'),
+          SizedBox(height: md),
+          LoginSocialButtons(),
         ],
       ),
     );

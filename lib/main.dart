@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_i18n/locale.dart';
+import 'package:flutterpress/flutterbase_v2/flutterbase.controller.dart';
 import 'package:flutterpress/screens/home/home.screen.dart';
 import 'package:flutterpress/screens/login/login.screen.dart';
 import 'package:flutterpress/screens/post_edit/post_edit.screen.dart';
@@ -29,8 +30,15 @@ class FlutterPress extends StatefulWidget {
 class _FlutterPressState extends State<FlutterPress>
     with AfterLayoutMixin<FlutterPress> {
   final WordpressController wc = Get.put(WordpressController());
-  // final FlutterbaseController flutterbaseController =
-  //     Get.put(FlutterbaseController());
+  final FlutterbaseController flutterbaseController = Get.put(
+    // TODO: change to proper IDs
+    FlutterbaseController(
+      facebookAppId: 0,
+      facebookRedirectUrl: 'https://www.facebook.com/connect/login_success.html',
+      kakaotalkClientId: '',
+      kakaotalkJavascriptClientId: '',
+    ),
+  );
 
   @override
   void afterFirstLayout(BuildContext context) async {
