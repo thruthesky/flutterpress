@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
+import 'package:flutterpress/screens/login/login.social_buttons.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -18,7 +20,7 @@ class LoginForm extends StatefulWidget {
 /// TODO
 ///   - Update UI
 class LoginFormState extends State<LoginForm> {
-  // final FlutterbaseAuthService auth = FlutterbaseAuthService();
+  final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
@@ -111,16 +113,7 @@ class LoginFormState extends State<LoginForm> {
               ),
             ),
           SizedBox(height: sm),
-          // RaisedButton(
-          //   child: Text('login with google'),
-          //   onPressed: () async {
-          //     try {
-          //       await auth.loginWithGoogleAccount();
-          //     } catch (e) {
-          //       Get.snackbar('loginError'.tr, e.toString());
-          //     }
-          //   },
-          // ),
+          LoginSocialButtons(),
           SizedBox(height: sm),
           SizedBox(
             width: double.infinity,

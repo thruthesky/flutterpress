@@ -1,7 +1,7 @@
 name: flutterpress
 description: A new Flutter project.
 
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   hive: ^1.4.4
   hive_flutter: ^0.3.1
@@ -25,7 +24,7 @@ dependencies:
   image_picker: ^0.6.7+7
   permission_handler: ^5.0.1+1
   flutter_image_compress: ^0.7.0
-  cached_network_image: ^2.3.1  
+  cached_network_image: ^2.3.1
 
   ## social auth & push notif dependencies
   firebase_core: ^0.5.0
@@ -53,7 +52,6 @@ dev_dependencies:
   test: any
 
 flutter:
-
   uses-material-design: true
 
   assets:
