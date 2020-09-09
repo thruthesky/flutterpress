@@ -9,7 +9,7 @@ import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class WordpressController extends GetxController {
@@ -56,8 +56,10 @@ class WordpressController extends GetxController {
   ///
   Future<UserModel> login(Map<String, dynamic> params) async {
     params['route'] = 'user.login';
-    var data =
-        await AppService.getHttp(params, require: ['user_email', 'user_pass']);
+    var data = await AppService.getHttp(
+      params,
+      require: ['user_email', 'user_pass'],
+    );
     return _updateCurrentUser(data);
   }
 
@@ -73,20 +75,24 @@ class WordpressController extends GetxController {
     return _updateCurrentUser(data);
   }
 
-  Future<UserModel> loginOrRegister() async {
+  /// Register or Login a user after social login process
+  ///
+  ///
+  Future<UserModel> loginOrRegister(Map<String, dynamic> params) async {
+    print(params);
     try {
-
-    await login();
-    } catch(e) {
-      if ( e == 'user not found' ) {
+      return await login(params);
+    } catch (e) {
+      if (e == 'user_not_found_by_that_email') {
+        print('======> User is not registered in Backend: Going to register');
         try {
-          await register();
-        } catch(e) {
-          /// alert or toast error.
+          return await register(params);
+        } catch (e) {
+          AppService.error('$e'.tr);
         }
       }
+      return null;
     }
-
   }
 
   /// Update user information.
