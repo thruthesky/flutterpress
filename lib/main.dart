@@ -12,7 +12,6 @@ import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/app.routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/app.translations.dart';
-import 'package:flutterpress/controllers/flutterbase.controller.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -30,8 +29,8 @@ class FlutterPress extends StatefulWidget {
 class _FlutterPressState extends State<FlutterPress>
     with AfterLayoutMixin<FlutterPress> {
   final WordpressController wc = Get.put(WordpressController());
-  final FlutterbaseController flutterbaseController =
-      Get.put(FlutterbaseController());
+  // final FlutterbaseController flutterbaseController =
+  //     Get.put(FlutterbaseController());
 
   @override
   void afterFirstLayout(BuildContext context) async {
