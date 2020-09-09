@@ -1,8 +1,8 @@
 // Imports the Flutter Driver API.
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:flutterpress/flutter_test/flutter_test.helper.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:test/test.dart';
 
 // test by steps
@@ -48,49 +48,49 @@ void main() {
 
     test('Home Screen', () async {
       // await driver.runUnsynchronized(() async {
-      var scaffold = find.byValueKey(AppKeys.homeScaffold);
+      var scaffold = find.byValueKey(Keys.homeScaffold);
       await helper.exitIfNotExists(
         scaffold,
         'Scaffold key does not exists in home screen. Or the app is not in home screen.',
       );
 
-      var button = find.byValueKey(AppKeys.homeScaffold);
+      var button = find.byValueKey(Keys.homeScaffold);
       await driver.tap(button);
       // });
     });
 
     test('Register', () async {
-      var button = find.byValueKey(AppRoutes.register);
+      var button = find.byValueKey(Routes.register);
       await helper.exitIfNotExists(
         button,
         'Register button does not exists on home screen.',
       );
       await driver.tap(button);
-      var scaffold = find.byValueKey(AppKeys.registerScaffold);
+      var scaffold = find.byValueKey(Keys.registerScaffold);
       await helper.exitIfNotExists(
         scaffold,
         'Scaffold key not exists in Register screen.',
       );
 
-      var emailInput = find.byValueKey(AppKeys.emailInput);
+      var emailInput = find.byValueKey(Keys.emailInput);
       await driver.tap(emailInput);
       await driver.enterText(TestUser.email);
 
-      var passInput = find.byValueKey(AppKeys.passwordInput);
+      var passInput = find.byValueKey(Keys.passwordInput);
       await driver.tap(passInput);
       await driver.enterText(TestUser.password);
 
-      var nicknameInput = find.byValueKey(AppKeys.nicknameInput);
+      var nicknameInput = find.byValueKey(Keys.nicknameInput);
       await driver.tap(nicknameInput);
       await driver.enterText(TestUser.nickname);
 
-      var submitButton = find.byValueKey(AppKeys.formSubmitButton);
+      var submitButton = find.byValueKey(Keys.formSubmitButton);
       await driver.tap(submitButton);
     });
 
     test('Logout', () async {
-      await driver.waitFor(find.byValueKey(AppKeys.homeScaffold));
-      var button = find.byValueKey(AppKeys.logoutButton);
+      await driver.waitFor(find.byValueKey(Keys.homeScaffold));
+      var button = find.byValueKey(Keys.logoutButton);
       await helper.exitIfNotExists(
         button,
         'Logout button does not exists on home screen.',
@@ -99,53 +99,53 @@ void main() {
     });
 
     test('Login', () async {
-      await driver.waitFor(find.byValueKey(AppKeys.homeScaffold));
+      await driver.waitFor(find.byValueKey(Keys.homeScaffold));
 
-      var button = find.byValueKey(AppRoutes.login);
+      var button = find.byValueKey(Routes.login);
       await helper.exitIfNotExists(
         button,
         'Login button does not exists on home screen.',
       );
       await driver.tap(button);
-      var scaffold = find.byValueKey(AppKeys.loginScaffold);
+      var scaffold = find.byValueKey(Keys.loginScaffold);
       await helper.exitIfNotExists(
         scaffold,
         'Column key not exists in Login screen.',
       );
 
-      var emailInput = find.byValueKey(AppKeys.emailInput);
+      var emailInput = find.byValueKey(Keys.emailInput);
       await driver.tap(emailInput);
       await driver.enterText(TestUser.email);
 
-      var passInput = find.byValueKey(AppKeys.passwordInput);
+      var passInput = find.byValueKey(Keys.passwordInput);
       await driver.tap(passInput);
       await driver.enterText(TestUser.password);
 
-      var submitButton = find.byValueKey(AppKeys.formSubmitButton);
+      var submitButton = find.byValueKey(Keys.formSubmitButton);
       await driver.tap(submitButton);
     });
 
     test('Profile', () async {
-      await driver.waitFor(find.byValueKey(AppKeys.homeScaffold));
+      await driver.waitFor(find.byValueKey(Keys.homeScaffold));
 
-      var button = find.byValueKey(AppRoutes.profile);
+      var button = find.byValueKey(Routes.profile);
       await helper.exitIfNotExists(
         button,
         'Register button does not exists on home screen.',
       );
       await driver.tap(button);
 
-      var scaffold = find.byValueKey(AppKeys.profileScaffold);
+      var scaffold = find.byValueKey(Keys.profileScaffold);
       await helper.exitIfNotExists(
         scaffold,
         'Scaffold key not exists in Register screen.',
       );
 
-      var nicknameInput = find.byValueKey(AppKeys.nicknameInput);
+      var nicknameInput = find.byValueKey(Keys.nicknameInput);
       await driver.tap(nicknameInput);
       await driver.enterText(TestUser.nickname2);
 
-      var submitButton = find.byValueKey(AppKeys.formSubmitButton);
+      var submitButton = find.byValueKey(Keys.formSubmitButton);
       await driver.tap(submitButton);
 
       await delay(2000);
@@ -165,51 +165,51 @@ void main() {
     });
 
     test('Post Create', () async {
-      var postListButton = find.byValueKey(AppRoutes.postList);
+      var postListButton = find.byValueKey(Routes.postList);
       await driver.tap(postListButton);
 
-      var postListScaffold = find.byValueKey(AppKeys.postListScaffold);
+      var postListScaffold = find.byValueKey(Keys.postListScaffold);
       await helper.exitIfNotExists(
         postListScaffold,
         'Scaffold key not exists in Post list screen.',
       );
 
-      var postEditButton = find.byValueKey(AppKeys.postEditButton);
+      var postEditButton = find.byValueKey(Keys.postEditButton);
       await driver.tap(postEditButton);
 
-      var postEditScaffold = find.byValueKey(AppKeys.postEditScreenScaffold);
+      var postEditScaffold = find.byValueKey(Keys.postEditScreenScaffold);
       await helper.exitIfNotExists(
         postEditScaffold,
         'Scaffold key not exists in Post edit screen.',
       );
 
-      var titleInput = find.byValueKey(AppKeys.postTitleInput);
+      var titleInput = find.byValueKey(Keys.postTitleInput);
       await driver.tap(titleInput);
       await driver.enterText(TestPost.title);
 
-      var contentInput = find.byValueKey(AppKeys.postContentInput);
+      var contentInput = find.byValueKey(Keys.postContentInput);
       await driver.tap(contentInput);
       await driver.enterText(TestPost.content);
 
-      var submitButton = find.byValueKey(AppKeys.formSubmitButton);
+      var submitButton = find.byValueKey(Keys.formSubmitButton);
       await driver.tap(submitButton);
     });
 
     test('Post Update', () async {
-      await driver.waitFor(find.byValueKey(AppKeys.postListScaffold));
+      await driver.waitFor(find.byValueKey(Keys.postListScaffold));
 
-      var updateButton = find.byValueKey(AppKeys.postUpdateButton);
+      var updateButton = find.byValueKey(Keys.postUpdateButton);
       await driver.tap(updateButton);
 
-      var titleInput = find.byValueKey(AppKeys.postTitleInput);
+      var titleInput = find.byValueKey(Keys.postTitleInput);
       await driver.tap(titleInput);
       await driver.enterText(TestPost.title2);
 
-      var contentInput = find.byValueKey(AppKeys.postContentInput);
+      var contentInput = find.byValueKey(Keys.postContentInput);
       await driver.tap(contentInput);
       await driver.enterText(TestPost.content2);
 
-      var submitButton = find.byValueKey(AppKeys.formSubmitButton);
+      var submitButton = find.byValueKey(Keys.formSubmitButton);
       await driver.tap(submitButton);
     });
 
@@ -220,10 +220,10 @@ void main() {
     // test('Comment Delete', () async {});
 
     test('Post Delete', () async {
-      var deleteButton = find.byValueKey(AppKeys.postDeleteButton);
+      var deleteButton = find.byValueKey(Keys.postDeleteButton);
       await driver.tap(deleteButton);
 
-      var confirmButton = find.byValueKey(AppKeys.dialogConfirmButton);
+      var confirmButton = find.byValueKey(Keys.dialogConfirmButton);
       await driver.tap(confirmButton);
 
       await delay(500);
@@ -231,18 +231,18 @@ void main() {
     });
 
     test('Resign', () async {
-      var profileButton = find.byValueKey(AppRoutes.profile);
+      var profileButton = find.byValueKey(Routes.profile);
       await driver.tap(profileButton);
 
-      var resignButton = find.byValueKey(AppKeys.resignButton);
+      var resignButton = find.byValueKey(Keys.resignButton);
       await driver.tap(resignButton);
 
-      var confirmButton = find.byValueKey(AppKeys.dialogConfirmButton);
+      var confirmButton = find.byValueKey(Keys.dialogConfirmButton);
       await driver.tap(confirmButton);
 
-      await driver.waitFor(find.byValueKey(AppKeys.homeScaffold));
+      await driver.waitFor(find.byValueKey(Keys.homeScaffold));
       expect(
-        await helper.isNotPresent(find.byValueKey(AppRoutes.profile)),
+        await helper.isNotPresent(find.byValueKey(Routes.profile)),
         true,
       );
     });

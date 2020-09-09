@@ -27,15 +27,22 @@ dependencies:
   flutter_image_compress: ^0.7.0
   cached_network_image: ^2.3.1  
 
-  ## social auth dependencies
+  ## social auth & push notif dependencies
   firebase_core: ^0.5.0
   firebase_auth: ^0.18.0+1
+  cloud_firestore: ^0.14.0+2
+  firebase_messaging: ^7.0.0
+  flutter_webview_plugin: ^0.3.11
+  flutter_platform_widgets: ^0.60.2
 
   ## google sign in
   google_sign_in: ^4.5.3
 
   ## Apple sign in
   apple_sign_in: ^0.1.0
+
+  ## Kakao sign in
+  kakao_flutter_sdk: ^0.4.2
 
 dev_dependencies:
   flutter_test:
