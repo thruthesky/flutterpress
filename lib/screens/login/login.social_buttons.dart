@@ -13,7 +13,7 @@ class LoginSocialButtons extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        LoginSicialIcon(
+        LoginSocialIcon(
           child: Image.asset(
             'assets/images/kakaotalk.png',
             width: 36,
@@ -27,7 +27,7 @@ class LoginSocialButtons extends StatelessWidget {
             }
           },
         ),
-        LoginSicialIcon(
+        LoginSocialIcon(
           child: FaIcon(
             FontAwesomeIcons.facebook,
             size: 36,
@@ -42,7 +42,7 @@ class LoginSocialButtons extends StatelessWidget {
             }
           },
         ),
-        LoginSicialIcon(
+        LoginSocialIcon(
           child: FaIcon(
             FontAwesomeIcons.googlePlusG,
             size: 36,
@@ -62,7 +62,7 @@ class LoginSocialButtons extends StatelessWidget {
           builder: (context, snapshot) {
             // print('snapshot: ${snapshot.data}');
             if (snapshot.data == true) {
-              return LoginSicialIcon(
+              return LoginSocialIcon(
                 child: FaIcon(
                   FontAwesomeIcons.apple,
                   size: 36,
