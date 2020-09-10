@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/screens/login/login.social_buttons.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/screens/login/login.form.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,6 +37,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: xl),
                 LoginForm(),
+                Center(child: Text('Login with')),
+                SizedBox(height: md),
+                LoginSocialButtons(),
               ],
             ),
           ),

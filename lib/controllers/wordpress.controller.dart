@@ -70,7 +70,7 @@ class WordpressController extends GetxController {
     var data = await AppService.getHttp(params, require: [
       'user_email',
       'user_pass',
-      'nickname',
+      // 'nickname',
     ]);
     return _updateCurrentUser(data);
   }

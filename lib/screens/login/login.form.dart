@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
-import 'package:flutterpress/screens/login/login.social_buttons.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -126,9 +125,6 @@ class LoginFormState extends State<LoginForm> {
           SizedBox(height: md),
           Divider(),
           SizedBox(height: md),
-          Text('Login with'),
-          SizedBox(height: md),
-          LoginSocialButtons(),
         ],
       ),
     );
