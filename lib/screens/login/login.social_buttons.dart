@@ -6,6 +6,7 @@ import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
 import 'package:flutterpress/flutterbase_v2/widgets/social_login/phone_login_dialog.dart';
 import 'package:flutterpress/flutterbase_v2/widgets/social_login/login_social_icon.dart';
 import 'package:flutterpress/models/user.model.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -19,13 +20,21 @@ class LoginSocialButtons extends StatelessWidget {
     final password = wc.password('${user.uid}');
     final name = user.displayName;
 
-    UserModel u = await wc.loginOrRegister({
-      'user_email': email,
-      'user_pass': password,
-      'nickname': name,
-    });
+    UserModel u;
+    try {
+      u = await wc.loginOrRegister({
+        'user_email': email,
+        'user_pass': password,
+        'nickname': name,
+      });
+    } catch (e) {
+      AppService.error(e);
+    }
 
+    print('user');
+    print(u.toString());
     if (!isEmpty(u)) {
+      print('Redirect to home after loginOrRegister() complete');
       Get.offAllNamed(Routes.home);
     }
   }
@@ -130,6 +139,9 @@ class LoginSocialButtons extends StatelessWidget {
               barrierDismissible: false,
             );
             if (user == null) return;
+
+            // print('Verification complete');
+            // print(user);
             try {
               await loginOrRegister(user: user, provider: 'phone');
             } catch (e) {

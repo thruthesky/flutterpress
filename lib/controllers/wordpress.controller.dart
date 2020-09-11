@@ -79,19 +79,26 @@ class WordpressController extends GetxController {
   ///
   ///
   Future<UserModel> loginOrRegister(Map<String, dynamic> params) async {
-    print(params);
+    // print(params);
     try {
-      return await login(params);
+      // print('login');
+      var u = await login(params);
+      // print(u.toString());
+      return u;
     } catch (e) {
       if (e == 'user_not_found_by_that_email') {
-        print('======> User is not registered in Backend: Going to register');
+        // print('======> User is not registered in Backend: Going to register');
         try {
-          return await register(params);
+          // print('login');
+          var u = await register(params);
+          // print(u.toString());
+          return u;
         } catch (e) {
-          AppService.error('$e'.tr);
+          throw e;
         }
+      } else {
+        throw e;
       }
-      return null;
     }
   }
 
