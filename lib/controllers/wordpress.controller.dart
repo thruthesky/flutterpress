@@ -191,7 +191,9 @@ class WordpressController extends GetxController {
   /// performs like and dislike.
   ///
   Future<VoteModel> _vote(Map<String, dynamic> params) async {
+    if (isEmpty(user)) throw 'Login first!';
     params['session_id'] = user.sessionId;
+
     var data = await AppService.getHttp(params, require: ['ID', 'choice']);
     return VoteModel.fromBackendData(data);
   }

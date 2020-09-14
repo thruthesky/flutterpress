@@ -87,7 +87,7 @@ class _CommentBoxState extends State<CommentBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
         Expanded(
           child: AppTextInputField(
@@ -96,10 +96,6 @@ class _CommentBoxState extends State<CommentBox> {
               inputAction: TextInputAction.done,
               controller: controller,
               focusNode: focusNode,
-              icon: (!isEmpty(widget.parent) || !isEmpty(widget.comment.id))
-                  ? IconButton(
-                      icon: Icon(Icons.close), onPressed: widget.onCancel)
-                  : null,
               sufficIcon: Wrap(
                 children: [
                   FileUploadButton(
@@ -127,6 +123,7 @@ class _CommentBoxState extends State<CommentBox> {
               }),
         ),
       ]),
+      SizedBox(height: xs),
       if (uploadProgress > 0)
         Padding(
           padding: EdgeInsets.only(top: sm),
@@ -142,7 +139,9 @@ class _CommentBoxState extends State<CommentBox> {
           widget.comment.deleteFile(file);
           setState(() {});
         },
-      )
+      ),
+      if (!isEmpty(widget.parent) || !isEmpty(widget.comment.id))
+        RaisedButton(child: Text('cancel'.tr), onPressed: widget.onCancel)
     ]);
   }
 }

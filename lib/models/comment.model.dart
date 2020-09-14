@@ -10,8 +10,9 @@ class CommentModel {
   String like;
   String dislike;
   String author;
+  String authorPhotoUrl;
   String content;
-  int depth;
+  double depth;
 
   List<FileModel> files;
 
@@ -24,6 +25,7 @@ class CommentModel {
     this.authorId,
     this.parent,
     this.author,
+    this.authorPhotoUrl,
     this.content,
     this.depth,
     files,
@@ -40,18 +42,19 @@ class CommentModel {
         return FileModel.fromBackendData(f);
       }).toList();
     }
-
+    
     return CommentModel(
       data: data,
       id: int.parse(data['comment_ID']),
-      like: data['like'] != null ? data['like'] : '0',
-      dislike: data['dislike'] != null ? data['dislike'] : '0',
+      like: data['like'] ?? '0',
+      dislike: data['dislike'] ?? '0',
       postId: int.parse(data['comment_post_ID']),
       authorId: int.parse(data['user_id']),
       parent: int.parse(data['comment_parent']),
       author: data['comment_author'],
+      authorPhotoUrl: data['author_photo_url'] ?? '',
       content: data['comment_content'] ?? '',
-      depth: data['depth'],
+      depth: data['depth'].toDouble(),
       files: _files,
     );
   }
@@ -71,7 +74,7 @@ class CommentModel {
 
   updateVote(VoteModel vote) {
     like = vote.like;
-    dislike = vote.like;
+    dislike = vote.dislike;
   }
 
   deleteFile(FileModel file) {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/comment_buttons.dart';
-import 'package:flutterpress/services/app.globals.dart';
+import 'package:flutterpress/screens/post_list/comment_content.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:flutterpress/widgets/file_display.dart';
+import 'package:flutterpress/widgets/circular_avatar.dart';
 import 'package:get/get.dart';
 
 class Comment extends StatefulWidget {
@@ -53,7 +53,6 @@ class _CommentState extends State<Comment> {
           AppService.error('$e'.tr);
         }
       },
-      onCancel: Get.back,
     );
   }
 
@@ -65,45 +64,57 @@ class _CommentState extends State<Comment> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[200],
-      margin:
-          EdgeInsets.only(top: 20, left: 10 * widget.comment.depth.toDouble()),
+      margin: EdgeInsets.only(
+        top: 20,
+        left: widget.comment.depth != 1.0 ? widget.comment.depth * 5 : 0,
+      ),
       child: Column(
         children: [
-          if (inEdit)
-            CommentBox(
-              post: widget.post,
-              comment: widget.comment,
-              onCancel: () => changeInEditState(false),
-              onEditted: (comment) {
-                widget.comment.update(comment);
-                changeInEditState(false);
-                setState(() {});
-              },
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircularAvatar(
+                photoURL: widget.comment.authorPhotoUrl,
+                height: 45,
+                width: 45,
+              ),
+              SizedBox(width: xs),
 
-          if (!inEdit)
-            ListTile(
-              title: Text(widget.comment.author),
-              subtitle: !isEmpty(widget.comment.content)
-                  ? Text(widget.comment.content)
-                  : null,
-            ),
+              /// comment content
+              if (!inEdit)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommentContent(comment: widget.comment),
+                      CommentButtons(
+                        inEdit: inEdit,
+                        comment: widget.comment,
+                        showReplyButton: !inReply,
+                        onReplyTap: () => changeInReplyState(true),
+                        onUpdateTap: () => changeInEditState(true),
+                        onDeleteTap: () => onDeleteTapped(),
+                        onVoted: onVoted,
+                      )
+                    ],
+                  ),
+                ),
 
-          /// File Display
-          if (!inEdit) FileDisplay(widget.comment.files, inEdit: inEdit),
-
-          /// comment buttons
-          if (wc.isUserLoggedIn && !widget.comment.deleted)
-            CommentButtons(
-              inEdit: inEdit,
-              comment: widget.comment,
-              showReplyButton: !inReply,
-              onReplyTap: () => changeInReplyState(true),
-              onUpdateTap: () => changeInEditState(true),
-              onDeleteTap: () => onDeleteTapped(),
-              onVoted: onVoted,
-            ),
+              if (inEdit)
+                Expanded(
+                  child: CommentBox(
+                    post: widget.post,
+                    comment: widget.comment,
+                    onCancel: () => changeInEditState(false),
+                    onEditted: (comment) {
+                      widget.comment.update(comment);
+                      changeInEditState(false);
+                      setState(() {});
+                    },
+                  ),
+                ),
+            ],
+          ),
 
           /// Reply box
           if (inReply)

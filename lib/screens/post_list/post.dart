@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
@@ -7,6 +8,7 @@ import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/screens/post_list/comment.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/post_buttons.dart';
+import 'package:flutterpress/screens/post_list/post_header.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/file_display.dart';
@@ -48,19 +50,20 @@ class _PostState extends State<Post> {
       key: ValueKey(Keys.post),
       margin: EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(sm),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.post.title),
-            if (!isEmpty(widget.post.content)) Text(widget.post.content),
-            Divider(),
+            /// post content (user avatar, title)
+            PostHeader(post: widget.post),
 
-            /// post images
+            SizedBox(height: sm),
+            if (!isEmpty(widget.post.content)) Text(widget.post.content),
             FileDisplay(widget.post.files),
 
+            Divider(),
             /// post buttons
-            if (AppService.wc.isUserLoggedIn)
+            if (!widget.post.deleted)
               PostButtons(
                 post: widget.post,
                 onUpdate: onPostUpdated,

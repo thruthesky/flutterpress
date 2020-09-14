@@ -54,12 +54,15 @@ class AppService {
                         onConfirm();
                       }
                     : null,
-                child: Text('yes'.tr),
+                child: Text(textConfirm ?? 'yes'.tr),
               ),
               Spacer(),
               FlatButton(
                 key: ValueKey(Keys.dialogCancelButton),
-                onPressed: onCancel ?? Get.back,
+                onPressed: () {
+                  Get.back();
+                  if (onCancel != null) onCancel();
+                },
                 child: Text('cancel'.tr),
               ),
             ],

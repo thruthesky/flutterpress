@@ -1,18 +1,21 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-import 'package:flutterpress/flutter_library/library.dart';
-import 'package:get/get.dart';
+import 'package:flutterpress/widgets/circular_avatar.dart';
+import 'package:get/state_manager.dart';
 
 class ProfileImage extends StatelessWidget {
-  final double size;
+  final double height;
+  final double width;
 
-  ProfileImage({this.size = 150.0});
+  ProfileImage({
+    this.height = 150.0,
+    this.width = 150.0,
+  });
 
   Widget buildRoundImage(ImageProvider provider) {
     return Container(
-      width: size,
-      height: size,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
@@ -27,17 +30,11 @@ class ProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<WordpressController>(
       builder: (wc) {
-        return wc.isUserLoggedIn && !isEmpty(wc.user.photoURL)
-            ? CachedNetworkImage(
-                width: size,
-                height: size,
-                imageUrl: wc.user.photoURL,
-                imageBuilder: (context, provider) {
-                  return buildRoundImage(provider);
-                },
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              )
-            : buildRoundImage(AssetImage('assets/images/anonymous.jpg'));
+        return CircularAvatar(
+          photoURL: wc.user.photoURL,
+          height: height,
+          width: width,
+        );
       },
     );
   }

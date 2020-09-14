@@ -1,6 +1,8 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/post.list.dart';
@@ -58,10 +60,11 @@ class _PostListScreenState extends State<PostListScreen>
     setState(() {});
   }
 
-  addPosts(List<dynamic> postData) {
-    for (var p in postData) {
-      posts.add(PostModel.fromBackendData(p));
-    }
+  addPosts(Map<String, dynamic> postData) {
+    postData.forEach((key, value) { 
+      print(key);
+      posts.add(PostModel.fromBackendData(value));
+    });
     loading = false;
     setState(() {});
   }
@@ -69,7 +72,7 @@ class _PostListScreenState extends State<PostListScreen>
   getPosts() async {
     if (noMorePost) return;
 
-    var re;
+    Map<String, dynamic> re;
     try {
       re = await AppService.getHttp({
         'route': 'post.search',
@@ -77,6 +80,7 @@ class _PostListScreenState extends State<PostListScreen>
         'posts_per_page': AppConfig.noOfPostsPerPage,
         'paged': page
       });
+      re.remove('route');
     } catch (e) {
       AppService.error(e);
     }
@@ -138,8 +142,8 @@ class _PostListScreenState extends State<PostListScreen>
                   if (loading && !noMorePost)
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('loading'.tr),
+                        padding: EdgeInsets.symmetric(vertical: lg),
+                        child: PlatformCircularProgressIndicator(),
                       ),
                     ),
 
