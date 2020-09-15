@@ -16,6 +16,7 @@ class AppTextInputField extends StatefulWidget {
   final Function validator;
   final Function onChanged;
 
+  final int minLines;
   final int maxLines;
 
   AppTextInputField({
@@ -33,6 +34,7 @@ class AppTextInputField extends StatefulWidget {
     this.autoValidate = false,
     this.validator(String value),
     this.onChanged(String value),
+    this.minLines = 1,
     this.maxLines = 1,
   }) : super(key: key);
 
@@ -46,9 +48,10 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      minLines: 1,
+      textAlignVertical: TextAlignVertical.bottom,
+      minLines: widget.minLines,
       maxLines: widget.maxLines,
-      textInputAction: TextInputAction.done,
+      textInputAction: widget.inputAction,
       decoration: InputDecoration(
         labelText: widget.labelText,
         hintText: widget.hintText,

@@ -4,10 +4,10 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
-import 'package:flutterpress/screens/post_list/comment_content.dart';
+import 'package:flutterpress/screens/post_list/comment_header.dart';
 import 'package:flutterpress/screens/post_list/forum_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:flutterpress/widgets/circular_avatar.dart';
+import 'package:flutterpress/widgets/file_display.dart';
 import 'package:get/get.dart';
 
 class Comment extends StatefulWidget {
@@ -36,56 +36,36 @@ class _CommentState extends State<Comment> {
             ? (widget.comment.depth * 5).toDouble()
             : 0,
       ),
+      padding: EdgeInsets.all(xs),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey[200],
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircularAvatar(
-                photoURL: widget.comment.authorPhotoUrl,
-                height: 45,
-                width: 45,
-              ),
-              SizedBox(width: xs),
 
-              /// comment content
-              if (!inEdit)
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommentContent(comment: widget.comment),
-                      if (!widget.comment.deleted)
-                        ForumButtons(
-                          mine: AppService.isMine(widget.comment),
-                          inEdit: inEdit,
-                          showReplyButton: !inReply,
-                          likeCount: widget.comment.like,
-                          dislikeCount: widget.comment.dislike,
-                          onVoteTap: onVoteTapped,
-                          onDeleteTap: onDeleteTapped,
-                          onReplyTap: () => changeInReplyState(true),
-                          onUpdateTap: () => changeInEditState(true),
-                        ),
-                    ],
-                  ),
-                ),
+          /// comment header
+          CommentHeader(comment: widget.comment),
 
-              if (inEdit)
-                Expanded(
-                  child: CommentBox(
-                    post: widget.post,
-                    comment: widget.comment,
-                    onCancel: () => changeInEditState(false),
-                    onEditted: (comment) {
-                      widget.comment.update(comment);
-                      changeInEditState(false);
-                      setState(() {});
-                    },
-                  ),
-                ),
-            ],
-          ),
+          /// comment contents
+          SizedBox(height: sm),
+          SelectableText(widget.comment.content),
+          FileDisplay(widget.comment.files),
+
+          /// comment buttons
+          if (!widget.comment.deleted)
+            ForumButtons(
+              mine: AppService.isMine(widget.comment),
+              inEdit: inEdit,
+              showReplyButton: !inReply,
+              likeCount: widget.comment.like,
+              dislikeCount: widget.comment.dislike,
+              onVoteTap: onVoteTapped,
+              onDeleteTap: onDeleteTapped,
+              onReplyTap: () => changeInReplyState(true),
+              onUpdateTap: () => changeInEditState(true),
+            ),
 
           /// Reply box
           if (inReply)

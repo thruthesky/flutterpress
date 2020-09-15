@@ -89,11 +89,11 @@ class ForumButtons extends StatelessWidget {
     // }
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.only(top: 10),
       child: Row(children: [
         for (Map<String, dynamic> button in buttons)
           buildButton(label: button['label'], onTap: button['onTap']),
-        if (mine)
+        if (mine && showReplyButton)
           GestureDetector(
             child: Icon(FontAwesomeIcons.cog, size: md, color: Colors.black54),
             onTap: () async {

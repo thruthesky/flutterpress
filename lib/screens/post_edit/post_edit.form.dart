@@ -69,61 +69,67 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
+      margin: EdgeInsets.all(md),
+      child: Container(
       padding: EdgeInsets.all(md),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            AppTextInputField(
-              key: ValueKey(Keys.postTitleInput),
-              hintText: 'title'.tr,
-              controller: title,
-              inputAction: TextInputAction.done,
-            ),
-            AppTextInputField(
-              key: ValueKey(Keys.postContentInput),
-              hintText: 'content'.tr,
-              controller: content,
-              inputAction: TextInputAction.done,
-            ),
-            SizedBox(height: lg),
-            FileDisplay(post.files, inEdit: true, onFileDeleted: (file) {
-              post.deleteFile(file);
-              setState(() {});
-            }),
-            SizedBox(height: lg),
-            Row(
-              children: [
-                FileUploadButton(
-                  onProgress: (value) {
-                    progress = value;
-                    setState(() {});
-                  },
-                  onUploaded: (file) {
-                    post.files.add(file);
-                    progress = 0;
-                    setState(() {});
-                  },
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: sm),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      backgroundColor:
-                          progress > 0 ? Colors.grey : Colors.transparent,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              AppTextInputField(
+                key: ValueKey(Keys.postTitleInput),
+                hintText: 'title'.tr,
+                controller: title,
+                inputAction: TextInputAction.done,
+              ),
+              AppTextInputField(
+                key: ValueKey(Keys.postContentInput),
+                hintText: 'content'.tr,
+                controller: content,
+                inputType: TextInputType.multiline,
+                inputAction: TextInputAction.newline,
+                minLines: 5,
+                maxLines: 15,
+              ),
+              SizedBox(height: lg),
+              FileDisplay(post.files, inEdit: true, onFileDeleted: (file) {
+                post.deleteFile(file);
+                setState(() {});
+              }),
+              SizedBox(height: lg),
+              Row(
+                children: [
+                  FileUploadButton(
+                    onProgress: (value) {
+                      progress = value;
+                      setState(() {});
+                    },
+                    onUploaded: (file) {
+                      post.files.add(file);
+                      progress = 0;
+                      setState(() {});
+                    },
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: sm),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        backgroundColor:
+                            progress > 0 ? Colors.grey : Colors.transparent,
+                      ),
                     ),
                   ),
-                ),
-                RaisedButton(
-                  key: ValueKey(Keys.formSubmitButton),
-                  onPressed: onSubmit,
-                  child: Text('submit'.tr),
-                ),
-              ],
-            )
-          ],
+                  RaisedButton(
+                    key: ValueKey(Keys.formSubmitButton),
+                    onPressed: onSubmit,
+                    child: Text('submit'.tr),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

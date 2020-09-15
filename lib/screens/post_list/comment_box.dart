@@ -94,7 +94,6 @@ class _CommentBoxState extends State<CommentBox> {
               hintText: 'comment'.tr,
               // autoGrow: true,
               maxLines: 5,
-              inputType: TextInputType.multiline,
               inputAction: TextInputAction.newline,
               controller: controller,
               focusNode: focusNode,
