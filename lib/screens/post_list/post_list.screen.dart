@@ -61,8 +61,7 @@ class _PostListScreenState extends State<PostListScreen>
   }
 
   addPosts(Map<String, dynamic> postData) {
-    postData.forEach((key, value) { 
-      print(key);
+    postData.forEach((key, value) {
       posts.add(PostModel.fromBackendData(value));
     });
     loading = false;

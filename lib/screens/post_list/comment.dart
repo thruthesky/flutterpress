@@ -59,7 +59,7 @@ class _CommentState extends State<Comment> {
                         ForumButtons(
                           mine: AppService.isMine(widget.comment),
                           inEdit: inEdit,
-                          showReplyButton: inReply,
+                          showReplyButton: !inReply,
                           likeCount: widget.comment.like,
                           dislikeCount: widget.comment.dislike,
                           onVoteTap: onVoteTapped,

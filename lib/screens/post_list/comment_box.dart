@@ -92,11 +92,15 @@ class _CommentBoxState extends State<CommentBox> {
         Expanded(
           child: AppTextInputField(
               hintText: 'comment'.tr,
-              inputType: TextInputType.text,
-              inputAction: TextInputAction.done,
+              // autoGrow: true,
+              maxLines: 5,
+              inputType: TextInputType.multiline,
+              inputAction: TextInputAction.newline,
               controller: controller,
               focusNode: focusNode,
               sufficIcon: Wrap(
+                runAlignment: WrapAlignment.end,
+                direction: Axis.horizontal,
                 children: [
                   FileUploadButton(
                     iconSize: 20,

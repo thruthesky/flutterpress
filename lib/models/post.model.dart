@@ -69,14 +69,14 @@ class PostModel {
         ? data['post_date'].split(' ').last
         : data['short_date_time'];
 
-    final _like = data['like'] != null ? int.parse(data['like']) : 0;
-    final _dislike = data['dislike'] != null ? int.parse(data['dislike']) : 0;
+    final _like = data['like'] != null ? data['like'] : 0;
+    final _dislike = data['dislike'] != null ? data['dislike'] : 0;
 
     return PostModel(
       data: data,
       id: data['ID'],
-      like: _like,
-      dislike: _dislike,
+      like: _like is int ? _like : int.parse(_like),
+      dislike: _dislike is int ? _dislike : int.parse(_dislike),
       authorId: int.parse(data['post_author']),
       authorName: data['author_name'],
       authorPhotoUrl: data['author_photo_url'],

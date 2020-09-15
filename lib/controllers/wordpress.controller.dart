@@ -145,7 +145,7 @@ class WordpressController extends GetxController {
     var reqs = ['post_title'];
     if (isUpdate) reqs.add('ID');
 
-    var res = await AppService.getHttp(params, require: reqs);
+    var res = await AppService.getHttp(params, require: reqs, showLogs: true);
     return PostModel.fromBackendData(res);
   }
 

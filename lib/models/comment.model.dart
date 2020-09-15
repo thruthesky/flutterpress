@@ -43,14 +43,14 @@ class CommentModel {
       }).toList();
     }
     
-    final _like = data['like'] != null ? int.parse(data['like']) : 0;
-    final _dislike = data['dislike'] != null ? int.parse(data['dislike']) : 0;
+    final _like = data['like'] != null ? data['like'] : 0;
+    final _dislike = data['dislike'] != null ? data['dislike'] : 0;
 
     return CommentModel(
       data: data,
       id: int.parse(data['comment_ID']),
-      like: _like,
-      dislike: _dislike,
+      like: _like is int ? _like : int.parse(_like),
+      dislike: _dislike is int ? _dislike : int.parse(_dislike),
       postId: int.parse(data['comment_post_ID']),
       authorId: int.parse(data['user_id']),
       parent: int.parse(data['comment_parent']),
