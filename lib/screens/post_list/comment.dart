@@ -3,10 +3,9 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
-import 'package:flutterpress/screens/post_list/comment_buttons.dart';
 import 'package:flutterpress/screens/post_list/comment_content.dart';
+import 'package:flutterpress/screens/post_list/forum_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/circular_avatar.dart';
 import 'package:get/get.dart';
@@ -56,9 +55,17 @@ class _CommentState extends State<Comment> {
     );
   }
 
-  onVoted(VoteModel vote) {
-    widget.comment.updateVote(vote);
-    if (mounted) setState(() {});
+  onVoteTapped(String choice) async {
+    try {
+      var vote = await AppService.wc.commentVote({
+        'choice': choice,
+        'ID': widget.comment.id,
+      });
+      widget.comment.updateVote(vote);
+      if (mounted) setState(() {});
+    } catch (e) {
+      AppService.error(e);
+    }
   }
 
   @override
@@ -66,7 +73,9 @@ class _CommentState extends State<Comment> {
     return Container(
       margin: EdgeInsets.only(
         top: 20,
-        left: widget.comment.depth != 1.0 ? widget.comment.depth * 5 : 0,
+        left: widget.comment.depth != 1
+            ? (widget.comment.depth * 5).toDouble()
+            : 0,
       ),
       child: Column(
         children: [
@@ -87,15 +96,18 @@ class _CommentState extends State<Comment> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommentContent(comment: widget.comment),
-                      CommentButtons(
-                        inEdit: inEdit,
-                        comment: widget.comment,
-                        showReplyButton: !inReply,
-                        onReplyTap: () => changeInReplyState(true),
-                        onUpdateTap: () => changeInEditState(true),
-                        onDeleteTap: () => onDeleteTapped(),
-                        onVoted: onVoted,
-                      )
+                      if (!widget.comment.deleted)
+                        ForumButtons(
+                          mine: AppService.isMine(widget.comment),
+                          inEdit: inEdit,
+                          showReplyButton: inReply,
+                          likeCount: widget.comment.like,
+                          dislikeCount: widget.comment.dislike,
+                          onVoteTap: onVoteTapped,
+                          onDeleteTap: onDeleteTapped, 
+                          onReplyTap: () => changeInReplyState(true),
+                          onUpdateTap: () => changeInEditState(true),
+                        ),
                     ],
                   ),
                 ),

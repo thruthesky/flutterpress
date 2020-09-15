@@ -8,8 +8,8 @@ class PostModel {
 
   int id;
   int authorId;
-  String like;
-  String dislike;
+  int like;
+  int dislike;
   String authorName;
   String authorPhotoUrl;
   String title;
@@ -69,11 +69,14 @@ class PostModel {
         ? data['post_date'].split(' ').last
         : data['short_date_time'];
 
+    final _like = data['like'] != null ? int.parse(data['like']) : 0;
+    final _dislike = data['dislike'] != null ? int.parse(data['dislike']) : 0;
+
     return PostModel(
       data: data,
       id: data['ID'],
-      like: data['like'] != null ? data['like'] : '0',
-      dislike: data['dislike'] != null ? data['dislike'] : '0',
+      like: _like,
+      dislike: _dislike,
       authorId: int.parse(data['post_author']),
       authorName: data['author_name'],
       authorPhotoUrl: data['author_photo_url'],
@@ -89,10 +92,10 @@ class PostModel {
 
   insertComment(int commentParentId, CommentModel comment) {
     int i = 0;
-    double depth = 1;
+    int depth = 1;
     if (commentParentId > 0) {
       i = comments.indexWhere((c) {
-            depth = c.depth + 1.0;
+            depth = c.depth + 1;
             return c.id == commentParentId;
           }) +
           1;

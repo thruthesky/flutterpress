@@ -7,12 +7,12 @@ class CommentModel {
   int postId;
   int authorId;
   int parent;
-  String like;
-  String dislike;
+  int like;
+  int dislike;
   String author;
   String authorPhotoUrl;
   String content;
-  double depth;
+  int depth;
 
   List<FileModel> files;
 
@@ -43,18 +43,21 @@ class CommentModel {
       }).toList();
     }
     
+    final _like = data['like'] != null ? int.parse(data['like']) : 0;
+    final _dislike = data['dislike'] != null ? int.parse(data['dislike']) : 0;
+
     return CommentModel(
       data: data,
       id: int.parse(data['comment_ID']),
-      like: data['like'] ?? '0',
-      dislike: data['dislike'] ?? '0',
+      like: _like,
+      dislike: _dislike,
       postId: int.parse(data['comment_post_ID']),
       authorId: int.parse(data['user_id']),
       parent: int.parse(data['comment_parent']),
       author: data['comment_author'],
       authorPhotoUrl: data['author_photo_url'] ?? '',
       content: data['comment_content'] ?? '',
-      depth: data['depth'].toDouble(),
+      depth: data['depth'],
       files: _files,
     );
   }

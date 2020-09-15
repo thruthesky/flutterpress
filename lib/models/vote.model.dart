@@ -2,8 +2,8 @@ class VoteModel {
   // {"ID":81,"like":"1","dislike":"","user_vote":"like"}
 
   int id;
-  String like;
-  String dislike;
+  int like;
+  int dislike;
   String userVote;
 
   VoteModel({
@@ -14,10 +14,21 @@ class VoteModel {
   });
 
   factory VoteModel.fromBackendData(Map<String, dynamic> data) {
+    var _like;
+    var _dislike;
+
+    if (data['like'] != '') {
+      _like = int.parse(data['like']);
+    }
+
+    if (data['dislike'] != '') {
+      _dislike = int.parse(data['dislike']);
+    }
+
     return VoteModel(
       id: data['id'],
-      like: data['like'],
-      dislike: data['dislike'],
+      like: _like ?? 0,
+      dislike: _dislike ?? 0 , 
       userVote: data['user_vote'],
     );
   }

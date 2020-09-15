@@ -4,13 +4,13 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/models/vote.model.dart';
 import 'package:flutterpress/screens/post_list/comment.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
-import 'package:flutterpress/screens/post_list/post_buttons.dart';
+import 'package:flutterpress/screens/post_list/forum_buttons.dart';
 import 'package:flutterpress/screens/post_list/post_header.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/file_display.dart';
 import 'package:get/get.dart';
 
@@ -28,21 +28,6 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
   final WordpressController wc = Get.find();
-
-  onPostUpdated(PostModel post) {
-    widget.post.update(post);
-    if (mounted) setState(() {});
-  }
-
-  onPostDeleted() {
-    widget.post.delete();
-    if (mounted) setState(() {});
-  }
-
-  onPostVoted(VoteModel vote) {
-    widget.post.updateVote(vote);
-    if (mounted) setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +47,18 @@ class _PostState extends State<Post> {
             FileDisplay(widget.post.files),
 
             Divider(),
+
             /// post buttons
             if (!widget.post.deleted)
-              PostButtons(
-                post: widget.post,
-                onUpdate: onPostUpdated,
-                onDelete: onPostDeleted,
-                onVoted: onPostVoted,
+              ForumButtons(
+                inEdit: false,
+                showReplyButton: false,
+                likeCount: widget.post.like,
+                dislikeCount: widget.post.dislike,
+                onDeleteTap: onDeleteTapped,
+                onUpdateTap: onUpdateTapped,
+                onVoteTap: onVoteTapped,
+                mine: AppService.isMine(widget.post),
               ),
 
             /// comment box
@@ -94,5 +84,44 @@ class _PostState extends State<Post> {
         ),
       ),
     );
+  }
+
+  //// methods
+
+  onUpdateTapped() async {
+    var res = await Get.toNamed(
+      Routes.postEdit,
+      arguments: {'post': widget.post},
+    );
+    if (!isEmpty(res)) {
+      widget.post.update(res);
+      if (mounted) setState(() {});
+    }
+  }
+
+  onDeleteTapped() {
+    AppService.confirmDialog('delete'.tr, Text('confirmPostDelete'.tr),
+        onConfirm: () async {
+      try {
+        await AppService.wc.postDelete({'ID': widget.post.id});
+        widget.post.delete();
+        if (mounted) setState(() {});
+      } catch (e) {
+        AppService.error('$e'.tr);
+      }
+    });
+  }
+
+  onVoteTapped(String choice) async {
+    try {
+      var vote = await AppService.wc.postVote({
+        'choice': choice,
+        'ID': widget.post.id,
+      });
+      widget.post.updateVote(vote);
+      if (mounted) setState(() {});
+    } catch (e) {
+      AppService.error(e);
+    }
   }
 }
