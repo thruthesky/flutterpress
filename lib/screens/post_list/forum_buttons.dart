@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class ForumButtons extends StatelessWidget {
@@ -70,22 +71,40 @@ class ForumButtons extends StatelessWidget {
 
     var buttons = [
       if (showReplyButton) {'label': 'reply'.tr, 'onTap': onReplyTap},
-      {'label': likeText, 'onTap': mine ? null : () => onVoteButtonTapped('like')},
-      {'label': dislikeText, 'onTap': mine ? null : () => onVoteButtonTapped('dislike')},
+      {
+        'label': likeText,
+        'onTap': mine ? null : () => onVoteButtonTapped('like')
+      },
+      {
+        'label': dislikeText,
+        'onTap': mine ? null : () => onVoteButtonTapped('dislike')
+      },
     ];
 
-    if (mine) {
-      buttons.addAll([
-        {'label': 'update'.tr, 'onTap': onUpdateTap},
-        {'label': 'delete'.tr, 'onTap': onDeleteTap}
-      ]);
-    }
+    // if (mine) {
+    //   buttons.addAll([
+    //     {'label': 'update'.tr, 'onTap': onUpdateTap},
+    //     {'label': 'delete'.tr, 'onTap': onDeleteTap}
+    //   ]);
+    // }
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      child: Wrap(children: [
+      child: Row(children: [
         for (Map<String, dynamic> button in buttons)
-          buildButton(label: button['label'], onTap: button['onTap'])
+          buildButton(label: button['label'], onTap: button['onTap']),
+        if (mine)
+          GestureDetector(
+            child: Icon(FontAwesomeIcons.cog, size: md, color: Colors.black54),
+            onTap: () async {
+              var res = await Get.bottomSheet(
+                MineMenu(),
+                backgroundColor: Colors.white,
+              );
+              if (res == 'update') onUpdateTap();
+              if (res == 'delete') onDeleteTap();
+            },
+          )
       ]),
     );
   }
@@ -94,6 +113,36 @@ class ForumButtons extends StatelessWidget {
 class MineMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SafeArea(
+      child: Container(
+        height: context.height * .3,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(md),
+              child: Text('Choose Action'),
+            ),
+            FlatButton(
+              child: Text('update'.tr),
+              onPressed: () {
+                Get.back(result: 'update');
+              },
+            ),
+            FlatButton(
+              child: Text('delete'.tr),
+              onPressed: () {
+                Get.back(result: 'delete');
+              },
+            ),
+            FlatButton(
+              child: Text('close'.tr),
+              onPressed: () {
+                Get.back();
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

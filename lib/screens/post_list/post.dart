@@ -43,7 +43,7 @@ class _PostState extends State<Post> {
             PostHeader(post: widget.post),
 
             SizedBox(height: sm),
-            if (!isEmpty(widget.post.content)) Text(widget.post.content),
+            if (!isEmpty(widget.post.content)) SelectableText(widget.post.content),
             FileDisplay(widget.post.files),
 
             Divider(),

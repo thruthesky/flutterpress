@@ -27,6 +27,85 @@ class _CommentState extends State<Comment> {
   bool inEdit = false;
   bool inReply = false;
 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+        top: 20,
+        left: widget.comment.depth != 1
+            ? (widget.comment.depth * 5).toDouble()
+            : 0,
+      ),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircularAvatar(
+                photoURL: widget.comment.authorPhotoUrl,
+                height: 45,
+                width: 45,
+              ),
+              SizedBox(width: xs),
+
+              /// comment content
+              if (!inEdit)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommentContent(comment: widget.comment),
+                      if (!widget.comment.deleted)
+                        ForumButtons(
+                          mine: AppService.isMine(widget.comment),
+                          inEdit: inEdit,
+                          showReplyButton: inReply,
+                          likeCount: widget.comment.like,
+                          dislikeCount: widget.comment.dislike,
+                          onVoteTap: onVoteTapped,
+                          onDeleteTap: onDeleteTapped,
+                          onReplyTap: () => changeInReplyState(true),
+                          onUpdateTap: () => changeInEditState(true),
+                        ),
+                    ],
+                  ),
+                ),
+
+              if (inEdit)
+                Expanded(
+                  child: CommentBox(
+                    post: widget.post,
+                    comment: widget.comment,
+                    onCancel: () => changeInEditState(false),
+                    onEditted: (comment) {
+                      widget.comment.update(comment);
+                      changeInEditState(false);
+                      setState(() {});
+                    },
+                  ),
+                ),
+            ],
+          ),
+
+          /// Reply box
+          if (inReply)
+            CommentBox(
+              post: widget.post,
+              parent: widget.comment.id,
+              onCancel: () => changeInReplyState(false),
+              onEditted: (comment) {
+                widget.post.insertComment(widget.comment.id, comment);
+                changeInReplyState(false);
+                widget.onReplied();
+              },
+            ),
+        ],
+      ),
+    );
+  }
+
+  //// methods
+
   changeInEditState(bool val) {
     inEdit = val;
     setState(() {});
@@ -66,82 +145,5 @@ class _CommentState extends State<Comment> {
     } catch (e) {
       AppService.error(e);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: 20,
-        left: widget.comment.depth != 1
-            ? (widget.comment.depth * 5).toDouble()
-            : 0,
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircularAvatar(
-                photoURL: widget.comment.authorPhotoUrl,
-                height: 45,
-                width: 45,
-              ),
-              SizedBox(width: xs),
-
-              /// comment content
-              if (!inEdit)
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommentContent(comment: widget.comment),
-                      if (!widget.comment.deleted)
-                        ForumButtons(
-                          mine: AppService.isMine(widget.comment),
-                          inEdit: inEdit,
-                          showReplyButton: inReply,
-                          likeCount: widget.comment.like,
-                          dislikeCount: widget.comment.dislike,
-                          onVoteTap: onVoteTapped,
-                          onDeleteTap: onDeleteTapped, 
-                          onReplyTap: () => changeInReplyState(true),
-                          onUpdateTap: () => changeInEditState(true),
-                        ),
-                    ],
-                  ),
-                ),
-
-              if (inEdit)
-                Expanded(
-                  child: CommentBox(
-                    post: widget.post,
-                    comment: widget.comment,
-                    onCancel: () => changeInEditState(false),
-                    onEditted: (comment) {
-                      widget.comment.update(comment);
-                      changeInEditState(false);
-                      setState(() {});
-                    },
-                  ),
-                ),
-            ],
-          ),
-
-          /// Reply box
-          if (inReply)
-            CommentBox(
-              post: widget.post,
-              parent: widget.comment.id,
-              onCancel: () => changeInReplyState(false),
-              onEditted: (comment) {
-                widget.post.insertComment(widget.comment.id, comment);
-                changeInReplyState(false);
-                widget.onReplied();
-              },
-            ),
-        ],
-      ),
-    );
   }
 }

@@ -99,6 +99,7 @@ class _CommentBoxState extends State<CommentBox> {
               sufficIcon: Wrap(
                 children: [
                   FileUploadButton(
+                    iconSize: 20,
                     onProgress: (p) {
                       uploadProgress = p;
                       setState(() {});
@@ -112,7 +113,7 @@ class _CommentBoxState extends State<CommentBox> {
                   IconButton(
                     icon: Icon(
                       Icons.send,
-                      size: lg,
+                      size: 20,
                     ),
                     onPressed: !isEmpty(controller.text) ? onSubmit : null,
                   ),

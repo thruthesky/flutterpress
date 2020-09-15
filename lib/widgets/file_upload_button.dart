@@ -49,7 +49,7 @@ class _FileUploadButtonState extends State<FileUploadButton> {
         ),
         onPressed: () async {
           var source = await Get.bottomSheet(
-            CustomBottomSheet(title: 'Choose source', options: options),
+            FileUploadBottomSheet(title: 'Choose source', options: options),
             backgroundColor: Colors.white,
           );
 
@@ -77,11 +77,11 @@ class _FileUploadButtonState extends State<FileUploadButton> {
   }
 }
 
-class CustomBottomSheet extends StatelessWidget {
+class FileUploadBottomSheet extends StatelessWidget {
   final String title;
   final List<Map<String, dynamic>> options;
 
-  CustomBottomSheet({@required this.title, @required this.options});
+  FileUploadBottomSheet({@required this.title, @required this.options});
 
   @override
   Widget build(BuildContext context) {

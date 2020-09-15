@@ -11,6 +11,7 @@ class PostHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CircularAvatar(
           photoURL: post.authorPhotoUrl,
@@ -18,14 +19,15 @@ class PostHeader extends StatelessWidget {
           width: 55,
         ),
         SizedBox(width: xs),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(post.title, style: TextStyle(fontWeight: FontWeight.w700, fontSize: md)),
-            SizedBox(height: 3),
-            Text(post.authorName),
-            Text(post.date),
-          ],
+        Expanded(
+                  child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(post.title, style: TextStyle(fontWeight: FontWeight.w700, fontSize: md)),
+              SizedBox(height: 3),
+              Text('${post.authorName} - ${post.date}'),
+            ],
+          ),
         )
       ],
     );
