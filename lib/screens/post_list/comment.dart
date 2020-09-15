@@ -4,10 +4,10 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
+import 'package:flutterpress/screens/post_list/comment_content.dart';
 import 'package:flutterpress/screens/post_list/comment_header.dart';
 import 'package:flutterpress/screens/post_list/forum_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:flutterpress/widgets/file_display.dart';
 import 'package:get/get.dart';
 
 class Comment extends StatefulWidget {
@@ -31,7 +31,8 @@ class _CommentState extends State<Comment> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: 20,
+        top: 10,
+        bottom: 10,
         left: widget.comment.depth != 1
             ? (widget.comment.depth * 5).toDouble()
             : 0,
@@ -42,16 +43,15 @@ class _CommentState extends State<Comment> {
         color: Colors.grey[200],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
           /// comment header
           CommentHeader(comment: widget.comment),
 
           /// comment contents
-          SizedBox(height: sm),
-          SelectableText(widget.comment.content),
-          FileDisplay(widget.comment.files),
+          if (!widget.comment.deleted)
+          CommentContent(comment: widget.comment),
 
           /// comment buttons
           if (!widget.comment.deleted)
