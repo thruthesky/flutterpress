@@ -43,28 +43,31 @@ class _CommentState extends State<Comment> {
         color: Colors.grey[200],
       ),
       child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           /// comment header
           CommentHeader(comment: widget.comment),
 
           /// comment contents
-          if (!widget.comment.deleted)
-          CommentContent(comment: widget.comment),
+          if (!widget.comment.deleted) CommentContent(comment: widget.comment),
 
           /// comment buttons
           if (!widget.comment.deleted)
             ForumButtons(
+              parentID: widget.comment.id,
+              isComment: true,
               mine: AppService.isMine(widget.comment),
               inEdit: inEdit,
               showReplyButton: !inReply,
               likeCount: widget.comment.like,
               dislikeCount: widget.comment.dislike,
-              onVoteTap: onVoteTapped,
               onDeleteTap: onDeleteTapped,
               onReplyTap: () => changeInReplyState(true),
               onUpdateTap: () => changeInEditState(true),
+              onVoted: (vote) {
+                widget.comment.updateVote(vote);
+                setState(() {});
+              },
             ),
 
           /// Reply box
@@ -112,18 +115,5 @@ class _CommentState extends State<Comment> {
         }
       },
     );
-  }
-
-  onVoteTapped(String choice) async {
-    try {
-      var vote = await AppService.wc.commentVote({
-        'choice': choice,
-        'ID': widget.comment.id,
-      });
-      widget.comment.updateVote(vote);
-      if (mounted) setState(() {});
-    } catch (e) {
-      AppService.error(e);
-    }
   }
 }

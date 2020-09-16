@@ -51,14 +51,18 @@ class _PostState extends State<Post> {
             /// post buttons
             if (!widget.post.deleted)
               ForumButtons(
+                parentID: widget.post.id,
                 inEdit: false,
                 showReplyButton: false,
                 likeCount: widget.post.like,
                 dislikeCount: widget.post.dislike,
+                mine: AppService.isMine(widget.post),
                 onDeleteTap: onDeleteTapped,
                 onUpdateTap: onUpdateTapped,
-                onVoteTap: onVoteTapped,
-                mine: AppService.isMine(widget.post),
+                onVoted: (vote) {
+                  widget.post.updateVote(vote);
+                  setState(() {});
+                },
               ),
 
             /// comment box
@@ -70,6 +74,7 @@ class _PostState extends State<Post> {
                     setState(() {});
                   }),
 
+            /// comment list
             if (!isEmpty(widget.post.comments.length))
               CommentList(post: widget.post)
           ],

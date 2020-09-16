@@ -6,6 +6,7 @@ import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:flutterpress/widgets/file_display.dart';
 import 'package:flutterpress/widgets/file_upload_button.dart';
 import 'package:get/get.dart';
@@ -113,13 +114,17 @@ class _CommentBoxState extends State<CommentBox> {
                       setState(() {});
                     },
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.send,
-                      size: 20,
+
+                  if (loading)
+                  Padding(child: CommonSpinner(), padding: EdgeInsets.all(sm)),
+                  if (!loading)
+                    IconButton(
+                      icon: Icon(
+                        Icons.send,
+                        size: 20,
+                      ),
+                      onPressed: !isEmpty(controller.text) ? onSubmit : null,
                     ),
-                    onPressed: !isEmpty(controller.text) ? onSubmit : null,
-                  ),
                 ],
               ),
               onChanged: (value) {

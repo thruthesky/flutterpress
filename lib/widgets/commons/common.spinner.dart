@@ -2,26 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class CommonSpinner extends StatelessWidget {
   const CommonSpinner({
     Key key,
     this.size = 24,
+    this.isCentered = false,
   }) : super(key: key);
 
   final double size;
+  final bool isCentered;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: Platform.isAndroid
-            ? CircularProgressIndicator()
-            : CupertinoActivityIndicator(),
-      ),
+    final spinner = SizedBox(
+      width: size,
+      height: size,
+      child: Platform.isAndroid
+          ? CircularProgressIndicator()
+          : CupertinoActivityIndicator(),
     );
+
+    return isCentered ? Center(child: spinner) : spinner;
   }
 }

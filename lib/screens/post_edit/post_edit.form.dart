@@ -6,6 +6,7 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:flutterpress/widgets/file_display.dart';
 import 'package:flutterpress/widgets/file_upload_button.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,8 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
 
   double progress = 0;
 
+  bool loading = false;
+
   @override
   void initState() {
     Map args = Get.arguments;
@@ -46,6 +49,9 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
   void afterFirstLayout(BuildContext context) {}
 
   void onSubmit() async {
+    if (loading) return;
+    setState(() => loading = true);
+
     var params = {
       'slug': slug ?? '',
       'post_title': title.text,
@@ -64,6 +70,7 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
       Get.back(result: res);
     } catch (e) {
       AppService.error('$e'.tr);
+      setState(() => loading = false);
     }
   }
 
@@ -72,7 +79,7 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
     return Card(
       margin: EdgeInsets.all(md),
       child: Container(
-      padding: EdgeInsets.all(md),
+        padding: EdgeInsets.all(md),
         child: Form(
           key: _formKey,
           child: Column(
@@ -124,7 +131,9 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
                   RaisedButton(
                     key: ValueKey(Keys.formSubmitButton),
                     onPressed: onSubmit,
-                    child: Text('submit'.tr),
+                    child: !loading
+                        ? Text('submit'.tr)
+                        : CommonSpinner(isCentered: true),
                   ),
                 ],
               )
