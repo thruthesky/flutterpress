@@ -5,6 +5,7 @@ import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
@@ -99,7 +100,7 @@ class LoginFormState extends State<LoginForm> {
             ),
           ),
           SizedBox(height: xl),
-          if (loading) Center(child: CircularProgressIndicator()),
+          if (loading) Center(child: CommonSpinner()),
           if (!loading)
             SizedBox(
               width: double.infinity,

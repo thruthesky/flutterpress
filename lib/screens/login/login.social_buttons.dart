@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
-import 'package:flutterpress/flutterbase_v2/widgets/social_login/phone_login_dialog.dart';
 import 'package:flutterpress/flutterbase_v2/widgets/social_login/login_social_icon.dart';
 import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -121,31 +120,6 @@ class LoginSocialButtons extends StatelessWidget {
               );
             } else {
               return SizedBox.shrink();
-            }
-          },
-        ),
-
-        /// [PhoneNumber Sign-in]
-        LoginSocialIcon(
-          child: FaIcon(
-            FontAwesomeIcons.phoneSquare,
-            size: 36,
-            color: Colors.grey[700],
-          ),
-          text: 'Phone',
-          onTap: () async {
-            User user = await Get.dialog(
-              PhoneLoginDialog(),
-              barrierDismissible: false,
-            );
-            if (user == null) return;
-
-            // print('Verification complete');
-            // print(user);
-            try {
-              await loginOrRegister(user: user, provider: 'phone');
-            } catch (e) {
-              Get.snackbar('loginError'.tr, e.toString());
             }
           },
         ),

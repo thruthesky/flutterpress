@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 
 class CircularAvatar extends StatelessWidget {
   final String photoURL;

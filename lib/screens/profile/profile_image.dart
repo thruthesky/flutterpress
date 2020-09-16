@@ -12,20 +12,6 @@ class ProfileImage extends StatelessWidget {
     this.width = 150.0,
   });
 
-  Widget buildRoundImage(ImageProvider provider) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: provider,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<WordpressController>(
