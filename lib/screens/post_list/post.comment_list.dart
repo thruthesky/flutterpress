@@ -42,6 +42,7 @@ class _CommentListState extends State<CommentList> {
             widget.post,
             widget.post.comments[i],
             onReplied: () {
+              commentsToShow++;
               setState(() {});
             },
           ),

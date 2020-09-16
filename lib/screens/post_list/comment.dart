@@ -49,7 +49,20 @@ class _CommentState extends State<Comment> {
           CommentHeader(comment: widget.comment),
 
           /// comment contents
-          if (!widget.comment.deleted) CommentContent(comment: widget.comment),
+          if (!widget.comment.deleted && !inEdit)
+            CommentContent(comment: widget.comment),
+
+          if (inEdit)
+            CommentBox(
+              post: widget.post,
+              comment: widget.comment,
+              onCancel: () => changeInEditState(false),
+              onEditted: (comment) {
+                widget.comment.update(comment);
+                changeInEditState(false);
+                setState(() {});
+              },
+            ),
 
           /// comment buttons
           if (!widget.comment.deleted)

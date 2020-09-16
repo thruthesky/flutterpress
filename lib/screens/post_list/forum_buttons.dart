@@ -49,10 +49,11 @@ class _ForumButtonsState extends State<ForumButtons> {
     if (loading != null) return;
 
     if (widget.mine) {
-      AppService.error('You can\'t vote on your own ${widget.isComment ? 'comment' : 'post'}');
+      AppService.error(
+          'You can\'t vote on your own ${widget.isComment ? 'comment' : 'post'}');
       setState(() => loading = null);
       return;
-    } 
+    }
 
     if (!AppService.wc.isUserLoggedIn) {
       AppService.confirmDialog(
@@ -98,6 +99,11 @@ class _ForumButtonsState extends State<ForumButtons> {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Row(children: [
+        if (widget.showReplyButton)
+          ForumButton(
+            label: 'reply'.tr,
+            onTap: widget.onReplyTap,
+          ),
         ForumButton(
           label: likeText,
           loading: loading == 'like',
