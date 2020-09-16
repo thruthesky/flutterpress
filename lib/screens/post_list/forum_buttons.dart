@@ -46,14 +46,15 @@ class _ForumButtonsState extends State<ForumButtons> {
   String loading;
 
   onVoteButtonTapped(String choice) async {
-    if (loading != null) return;
-
     if (widget.mine) {
       AppService.error(
-          'You can\'t vote on your own ${widget.isComment ? 'comment' : 'post'}');
-      setState(() => loading = null);
+        'You can\'t vote on your own ${widget.isComment ? 'comment' : 'post'}',
+      );
       return;
     }
+
+    if (loading != null) return;
+    setState(() => loading = choice);
 
     if (!AppService.wc.isUserLoggedIn) {
       AppService.confirmDialog(
@@ -108,7 +109,6 @@ class _ForumButtonsState extends State<ForumButtons> {
           label: likeText,
           loading: loading == 'like',
           onTap: () {
-            setState(() => loading = 'like');
             onVoteButtonTapped('like');
           },
         ),
@@ -116,7 +116,6 @@ class _ForumButtonsState extends State<ForumButtons> {
           label: dislikeText,
           loading: loading == 'dislike',
           onTap: () {
-            setState(() => loading = 'dislike');
             onVoteButtonTapped('dislike');
           },
         ),

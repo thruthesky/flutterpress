@@ -36,7 +36,6 @@ class _PostListScreenState extends State<PostListScreen>
     _scrollController.addListener(() {
       if (loading || noMorePost) return;
 
-      /// @TODO: change from 0.9 (90%) to 250 from bottom.
       if (_scrollController.position.pixels >
           (_scrollController.position.maxScrollExtent - 250)) {
         loading = true;

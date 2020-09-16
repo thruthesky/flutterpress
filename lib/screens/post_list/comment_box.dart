@@ -93,7 +93,6 @@ class _CommentBoxState extends State<CommentBox> {
         Expanded(
           child: AppTextInputField(
               hintText: 'comment'.tr,
-              // autoGrow: true,
               maxLines: 5,
               inputAction: TextInputAction.newline,
               controller: controller,
@@ -114,9 +113,9 @@ class _CommentBoxState extends State<CommentBox> {
                       setState(() {});
                     },
                   ),
-
                   if (loading)
-                  Padding(child: CommonSpinner(), padding: EdgeInsets.all(sm)),
+                    Padding(
+                        child: CommonSpinner(), padding: EdgeInsets.all(sm)),
                   if (!loading)
                     IconButton(
                       icon: Icon(
@@ -132,8 +131,8 @@ class _CommentBoxState extends State<CommentBox> {
               }),
         ),
       ]),
-      SizedBox(height: xs),
-      if (uploadProgress > 0)
+      if (uploadProgress > 0) ...[
+        SizedBox(height: xs),
         Padding(
           padding: EdgeInsets.only(top: sm),
           child: LinearProgressIndicator(
@@ -141,6 +140,8 @@ class _CommentBoxState extends State<CommentBox> {
             backgroundColor: Colors.grey,
           ),
         ),
+      ],
+      SizedBox(height: xs),
       FileDisplay(
         widget.comment.files,
         inEdit: true,

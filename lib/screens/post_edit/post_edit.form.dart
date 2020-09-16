@@ -99,11 +99,14 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
                 minLines: 5,
                 maxLines: 15,
               ),
-              SizedBox(height: lg),
-              FileDisplay(post.files, inEdit: true, onFileDeleted: (file) {
-                post.deleteFile(file);
-                setState(() {});
-              }),
+              if (post.files.length > 0) ...[
+                SizedBox(height: lg),
+                Text('Attached images:'),
+                FileDisplay(post.files, inEdit: true, onFileDeleted: (file) {
+                  post.deleteFile(file);
+                  setState(() {});
+                }),
+              ],
               SizedBox(height: lg),
               Row(
                 children: [

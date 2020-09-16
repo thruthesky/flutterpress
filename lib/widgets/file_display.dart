@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/widgets/commons/common.image.dart';
-import 'package:get/get.dart';
+import 'package:flutterpress/widgets/file_display.overlay.dart';
 import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
-/// TODO: make image tappable and show in large view.
-///
 class FileDisplay extends StatelessWidget {
   final List<FileModel> files;
   final bool inEdit;
@@ -31,6 +30,10 @@ class FileDisplay extends StatelessWidget {
     });
   }
 
+  onImageTap({int index = 0}) {
+    Get.dialog(FileDisplayOverlay(files: files, index: index));
+  }
+
   @override
   Widget build(BuildContext context) {
     if (files == null || files.length < 1) return SizedBox.shrink();
@@ -45,20 +48,22 @@ class FileDisplay extends StatelessWidget {
         children: [
           /// show only six image if images count exceed 6
           if (files.length > 6)
-            for (var i = 1; i <= 6; i++)
+            for (var i = 0; i <= 5; i++)
               ImageStack(
                 photoUrl: files[i - 1].thumbnailUrl,
                 inEdit: inEdit,
-                onDeleteTap: () => onDeleteTapped(files[i - 1]),
+                onDeleteTap: () => onDeleteTapped(files[i]),
+                onImageTap: () => onImageTap(index: i),
               ),
 
           /// show all image if image is below or equal 6
           if (files.length <= 6)
-            for (var file in files)
+            for (var i = 0; i <= files.length - 1; i++)
               ImageStack(
-                photoUrl: file.thumbnailUrl,
+                photoUrl: files[i].thumbnailUrl,
                 inEdit: inEdit,
-                onDeleteTap: () => onDeleteTapped(file),
+                onDeleteTap: () => onDeleteTapped(files[i]),
+                onImageTap: () => onImageTap(index: i),
               ),
         ],
       );
@@ -69,6 +74,7 @@ class FileDisplay extends StatelessWidget {
       inEdit: inEdit,
       withHeight: false,
       onDeleteTap: () => onDeleteTapped(files[0]),
+      onImageTap: () => onImageTap(),
     );
   }
 }
@@ -77,6 +83,7 @@ class ImageStack extends StatelessWidget {
   final String photoUrl;
   final bool inEdit;
   final Function onDeleteTap;
+  final Function onImageTap;
 
   final bool withHeight;
 
@@ -84,25 +91,29 @@ class ImageStack extends StatelessWidget {
     this.photoUrl,
     this.inEdit,
     this.onDeleteTap,
+    this.onImageTap,
     this.withHeight = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      CommonImage(
-        photoUrl,
-        height: withHeight ? 100 : null,
-      ),
-      if (inEdit)
-        Positioned(
-          top: xs,
-          right: xs,
-          child: IconButton(
-            icon: Icon(FontAwesomeIcons.trash, color: Colors.red),
-            onPressed: onDeleteTap,
-          ),
+    return GestureDetector(
+      child: Stack(children: [
+        CommonImage(
+          photoUrl,
+          height: withHeight ? 100 : null,
         ),
-    ]);
+        if (inEdit)
+          Positioned(
+            top: xs,
+            right: xs,
+            child: IconButton(
+              icon: Icon(FontAwesomeIcons.trash, color: Colors.red),
+              onPressed: onDeleteTap,
+            ),
+          ),
+      ]),
+      onTap: onImageTap,
+    );
   }
 }

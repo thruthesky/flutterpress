@@ -31,7 +31,6 @@ class _FlutterPressState extends State<FlutterPress>
     with AfterLayoutMixin<FlutterPress> {
   final WordpressController wc = Get.put(WordpressController());
   final FlutterbaseController flutterbaseController = Get.put(
-    // TODO: change to proper IDs
     FlutterbaseController(
       facebookAppId: 783671305107698,
       facebookRedirectUrl: 'https://www.facebook.com/connect/login_success.html',
