@@ -30,9 +30,11 @@ class RegisterFormState extends State<RegisterForm> {
   final email = TextEditingController();
   final pass = TextEditingController();
   final nickname = TextEditingController();
+  final mobile = TextEditingController();
 
   final passNode = FocusNode();
   final nicknameNode = FocusNode();
+  final mobileNode = FocusNode();
 
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
@@ -54,6 +56,7 @@ class RegisterFormState extends State<RegisterForm> {
           'user_email': email.text,
           'user_pass': pass.text,
           'nickname': nickname.text,
+          'mobile': mobile.text,
         });
         Get.offAllNamed(Routes.home);
       } catch (e) {
@@ -112,6 +115,19 @@ class RegisterFormState extends State<RegisterForm> {
             autoValidate: isFormSubmitted,
             validator: (nickname) {
               if (isEmpty(nickname)) return 'nickname_empty'.tr;
+            },
+          ),
+          AppTextInputField(
+            key: ValueKey(Keys.nicknameInput),
+            labelText: 'mobileNo'.tr,
+            controller: mobile,
+            inputAction: TextInputAction.done,
+            inputType: TextInputType.text,
+            onEditingComplete: _onFormSubmit,
+            focusNode: mobileNode,
+            autoValidate: isFormSubmitted,
+            validator: (mobile) {
+              if (isEmpty(mobile)) return 'Mobile number is empty'.tr;
             },
           ),
           RaisedButton(
