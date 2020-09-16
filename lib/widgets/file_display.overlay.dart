@@ -47,7 +47,7 @@ class _FileDisplayOverlayState extends State<FileDisplayOverlay> {
             Positioned(
               child: GestureDetector(
                 child: Icon(FontAwesomeIcons.timesCircle, color: Colors.white),
-                onTap: () => Get.back,
+                onTap: () => Get.back(),
               ),
               right: 0,
               top: xxl,

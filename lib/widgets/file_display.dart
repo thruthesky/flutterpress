@@ -54,6 +54,7 @@ class FileDisplay extends StatelessWidget {
                 inEdit: inEdit,
                 onDeleteTap: () => onDeleteTapped(files[i]),
                 onImageTap: () => onImageTap(index: i),
+                moreImageCount: i == 5 ? 2 : null,
               ),
 
           /// show all image if image is below or equal 6
@@ -87,12 +88,15 @@ class ImageStack extends StatelessWidget {
 
   final bool withHeight;
 
+  final int moreImageCount;
+
   ImageStack({
     this.photoUrl,
     this.inEdit,
     this.onDeleteTap,
     this.onImageTap,
     this.withHeight = true,
+    this.moreImageCount,
   });
 
   @override
@@ -112,6 +116,16 @@ class ImageStack extends StatelessWidget {
               onPressed: onDeleteTap,
             ),
           ),
+        if (moreImageCount != null)
+          Container(
+            color: Colors.black45,
+            child: Center(
+              child: Text(
+                '+$moreImageCount',
+                style: TextStyle(color: Colors.white, fontSize: lg),
+              ),
+            ),
+          )
       ]),
       onTap: onImageTap,
     );
