@@ -53,7 +53,7 @@ class _ForumButtonsState extends State<ForumButtons> {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Row(children: [
-        if (widget.showReplyButton)
+        if (widget.showReplyButton && AppService.wc.isUserLoggedIn)
           ForumButton(
             label: 'reply'.tr,
             onTap: widget.onReplyTap,
@@ -105,6 +105,7 @@ class _ForumButtonsState extends State<ForumButtons> {
     setState(() => loading = choice);
 
     if (!AppService.wc.isUserLoggedIn) {
+    setState(() => loading = null);
       AppService.confirmDialog(
         'loginFirst'.tr,
         Text('Login first to vote'),
@@ -114,26 +115,26 @@ class _ForumButtonsState extends State<ForumButtons> {
           return;
         },
       );
-    }
-
-    try {
-      var vote;
-      if (widget.isComment) {
-        vote = await AppService.wc.commentVote({
-          'choice': choice,
-          'ID': widget.parentID,
-        });
-      } else {
-        vote = await AppService.wc.postVote({
-          'choice': choice,
-          'ID': widget.parentID,
-        });
+    } else {
+      try {
+        var vote;
+        if (widget.isComment) {
+          vote = await AppService.wc.commentVote({
+            'choice': choice,
+            'ID': widget.parentID,
+          });
+        } else {
+          vote = await AppService.wc.postVote({
+            'choice': choice,
+            'ID': widget.parentID,
+          });
+        }
+        widget.onVoted(vote);
+        setState(() => loading = null);
+      } catch (e) {
+        AppService.error(e);
+        setState(() => loading = null);
       }
-      widget.onVoted(vote);
-      setState(() => loading = null);
-    } catch (e) {
-      AppService.error(e);
-      setState(() => loading = null);
     }
   }
 

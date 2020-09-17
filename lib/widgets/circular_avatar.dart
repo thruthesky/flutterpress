@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/widgets/commons/common.circle_image.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 
 class CircularAvatar extends StatelessWidget {
   final String photoURL;
@@ -13,20 +15,6 @@ class CircularAvatar extends StatelessWidget {
     this.width = 150.0,
   });
 
-  Widget buildRoundImage(ImageProvider provider) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: provider,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return !isEmpty(photoURL)
@@ -34,11 +22,20 @@ class CircularAvatar extends StatelessWidget {
             width: width,
             height: height,
             imageUrl: photoURL,
+            placeholder: (context, url) => CommonSpinner(),
             imageBuilder: (context, provider) {
-              return buildRoundImage(provider);
+              return CircleImageContainer(
+                imageProvider: provider,
+                width: width,
+                height: height,
+              );
             },
             errorWidget: (context, url, error) => Icon(Icons.error),
           )
-        : buildRoundImage(AssetImage('assets/images/anonymous.jpg'));
+        : CircleImageContainer(
+            imageProvider: AssetImage('assets/images/anonymous.jpg'),
+            width: width,
+            height: height,
+          );
   }
 }
