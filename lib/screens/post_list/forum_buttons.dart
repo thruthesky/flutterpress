@@ -145,11 +145,10 @@ class _ForumButtonsState extends State<ForumButtons> {
       Text('confirmPostDelete'.tr),
       onConfirm: () async {
         try {
-          var params = {'ID': widget.parentID};
           if (widget.isComment) {
-            await AppService.wc.commentDelete(params);
+            await AppService.wc.commentDelete({'comment_ID': widget.parentID});
           } else {
-            await AppService.wc.postDelete(params);
+            await AppService.wc.postDelete({'ID': widget.parentID});
           }
           widget.onDeleted();
         } catch (e) {

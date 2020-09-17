@@ -52,7 +52,10 @@ class _PostState extends State<Post> {
                 likeCount: widget.post.like,
                 dislikeCount: widget.post.dislike,
                 onUpdateTap: onUpdateTapped,
-                onDeleted: () => widget.post.delete(),
+                onDeleted: () {
+                  widget.post.delete();
+                  setState(() {});
+                },
                 onVoted: (vote) {
                   widget.post.updateVote(vote);
                   setState(() {});

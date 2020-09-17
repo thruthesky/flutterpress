@@ -63,7 +63,10 @@ class _CommentState extends State<Comment> {
                 dislikeCount: widget.comment.dislike,
                 onReplyTap: () => changeInReplyState(true),
                 onUpdateTap: () => changeInEditState(true),
-                onDeleted: () => widget.comment.delete(),
+                onDeleted: () {
+                  widget.comment.delete();
+                  setState(() {});
+                },
                 onVoted: (vote) {
                   widget.comment.updateVote(vote);
                   setState(() {});
