@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/services/app.globals.dart';
-import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/screens/login/login.social_buttons.dart';
+import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/screens/login/login.form.dart';
-import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -10,8 +10,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: ValueKey(AppKeys.loginScaffold),
-      endDrawer: AppDrawer(),
+      key: ValueKey(Keys.loginScaffold),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -38,6 +37,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: xl),
                 LoginForm(),
+                Center(child: Text('Login with')),
+                SizedBox(height: md),
+                LoginSocialButtons(),
               ],
             ),
           ),

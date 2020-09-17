@@ -1,13 +1,17 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/screens/post_list/post.list.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/screens/post_list/post_list.dart';
+import 'package:flutterpress/services/app.config.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:get/get.dart';
 
 class PostListScreen extends StatefulWidget {
@@ -27,15 +31,14 @@ class _PostListScreenState extends State<PostListScreen>
   bool loading = false;
   bool noMorePost = false;
   int page = 1;
-  int postPerPage = 10;
-
   @override
   void initState() {
     loading = true;
     _scrollController.addListener(() {
-      if (loading) return;
+      if (loading || noMorePost) return;
+
       if (_scrollController.position.pixels >
-          (0.9 * _scrollController.position.maxScrollExtent)) {
+          (_scrollController.position.maxScrollExtent - 250)) {
         loading = true;
         setState(() {});
         getPosts();
@@ -52,64 +55,71 @@ class _PostListScreenState extends State<PostListScreen>
     getPosts();
   }
 
-  addPost(PostModel post) {
+  addOnTop(PostModel post) {
     posts.insert(0, post);
     setState(() {});
   }
 
-  addPosts(List<dynamic> postData) {
-    for (var p in postData) {
-      posts.add(PostModel.fromBackendData(p));
-    }
+  addPosts(Map<String, dynamic> postData) {
+    postData.forEach((key, value) {
+      posts.add(PostModel.fromBackendData(value));
+    });
     loading = false;
     setState(() {});
   }
 
   getPosts() async {
     if (noMorePost) return;
-    var re = await AppService.getHttp({
-      'route': 'post.search',
-      'slug': slug ?? '',
-      'posts_per_page': postPerPage,
-      'paged': page
-    });
+
+    Map<String, dynamic> re;
+    try {
+      re = await AppService.getHttp({
+        'route': 'post.search',
+        'slug': slug ?? '',
+        'posts_per_page': AppConfig.noOfPostsPerPage,
+        'paged': page
+      });
+      re.remove('route');
+    } catch (e) {
+      AppService.error(e);
+    }
+
+    if (isEmpty(re)) return;
     page += 1;
 
-    if (re.length < postPerPage) noMorePost = true;
+    if (re.length < AppConfig.noOfPostsPerPage) noMorePost = true;
     addPosts(re);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: ValueKey(AppKeys.postListScaffold),
+      key: ValueKey(Keys.postListScaffold),
       appBar: AppBar(
         title: Text('postList'.tr),
         actions: [
           if (wc.isUserLoggedIn)
             IconButton(
-              key: ValueKey(AppKeys.postEditButton),
+              key: ValueKey(Keys.postEditButton),
               icon: Icon(Icons.add),
               onPressed: () async {
                 var post = await Get.toNamed(
-                  AppRoutes.postEdit,
+                  Routes.postEdit,
                   arguments: {'slug': slug},
                 );
                 if (!isEmpty(post)) {
-                  addPost(post);
+                  addOnTop(post);
                 }
               },
             ),
           Builder(
-            builder: (context) {
-              return IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-              );
-            },
-          )
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+            ),
+          ),
         ],
       ),
       endDrawer: AppDrawer(),
@@ -125,14 +135,14 @@ class _PostListScreenState extends State<PostListScreen>
               child: Column(
                 children: [
                   /// post list
-                  if (!isEmpty(posts.length)) PostList(posts),
+                  PostList(posts),
 
                   /// loader
                   if (loading && !noMorePost)
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('loading'.tr),
+                        padding: EdgeInsets.symmetric(vertical: lg),
+                        child: CommonSpinner(),
                       ),
                     ),
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
-import 'package:flutterpress/screens/post_list/comment_buttons.dart';
+import 'package:flutterpress/screens/post_list/comment.content.dart';
+import 'package:flutterpress/screens/post_list/comment.header.dart';
+import 'package:flutterpress/screens/post_list/forum_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +27,84 @@ class _CommentState extends State<Comment> {
   bool inEdit = false;
   bool inReply = false;
 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+        top: 10,
+        bottom: 10,
+        left: widget.comment.depth != 1
+            ? (widget.comment.depth * 5).toDouble()
+            : 0,
+      ),
+      padding: EdgeInsets.all(xs),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey[200],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// comment header
+          CommentHeader(comment: widget.comment),
+
+          if (!widget.comment.deleted) ...[
+            /// comment contents
+            if (!inEdit) CommentContent(comment: widget.comment),
+
+            /// comment buttons
+            if (!inEdit)
+              ForumButtons(
+                parentID: widget.comment.id,
+                mine: AppService.isMine(widget.comment),
+                isComment: true,
+                showReplyButton: !inReply,
+                likeCount: widget.comment.like,
+                dislikeCount: widget.comment.dislike,
+                onReplyTap: () => changeInReplyState(true),
+                onUpdateTap: () => changeInEditState(true),
+                onDeleted: () {
+                  widget.comment.delete();
+                  setState(() {});
+                },
+                onVoted: (vote) {
+                  widget.comment.updateVote(vote);
+                  setState(() {});
+                },
+              ),
+
+            /// comment contents in edit mode
+            if (inEdit)
+              CommentBox(
+                post: widget.post,
+                comment: widget.comment,
+                onCancel: () => changeInEditState(false),
+                onEditted: (comment) {
+                  widget.comment.update(comment);
+                  changeInEditState(false);
+                  setState(() {});
+                },
+              ),
+          ],
+
+          /// Reply box
+          if (inReply)
+            CommentBox(
+              post: widget.post,
+              parent: widget.comment.id,
+              onCancel: () => changeInReplyState(false),
+              onEditted: (comment) {
+                widget.post.insertComment(widget.comment.id, comment);
+                changeInReplyState(false);
+                widget.onReplied();
+              },
+            ),
+        ],
+      ),
+    );
+  }
+
+  //// methods
   changeInEditState(bool val) {
     inEdit = val;
     setState(() {});
@@ -33,73 +113,5 @@ class _CommentState extends State<Comment> {
   changeInReplyState(bool val) {
     inReply = val;
     setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      margin: EdgeInsets.only(top: 20, left: 10 * widget.comment.depth.toDouble()),
-      child: inEdit
-          ? CommentBox(
-              post: widget.post,
-              content: widget.comment.content,
-              commentId: widget.comment.id,
-              onCancel: () => changeInEditState(false),
-              onEditted: (comment) {
-                widget.comment.update(comment);
-                changeInEditState(false);
-                setState(() {});
-              },
-            )
-          : Column(
-              children: [
-                ListTile(
-                  title: Text(widget.comment.author),
-                  subtitle: !isEmpty(widget.comment.content) ? Text(widget.comment.content) : null,
-                ),
-
-                /// Reply box
-                if (inReply)
-                  CommentBox(
-                    post: widget.post,
-                    parent: widget.comment.id,
-                    onCancel: () => changeInReplyState(false),
-                    onEditted: (comment) {
-                      widget.post.insertComment(widget.comment.id, comment);
-                      changeInReplyState(false);
-                      widget.onReplied();
-                    },
-                  ),
-
-                /// comment buttons
-                if (wc.isUserLoggedIn && !inReply && !widget.comment.deleted)
-                  CommentButtons(
-                    comment: widget.comment,
-                    onReplyTap: () => changeInReplyState(true),
-                    onUpdateTap: () => changeInEditState(true),
-                    onDeleteTap: () {
-                      AppService.confirmDialog(
-                        'delete'.tr,
-                        Text('confirmDelete'.tr),
-                        onConfirm: () async {
-                          try {
-                            Get.back();
-                            await wc.commentDelete(
-                              {'comment_ID': widget.comment.id},
-                            );
-                            widget.comment.delete();
-                            setState(() {});
-                          } catch (e) {
-                            AppService.error('$e'.tr);
-                          }
-                        },
-                        onCancel: Get.back,
-                      );
-                    },
-                  )
-              ],
-            ),
-    );
   }
 }

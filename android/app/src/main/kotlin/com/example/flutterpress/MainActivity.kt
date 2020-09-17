@@ -1,4 +1,4 @@
-package com.example.flutterpress
+package com.sonub.flutterpress
 
 import io.flutter.embedding.android.FlutterActivity
 

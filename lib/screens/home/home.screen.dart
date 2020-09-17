@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/app.globals.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // print('User:${wc.user}');
 
     return Scaffold(
-      key: ValueKey(AppKeys.homeScaffold),
+      key: ValueKey(Keys.homeScaffold),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('home'.tr),
@@ -43,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: WrapAlignment.center,
                   children: [
                     RaisedButton(
-                      key: ValueKey(AppRoutes.postList),
+                      key: ValueKey(Routes.postList),
                       child: Text('postList'.tr),
                       onPressed: () => Get.toNamed(
-                        AppRoutes.postList,
+                        Routes.postList,
                         arguments: {},
                       ),
                     ),
@@ -70,34 +70,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 Divider(),
                 if (!wc.isUserLoggedIn)
                   RaisedButton(
-                    key: ValueKey(AppRoutes.login),
+                    key: ValueKey(Routes.login),
                     child: Text('login'.tr),
-                    onPressed: () => Get.toNamed(AppRoutes.login),
+                    onPressed: () => Get.toNamed(Routes.login),
                   ),
                 if (!wc.isUserLoggedIn)
                   RaisedButton(
-                    key: ValueKey(AppRoutes.register),
+                    key: ValueKey(Routes.register),
                     child: Text('register'.tr),
-                    onPressed: () => Get.toNamed(AppRoutes.register),
+                    onPressed: () => Get.toNamed(Routes.register),
                   ),
                 if (wc.isUserLoggedIn)
                   RaisedButton(
-                    key: ValueKey(AppRoutes.profile),
+                    key: ValueKey(Routes.profile),
                     child: Text('profile'.tr),
-                    onPressed: () => Get.toNamed(AppRoutes.profile),
+                    onPressed: () => Get.toNamed(Routes.profile),
                   ),
                 if (wc.isUserLoggedIn)
                   RaisedButton(
-                    key: ValueKey(AppKeys.logoutButton),
+                    key: ValueKey(Keys.logoutButton),
                     child: Text('logout'.tr),
                     onPressed: () => wc.logout(),
                   ),
-                // RaisedButton(
-                //   onPressed: () {
-                //     Get.updateLocale(Locale('ko'));
-                //   },
-                //   child: Text('Chnage Locale'),
-                // ),
               ],
             );
           },

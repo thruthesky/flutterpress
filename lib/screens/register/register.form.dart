@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,18 +21,20 @@ bool hidePassword = true;
 bool loading = false;
 
 /// TODO
-///   - Add validation
 ///   - Update UI
 class RegisterFormState extends State<RegisterForm> {
+  final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final pass = TextEditingController();
   final nickname = TextEditingController();
+  final mobile = TextEditingController();
 
   final passNode = FocusNode();
   final nicknameNode = FocusNode();
+  final mobileNode = FocusNode();
 
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
@@ -43,12 +46,19 @@ class RegisterFormState extends State<RegisterForm> {
       loading = true;
       setState(() {});
       try {
+        var res = await auth.register({
+          'email': email.text,
+          'password': pass.text,
+          'displayName': nickname.text,
+        });
+        print(res);
         await wc.register({
           'user_email': email.text,
           'user_pass': pass.text,
           'nickname': nickname.text,
+          'mobile': mobile.text,
         });
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(Routes.home);
       } catch (e) {
         loading = false;
         setState(() {});
@@ -64,7 +74,7 @@ class RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: <Widget>[
           AppTextInputField(
-            key: ValueKey(AppKeys.emailInput),
+            key: ValueKey(Keys.emailInput),
             labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
@@ -75,7 +85,7 @@ class RegisterFormState extends State<RegisterForm> {
             sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
           AppTextInputField(
-            key: ValueKey(AppKeys.passwordInput),
+            key: ValueKey(Keys.passwordInput),
             labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.next,
@@ -95,7 +105,7 @@ class RegisterFormState extends State<RegisterForm> {
             ),
           ),
           AppTextInputField(
-            key: ValueKey(AppKeys.nicknameInput),
+            key: ValueKey(Keys.nicknameInput),
             labelText: 'nickname'.tr,
             controller: nickname,
             inputAction: TextInputAction.done,
@@ -107,8 +117,21 @@ class RegisterFormState extends State<RegisterForm> {
               if (isEmpty(nickname)) return 'nickname_empty'.tr;
             },
           ),
+          AppTextInputField(
+            key: ValueKey(Keys.nicknameInput),
+            labelText: 'mobileNo'.tr,
+            controller: mobile,
+            inputAction: TextInputAction.done,
+            inputType: TextInputType.text,
+            onEditingComplete: _onFormSubmit,
+            focusNode: mobileNode,
+            autoValidate: isFormSubmitted,
+            validator: (mobile) {
+              if (isEmpty(mobile)) return 'Mobile number is empty'.tr;
+            },
+          ),
           RaisedButton(
-            key: ValueKey(AppKeys.formSubmitButton),
+            key: ValueKey(Keys.formSubmitButton),
             onPressed: _onFormSubmit,
             child: Text('submit'.tr),
           ),

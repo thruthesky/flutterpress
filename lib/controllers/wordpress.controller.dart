@@ -1,10 +1,15 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
+import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/models/user.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
+import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class WordpressController extends GetxController {
@@ -51,8 +56,10 @@ class WordpressController extends GetxController {
   ///
   Future<UserModel> login(Map<String, dynamic> params) async {
     params['route'] = 'user.login';
-    var data =
-        await AppService.getHttp(params, require: ['user_email', 'user_pass']);
+    var data = await AppService.getHttp(
+      params,
+      require: ['user_email', 'user_pass'],
+    );
     return _updateCurrentUser(data);
   }
 
@@ -63,9 +70,36 @@ class WordpressController extends GetxController {
     var data = await AppService.getHttp(params, require: [
       'user_email',
       'user_pass',
-      'nickname',
+      // 'nickname',
     ]);
     return _updateCurrentUser(data);
+  }
+
+  /// Register or Login a user after social login process
+  ///
+  ///
+  Future<UserModel> loginOrRegister(Map<String, dynamic> params) async {
+    // print(params);
+    try {
+      // print('login');
+      var u = await login(params);
+      // print(u.toString());
+      return u;
+    } catch (e) {
+      if (e == 'user_not_found_by_that_email') {
+        // print('======> User is not registered in Backend: Going to register');
+        try {
+          // print('login');
+          var u = await register(params);
+          // print(u.toString());
+          return u;
+        } catch (e) {
+          throw e;
+        }
+      } else {
+        throw e;
+      }
+    }
   }
 
   /// Update user information.
@@ -74,14 +108,16 @@ class WordpressController extends GetxController {
     params['route'] = 'user.update';
     params['session_id'] = user.sessionId;
     var data = await AppService.getHttp(params);
-    return await _updateCurrentUser(data);
+    return _updateCurrentUser(data);
   }
 
   /// Resigns or removes the user information from the backend.
   ///
   Future resign() async {
-    await AppService.getHttp(
-        {'route': 'user.resign', 'session_id': user.sessionId});
+    await AppService.getHttp({
+      'route': 'user.resign',
+      'session_id': user.sessionId,
+    });
     logout();
   }
 
@@ -109,7 +145,7 @@ class WordpressController extends GetxController {
     var reqs = ['post_title'];
     if (isUpdate) reqs.add('ID');
 
-    var res = await AppService.getHttp(params, require: reqs);
+    var res = await AppService.getHttp(params, require: reqs, showLogs: true);
     return PostModel.fromBackendData(res);
   }
 
@@ -151,19 +187,84 @@ class WordpressController extends GetxController {
     return CommentModel(id: data['ID'], data: data);
   }
 
-  /// Upload a file to backend.
+  /// vote for a post or comment.
+  /// performs like and dislike.
   ///
-  fileUpload() {}
+  Future<VoteModel> _vote(Map<String, dynamic> params) async {
+    if (isEmpty(user)) throw 'Login first!';
+    params['session_id'] = user.sessionId;
+
+    var data = await AppService.getHttp(params, require: ['ID', 'choice']);
+    return VoteModel.fromBackendData(data);
+  }
+
+  Future<VoteModel> postVote(Map<String, dynamic> params) async {
+    params['route'] = 'post.vote';
+    return _vote(params);
+  }
+
+  Future<VoteModel> commentVote(Map<String, dynamic> params) async {
+    params['route'] = 'comment.vote';
+    return _vote(params);
+  }
+
+  /// Upload a file to backend.
+  Future<FileModel> fileUpload(
+    File image, {
+    String fileName = '',
+    bool custom = false,
+    void onUploadProgress(double progress),
+  }) async {
+    Dio dio = Dio();
+
+    if (!isUserLoggedIn) {
+      throw 'login_first';
+    }
+    if (fileName == '') {
+      var now = new DateTime.now();
+      final num ms = now.millisecondsSinceEpoch;
+
+      fileName = '${user.id}-$ms.png';
+    }
+
+    FormData formData = FormData();
+    formData.fields.addAll([
+      MapEntry('session_id', user.sessionId),
+      MapEntry('route', 'file.upload'),
+    ]);
+
+    formData.files.add(MapEntry(
+      'userfile',
+      await MultipartFile.fromFile(image.path, filename: fileName),
+    ));
+
+    dio.interceptors.add(LogInterceptor());
+    var response = await dio.post(
+      AppConfig.apiUrl,
+      data: formData,
+      onSendProgress: (received, total) {
+        double progress = received / total;
+        progress = double.parse(progress.toStringAsFixed(3));
+        onUploadProgress(progress);
+      },
+    );
+    if (response.data is String) throw response.data;
+    print('responseData');
+    print(response.data);
+    return FileModel.fromBackendData(response.data);
+  }
 
   /// Delete an existing file from backend.
   ///
-  fileDelete() {}
+  Future<FileModel> fileDelete(Map<String, dynamic> params) async {
+    params['route'] = 'file.delete';
+    params['session_id'] = user.sessionId;
 
-  /// Like a post or comment.
-  ///
-  like() {}
+    var data = await AppService.getHttp(params);
+    return FileModel(id: data['ID']);
+  }
 
-  /// Dislike a post or comment.
-  ///
-  dislike() {}
+  password(salt) {
+    return '$salt/Password~9.,*';
+  }
 }

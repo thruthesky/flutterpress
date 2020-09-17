@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/app.config.dart';
-import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/services/app.globals.dart';
+import 'package:flutterpress/services/keys.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AppService {
   static final WordpressController wc = Get.find();
@@ -42,14 +47,22 @@ class AppService {
           Row(
             children: [
               FlatButton(
-                key: ValueKey(AppKeys.dialogConfirmButton),
-                onPressed: onConfirm,
-                child: Text('yes'.tr),
+                key: ValueKey(Keys.dialogConfirmButton),
+                onPressed: onConfirm != null
+                    ? () {
+                        Get.back();
+                        onConfirm();
+                      }
+                    : null,
+                child: Text(textConfirm ?? 'yes'.tr),
               ),
               Spacer(),
               FlatButton(
-                key: ValueKey(AppKeys.dialogCancelButton),
-                onPressed: onCancel,
+                key: ValueKey(Keys.dialogCancelButton),
+                onPressed: () {
+                  Get.back();
+                  if (onCancel != null) onCancel();
+                },
                 child: Text('cancel'.tr),
               ),
             ],
@@ -84,7 +97,7 @@ class AppService {
   /// `title` and `message` will not be automatically translated.
   /// make sure to supply it with the proper translated text.
   ///
-  static error(String message, {String title}) {
+  static error(dynamic message, {String title}) {
     openSnackbar(
       title ?? 'error'.tr,
       message,
@@ -96,6 +109,7 @@ class AppService {
   static Future<dynamic> getHttp(
     Map<String, dynamic> params, {
     List<String> require,
+    bool showLogs = false,
   }) async {
     Dio dio = Dio();
 
@@ -106,11 +120,20 @@ class AppService {
       });
     }
 
-    dio.interceptors.add(LogInterceptor());
-    Response response = await dio.get(
-      AppConfig.apiUrl,
-      queryParameters: params,
-    );
+    if (showLogs) dio.interceptors.add(LogInterceptor());
+
+    Response response;
+
+    try {
+      response = await dio.get(
+        AppConfig.apiUrl,
+        queryParameters: params,
+      );
+    } catch (e) {
+      // TODO: Handle errors
+      throw 'Unexpected error happened!';
+    }
+
     if (response.data is String) throw response.data;
     return response.data;
   }
@@ -140,5 +163,42 @@ class AppService {
     if (isEmpty(pass)) return 'user_pass_empty'.tr;
     if (pass.length < 6) return 'password_too_short'.tr;
     return null;
+  }
+
+  /// image picker
+  ///
+  /// Example)
+  ///```
+  ///   var image = await AppService.pickImage(
+  ///       context,
+  ///       index,
+  ///       maxWidth: 640,
+  ///       imageQuality: 80,
+  ///    );
+  ///```
+  static Future<File> pickImage(
+    context,
+    ImageSource source, {
+    double maxWidth = 1024,
+    int imageQuality = 80,
+  }) async {
+    final picker = ImagePicker();
+    File file;
+
+    final permission =
+        source == ImageSource.camera ? Permission.camera : Permission.photos;
+    bool haveAccess = await checkPermission(permission);
+
+    if (haveAccess) {
+      PickedFile pickedFile = await picker.getImage(
+        source: source,
+        maxWidth: maxWidth,
+        imageQuality: imageQuality,
+      );
+      if (!isEmpty(pickedFile)) {
+        file = await compressAndGetImage(File(pickedFile.path));
+      }
+    }
+    return file;
   }
 }

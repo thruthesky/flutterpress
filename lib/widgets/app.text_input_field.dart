@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 
 class AppTextInputField extends StatefulWidget {
   final TextInputAction inputAction;
@@ -16,6 +17,11 @@ class AppTextInputField extends StatefulWidget {
   final Function validator;
   final Function onChanged;
 
+  final int minLines;
+  final int maxLines;
+
+  final bool withBorder;
+
   AppTextInputField({
     this.inputAction,
     this.hintText,
@@ -31,6 +37,9 @@ class AppTextInputField extends StatefulWidget {
     this.autoValidate = false,
     this.validator(String value),
     this.onChanged(String value),
+    this.minLines = 1,
+    this.maxLines = 1,
+    this.withBorder = false,
   }) : super(key: key);
 
   @override
@@ -43,13 +52,11 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        suffixIcon: widget.sufficIcon,
-        icon: widget.icon,
-      ),
+      textAlign: TextAlign.left,
+      textAlignVertical: TextAlignVertical.center,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      textInputAction: widget.inputAction,
       keyboardType: widget.inputType,
       controller: widget.controller,
       focusNode: widget.focusNode,
@@ -57,8 +64,29 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       onEditingComplete: widget.onEditingComplete,
       validator: widget.validator,
       autovalidate: validate,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(sm),
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        suffixIcon: widget.sufficIcon,
+        icon: widget.icon,
+        focusedBorder: widget.withBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.blue),
+              )
+            : null,
+        enabledBorder: widget.withBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.grey),
+              )
+            : null,
+      ),
       onChanged: (value) {
-        widget.onChanged(value);
+        if (widget.onChanged != null) {
+          widget.onChanged(value);
+        }
         if (widget.autoValidate) {
           validate = true;
           if (mounted) setState(() {});

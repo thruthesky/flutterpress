@@ -1,4 +1,4 @@
-class AppKeys {
+class Keys {
   static String homeScaffold = 'homeScaffold';
   static String loginScaffold = 'loginScaffold';
   static String registerScaffold = 'registerScaffold';
@@ -16,6 +16,8 @@ class AppKeys {
   static String forgotPasswordButton = 'forgotPasswordButton';
   static String postUpdateButton = 'postUpdateButton';
   static String postDeleteButton = 'postDeleteButton';
+  static String postLikeButton = 'postLikeButton';
+  static String postDislikeButton = 'postDislikeButton';
 
   static String dialogConfirmButton = 'dialogConfirmButton';
   static String dialogCancelButton = 'dialogCancelButton';
@@ -25,4 +27,6 @@ class AppKeys {
 
   static String post = 'post';
   static String postList = 'postList';
+
+  static String chatWidgetColumn = 'chatWidgetColumn';
 }

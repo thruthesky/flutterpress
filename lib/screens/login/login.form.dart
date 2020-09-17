@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/services/app.globals.dart';
-import 'package:flutterpress/services/app.keys.dart';
-import 'package:flutterpress/services/app.routes.dart';
+import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
+import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
@@ -16,9 +18,9 @@ class LoginForm extends StatefulWidget {
 }
 
 /// TODO
-///   - Add validation
 ///   - Update UI
 class LoginFormState extends State<LoginForm> {
+  final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
@@ -44,7 +46,7 @@ class LoginFormState extends State<LoginForm> {
           'user_email': email.value.text,
           'user_pass': pass.value.text,
         });
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(Routes.home);
       } catch (e) {
         loading = false;
         setState(() {});
@@ -66,7 +68,7 @@ class LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           AppTextInputField(
-            key: ValueKey(AppKeys.emailInput),
+            key: ValueKey(Keys.emailInput),
             labelText: 'email'.tr,
             controller: email,
             inputAction: TextInputAction.next,
@@ -78,7 +80,7 @@ class LoginFormState extends State<LoginForm> {
           ),
           SizedBox(height: sm),
           AppTextInputField(
-            key: ValueKey(AppKeys.passwordInput),
+            key: ValueKey(Keys.passwordInput),
             labelText: 'password'.tr,
             controller: pass,
             inputAction: TextInputAction.done,
@@ -98,12 +100,12 @@ class LoginFormState extends State<LoginForm> {
             ),
           ),
           SizedBox(height: xl),
-          if (loading) Center(child: CircularProgressIndicator()),
+          if (loading) Center(child: CommonSpinner()),
           if (!loading)
             SizedBox(
               width: double.infinity,
               child: RaisedButton(
-                key: ValueKey(AppKeys.formSubmitButton),
+                key: ValueKey(Keys.formSubmitButton),
                 onPressed: _onFormSubmit,
                 child: Text('login'.tr.toUpperCase()),
                 color: Colors.blue[600],
@@ -114,13 +116,16 @@ class LoginFormState extends State<LoginForm> {
           SizedBox(
             width: double.infinity,
             child: FlatButton(
-              key: ValueKey(AppKeys.forgotPasswordButton),
+              key: ValueKey(Keys.forgotPasswordButton),
               onPressed: () {
                 print('TODO: FORGOT PASSWORD');
               },
               child: Text('forgotPassword'.tr),
             ),
           ),
+          SizedBox(height: md),
+          Divider(),
+          SizedBox(height: md),
         ],
       ),
     );

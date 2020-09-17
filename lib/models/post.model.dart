@@ -1,11 +1,17 @@
 import 'package:flutterpress/models/comment.model.dart';
+import 'package:flutterpress/models/file.model.dart';
+import 'package:flutterpress/models/vote.model.dart';
+import 'package:intl/intl.dart';
 
 class PostModel {
   dynamic data;
 
   int id;
   int authorId;
+  int like;
+  int dislike;
   String authorName;
+  String authorPhotoUrl;
   String title;
   String content;
   String slug;
@@ -13,18 +19,30 @@ class PostModel {
   bool deleted;
 
   List<CommentModel> comments;
+  List<FileModel> files;
+
+  String date;
+  String time;
+
+  int get commentCount => comments.length;
 
   PostModel({
     this.data,
     this.id,
+    this.like,
+    this.dislike,
     this.authorId,
     this.authorName,
+    this.authorPhotoUrl,
     this.title,
     this.content,
     this.slug,
-    this.comments,
+    comments,
+    files,
+    this.date,
     this.deleted,
-  });
+  })  : this.comments = comments ?? [],
+        this.files = files ?? [];
 
   factory PostModel.fromBackendData(dynamic data) {
     if (data is String) {
@@ -38,17 +56,36 @@ class PostModel {
       }).toList();
     }
 
-    data['comments'].map((c) => CommentModel.fromBackendData(c));
+    List<FileModel> _files = [];
+    if (data['files'] != null && data['files'].length > 0) {
+      _files = data['files'].map<FileModel>((f) {
+        return FileModel.fromBackendData(f);
+      }).toList();
+    }
+
+    final dateNow = DateFormat('yyyy-MM-dd').format(new DateTime.now());
+
+    final String _date = dateNow == data['short_date_time']
+        ? data['post_date'].split(' ').last
+        : data['short_date_time'];
+
+    final _like = data['like'] != null ? data['like'] : 0;
+    final _dislike = data['dislike'] != null ? data['dislike'] : 0;
 
     return PostModel(
       data: data,
       id: data['ID'],
+      like: _like is int ? _like : int.parse(_like),
+      dislike: _dislike is int ? _dislike : int.parse(_dislike),
       authorId: int.parse(data['post_author']),
       authorName: data['author_name'],
+      authorPhotoUrl: data['author_photo_url'],
       title: data['post_title'],
       content: data['post_content'],
       slug: data['slug'],
       comments: _comments,
+      files: _files,
+      date: _date,
       deleted: false,
     );
   }
@@ -74,11 +111,20 @@ class PostModel {
     id = 0;
   }
 
+  deleteFile(FileModel file) {
+    files.removeWhere((f) => f.id == file.id);
+  }
+
   update(PostModel post) {
     data = post.data;
     title = post.title;
     content = post.content;
     slug = post.slug;
+  }
+
+  updateVote(VoteModel vote) {
+    like = vote.like;
+    dislike = vote.dislike;
   }
 
   @override

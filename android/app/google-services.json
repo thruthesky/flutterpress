@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "446424199137",
+    "firebase_url": "https://sonub-version-2020.firebaseio.com",
+    "project_id": "sonub-version-2020",
+    "storage_bucket": "sonub-version-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446424199137:android:955914b0878cd7d989aca0",
+        "android_client_info": {
+          "package_name": "com.sonub.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446424199137-b9clgj9d0gah0rqfes3cg1q7s96vp6mg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvn8HwfXjeKcVmVVf4G3b10s-BcCHYWW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446424199137-b9clgj9d0gah0rqfes3cg1q7s96vp6mg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "446424199137-4bsom5d6kvro3l9009bh51buq1f1au5o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sonub.flutterpress"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446424199137:android:432af80736b8c8f489aca0",
+        "android_client_info": {
+          "package_name": "com.sonub.flutterpress"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446424199137-d9jut6e3do81th3lguembir054a1248s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sonub.flutterpress",
+            "certificate_hash": "c895ae42fc531dbff3263148faa984200cf31bdc"
+          }
+        },
+        {
+          "client_id": "446424199137-b9clgj9d0gah0rqfes3cg1q7s96vp6mg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvn8HwfXjeKcVmVVf4G3b10s-BcCHYWW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446424199137-b9clgj9d0gah0rqfes3cg1q7s96vp6mg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "446424199137-4bsom5d6kvro3l9009bh51buq1f1au5o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sonub.flutterpress"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

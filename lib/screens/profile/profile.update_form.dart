@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
@@ -15,9 +16,6 @@ class ProfileUpdateForm extends StatefulWidget {
 
 bool isFormSubmitted = false;
 
-/// TODO
-///   - Add validation
-///   - Update UI
 class ProfileUpdateFormState extends State<ProfileUpdateForm> {
   final WordpressController wc = Get.find();
 
@@ -41,7 +39,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
       child: Column(
         children: <Widget>[
           AppTextInputField(
-            key: ValueKey(AppKeys.nicknameInput),
+            key: ValueKey(Keys.nicknameInput),
             hintText: 'nickname'.tr,
             controller: nickname,
             inputAction: TextInputAction.done,
@@ -51,12 +49,14 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
               if (isEmpty(nickname)) return 'nickname_empty'.tr;
             },
           ),
+          SizedBox(height: sm),
           AppTextInputField(
             hintText: 'firstname'.tr,
             controller: firstname,
             inputAction: TextInputAction.done,
             inputType: TextInputType.text,
           ),
+          SizedBox(height: sm),
           AppTextInputField(
             hintText: 'lastname'.tr,
             controller: lastname,
@@ -67,7 +67,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
           Row(
             children: [
               RaisedButton(
-                key: ValueKey(AppKeys.formSubmitButton),
+                key: ValueKey(Keys.formSubmitButton),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     try {
@@ -85,7 +85,7 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
               ),
               Spacer(),
               RaisedButton(
-                key: ValueKey(AppKeys.resignButton),
+                key: ValueKey(Keys.resignButton),
                 color: Colors.red[300],
                 textColor: Colors.white,
                 child: Text('resign'.tr),

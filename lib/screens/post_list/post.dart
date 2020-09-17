@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
-import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/screens/post_list/comment.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
-import 'package:flutterpress/screens/post_list/post_buttons.dart';
-import 'package:flutterpress/services/app.keys.dart';
+import 'package:flutterpress/screens/post_list/forum_buttons.dart';
+import 'package:flutterpress/screens/post_list/post.comment_list.dart';
+import 'package:flutterpress/screens/post_list/post.content.dart';
+import 'package:flutterpress/screens/post_list/post.header.dart';
+import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:get/get.dart';
 
 class Post extends StatefulWidget {
@@ -25,60 +28,68 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   final WordpressController wc = Get.find();
 
-  onPostUpdated(PostModel post) {
-    widget.post.update(post);
-    if (mounted) setState(() {});
-  }
-
-  onPostDeleted() {
-    widget.post.delete();
-    if (mounted) setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
-      key: ValueKey(AppKeys.post),
-      margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+      key: ValueKey(Keys.post),
+      margin: EdgeInsets.only(top: sm, left: sm, right: sm),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(sm),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.post.title),
-            if (!isEmpty(widget.post.content)) Text(widget.post.content),
-            Divider(),
+            /// post header (user avatar, title)
+            PostHeader(post: widget.post),
 
-            /// post buttons
-            if (AppService.isMine(widget.post))
-              PostButtons(
-                post: widget.post,
-                onUpdate: onPostUpdated,
-                onDelete: onPostDeleted,
+            if (!widget.post.deleted) ...[
+              /// post content
+              PostContent(post: widget.post),
+
+              /// post buttons
+              ForumButtons(
+                parentID: widget.post.id,
+                mine: AppService.isMine(widget.post),
+                showReplyButton: false,
+                likeCount: widget.post.like,
+                dislikeCount: widget.post.dislike,
+                onUpdateTap: onUpdateTapped,
+                onDeleted: () {
+                  widget.post.delete();
+                  setState(() {});
+                },
+                onVoted: (vote) {
+                  widget.post.updateVote(vote);
+                  setState(() {});
+                },
               ),
 
-            /// comment box
-            if (AppService.wc.isUserLoggedIn && !widget.post.deleted)
-              CommentBox(
+              /// comment box
+              if (AppService.wc.isUserLoggedIn)
+                CommentBox(
                   post: widget.post,
                   onEditted: (comment) {
                     widget.post.insertComment(0, comment);
                     setState(() {});
-                  }),
-
-            /// Comments
-            if (!isEmpty(widget.post.comments.length))
-              for (CommentModel comment in widget.post.comments)
-                Comment(
-                  widget.post,
-                  comment,
-                  onReplied: () {
-                    setState(() {});
                   },
-                )
+                ),
+            ],
+
+            /// comment list
+            CommentList(post: widget.post)
           ],
         ),
       ),
     );
+  }
+
+  //// methods
+  onUpdateTapped() async {
+    var res = await Get.toNamed(
+      Routes.postEdit,
+      arguments: {'post': widget.post},
+    );
+    if (!isEmpty(res)) {
+      widget.post.update(res);
+      if (mounted) setState(() {});
+    }
   }
 }
