@@ -81,6 +81,13 @@ class _PostEditFormState extends State<PostEditForm> {
   }
 
   @override
+  void dispose() {
+    title.dispose();
+    content.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(md),
@@ -97,7 +104,7 @@ class _PostEditFormState extends State<PostEditForm> {
                 controller: title,
                 inputAction: TextInputAction.done,
                 validator: (str) {
-                if (isEmpty(str)) return 'errTitleEmpty'.tr;
+                  if (isEmpty(str)) return 'errTitleEmpty'.tr;
                 },
                 autoValidate: isFormSubmitted,
               ),
