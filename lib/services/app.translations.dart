@@ -16,6 +16,8 @@ class AppTranslations extends Translations {
           'update': 'Update',
           'delete': 'Delete',
           'reply': 'Reply',
+          'like': 'Like',
+          'dislike': 'Dislike',
           'logout': 'Logout',
           'resign': 'Resign',
           'forgotPassword': 'Forgot password?',
@@ -38,6 +40,7 @@ class AppTranslations extends Translations {
           'createPost': 'Create Post',
           'noMorePost': 'No more post ..',
           'comment': "Comment",
+          'loginError': 'Login Error'
         },
         'ko': {
           'version': '버전',
@@ -53,6 +56,8 @@ class AppTranslations extends Translations {
           'update': '업데이트',
           'delete': '@T delete',
           'reply': '@T reply',
+          'like': '@T Like',
+          'dislike': '@T Dislike',
           'logout': '로그아웃',
           'resign': '회원 탈퇴',
           'forgotPassword': '@T Forgot password?',
@@ -75,6 +80,7 @@ class AppTranslations extends Translations {
           'createPost': '@T Create Post',
           'noMorePost': '@T No more post ..',
           'comment': "@T Comment",
+          'loginError': '@T Login Error'
         },
       };
 }

@@ -107,7 +107,7 @@ class _ForumButtonsState extends State<ForumButtons> {
     if (!AppService.wc.isUserLoggedIn) {
     setState(() => loading = null);
       AppService.confirmDialog(
-        'loginFirst'.tr,
+        'error'.tr,
         Text('Login first to vote'),
         textConfirm: 'login'.tr,
         onConfirm: () => Get.toNamed(Routes.login),
