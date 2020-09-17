@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -48,12 +49,14 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
               if (isEmpty(nickname)) return 'nickname_empty'.tr;
             },
           ),
+          SizedBox(height: sm),
           AppTextInputField(
             hintText: 'firstname'.tr,
             controller: firstname,
             inputAction: TextInputAction.done,
             inputType: TextInputType.text,
           ),
+          SizedBox(height: sm),
           AppTextInputField(
             hintText: 'lastname'.tr,
             controller: lastname,

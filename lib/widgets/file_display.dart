@@ -36,47 +36,51 @@ class FileDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (files == null || files.length < 1) return SizedBox.shrink();
+    return (files == null || files.length < 1)
+        ? SizedBox.shrink()
+        : Column(
+            children: [
+              SizedBox(height: sm),
+              if (files.length == 1)
+                ImageStack(
+                  photoUrl: files[0].thumbnailUrl,
+                  inEdit: inEdit,
+                  withHeight: false,
+                  onDeleteTap: () => onDeleteTapped(files[0]),
+                  onImageTap: () => onImageTap(),
+                ),
+              if (files.length > 1)
+                GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisSpacing: 3,
+                  mainAxisSpacing: 3,
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  children: [
+                    /// show only six image if images count exceed 6
+                    if (files.length > 6)
+                      for (var i = 0; i <= 5; i++)
+                        ImageStack(
+                          photoUrl: files[i - 1].thumbnailUrl,
+                          inEdit: inEdit,
+                          onDeleteTap: () => onDeleteTapped(files[i]),
+                          onImageTap: () => onImageTap(index: i),
+                          moreImageCount: i == 5 ? files.length - 6 : null,
+                        ),
 
-    if (files.length > 1)
-      return GridView.count(
-        physics: NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 3,
-        mainAxisSpacing: 3,
-        crossAxisCount: 3,
-        shrinkWrap: true,
-        children: [
-          /// show only six image if images count exceed 6
-          if (files.length > 6)
-            for (var i = 0; i <= 5; i++)
-              ImageStack(
-                photoUrl: files[i - 1].thumbnailUrl,
-                inEdit: inEdit,
-                onDeleteTap: () => onDeleteTapped(files[i]),
-                onImageTap: () => onImageTap(index: i),
-                moreImageCount: i == 5 ? 2 : null,
-              ),
-
-          /// show all image if image is below or equal 6
-          if (files.length <= 6)
-            for (var i = 0; i <= files.length - 1; i++)
-              ImageStack(
-                photoUrl: files[i].thumbnailUrl,
-                inEdit: inEdit,
-                onDeleteTap: () => onDeleteTapped(files[i]),
-                onImageTap: () => onImageTap(index: i),
-              ),
-        ],
-      );
-
-    /// show big image if there is only 1 to show
-    return ImageStack(
-      photoUrl: files[0].thumbnailUrl,
-      inEdit: inEdit,
-      withHeight: false,
-      onDeleteTap: () => onDeleteTapped(files[0]),
-      onImageTap: () => onImageTap(),
-    );
+                    /// show all image if image is below or equal 6
+                    if (files.length <= 6)
+                      for (var i = 0; i <= files.length - 1; i++)
+                        ImageStack(
+                          photoUrl: files[i].thumbnailUrl,
+                          inEdit: inEdit,
+                          onDeleteTap: () => onDeleteTapped(files[i]),
+                          onImageTap: () => onImageTap(index: i),
+                        ),
+                  ],
+                ),
+            ],
+          );
   }
 }
 

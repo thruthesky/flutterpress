@@ -15,7 +15,7 @@ class FileModel {
     return FileModel(
       data: data,
       url: data['url'],
-      thumbnailUrl: data['url'],
+      thumbnailUrl: data['thumbnail_url'],
       id: data['ID'],
     );
   }

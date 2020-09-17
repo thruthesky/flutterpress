@@ -28,37 +28,40 @@ class _CommentListState extends State<CommentList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: xs),
+    return widget.post.comments.length > 0
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: xs),
 
-        if (widget.post.comments.length > 0)
-          Text('Comments $commentsToShow of ${widget.post.comments.length}'),
+              Text(
+                'Comments $commentsToShow of ${widget.post.comments.length}',
+              ),
 
-        /// Comments
-        for (var i = 0; i < commentsToShow; i++)
-          Comment(
-            widget.post,
-            widget.post.comments[i],
-            onReplied: () {
-              commentsToShow++;
-              setState(() {});
-            },
-          ),
+              /// Comments
+              for (var i = 0; i < commentsToShow; i++)
+                Comment(
+                  widget.post,
+                  widget.post.comments[i],
+                  onReplied: () {
+                    commentsToShow++;
+                    setState(() {});
+                  },
+                ),
 
-        if (commentsToShow < widget.post.comments.length)
-          GestureDetector(
-            child: Text('Show more comment'),
-            onTap: () {
-              commentsToShow += 5;
-              if (commentsToShow > widget.post.comments.length)
-                commentsToShow = widget.post.comments.length;
+              if (commentsToShow < widget.post.comments.length)
+                GestureDetector(
+                  child: Text('Show more comment'),
+                  onTap: () {
+                    commentsToShow += 5;
+                    if (commentsToShow > widget.post.comments.length)
+                      commentsToShow = widget.post.comments.length;
 
-              setState(() {});
-            },
+                    setState(() {});
+                  },
+                )
+            ],
           )
-      ],
-    );
+        : SizedBox.shrink();
   }
 }

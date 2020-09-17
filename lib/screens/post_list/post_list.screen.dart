@@ -5,12 +5,13 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/screens/post_list/post.list.dart';
+import 'package:flutterpress/screens/post_list/post_list.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:get/get.dart';
 
 class PostListScreen extends StatefulWidget {
@@ -134,14 +135,14 @@ class _PostListScreenState extends State<PostListScreen>
               child: Column(
                 children: [
                   /// post list
-                  if (!isEmpty(posts.length)) PostList(posts),
+                  PostList(posts),
 
                   /// loader
                   if (loading && !noMorePost)
                     Center(
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: lg),
-                        child: PlatformCircularProgressIndicator(),
+                        child: CommonSpinner(),
                       ),
                     ),
 

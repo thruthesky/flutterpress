@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 
 class AppTextInputField extends StatefulWidget {
   final TextInputAction inputAction;
@@ -19,6 +20,8 @@ class AppTextInputField extends StatefulWidget {
   final int minLines;
   final int maxLines;
 
+  final bool withBorder;
+
   AppTextInputField({
     this.inputAction,
     this.hintText,
@@ -36,6 +39,7 @@ class AppTextInputField extends StatefulWidget {
     this.onChanged(String value),
     this.minLines = 1,
     this.maxLines = 1,
+    this.withBorder = false,
   }) : super(key: key);
 
   @override
@@ -48,16 +52,11 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      textAlignVertical: TextAlignVertical.bottom,
+      textAlign: TextAlign.left,
+      textAlignVertical: TextAlignVertical.center,
       minLines: widget.minLines,
       maxLines: widget.maxLines,
       textInputAction: widget.inputAction,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        suffixIcon: widget.sufficIcon,
-        icon: widget.icon,
-      ),
       keyboardType: widget.inputType,
       controller: widget.controller,
       focusNode: widget.focusNode,
@@ -65,6 +64,25 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       onEditingComplete: widget.onEditingComplete,
       validator: widget.validator,
       autovalidate: validate,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(sm),
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        suffixIcon: widget.sufficIcon,
+        icon: widget.icon,
+        focusedBorder: widget.withBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.blue),
+              )
+            : null,
+        enabledBorder: widget.withBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.grey),
+              )
+            : null,
+      ),
       onChanged: (value) {
         if (widget.onChanged != null) {
           widget.onChanged(value);

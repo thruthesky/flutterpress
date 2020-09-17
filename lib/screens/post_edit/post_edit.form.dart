@@ -1,4 +1,3 @@
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/models/post.model.dart';
@@ -16,7 +15,7 @@ class PostEditForm extends StatefulWidget {
   _PostEditFormState createState() => _PostEditFormState();
 }
 
-class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
+class _PostEditFormState extends State<PostEditForm> {
   final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
@@ -44,9 +43,6 @@ class _PostEditFormState extends State<PostEditForm> with AfterLayoutMixin {
     }
     super.initState();
   }
-
-  @override
-  void afterFirstLayout(BuildContext context) {}
 
   void onSubmit() async {
     if (loading) return;

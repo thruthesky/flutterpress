@@ -20,12 +20,16 @@ class PostHeader extends StatelessWidget {
         ),
         SizedBox(width: xs),
         Expanded(
-                  child: Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(post.title, style: TextStyle(fontWeight: FontWeight.w700, fontSize: md)),
-              SizedBox(height: 3),
-              Text('${post.authorName} - ${post.date}'),
+              Text(
+                post.title,
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: md),
+              ),
+              SizedBox(height: 2),
+              Text('${post.authorName}'),
+              Text('${post.date}'),
             ],
           ),
         )

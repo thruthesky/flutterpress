@@ -17,14 +17,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       key: ValueKey(Keys.profileScaffold),
       appBar: AppBar(title: Text('profile'.tr)),
       endDrawer: AppDrawer(),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            ProfileInfo(),
-            Divider(),
-            ProfileUpdateForm(),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              ProfileInfo(),
+              Divider(),
+              ProfileUpdateForm(),
+            ],
+          ),
         ),
       ),
     );

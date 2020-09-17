@@ -53,7 +53,7 @@ class _FileDisplayOverlayState extends State<FileDisplayOverlay> {
               top: xxl,
             ),
             Center(
-              child: CommonImage(widget.files[index].thumbnailUrl),
+              child: CommonImage(widget.files[index].url),
             ),
             if (widget.files.length > 1)
             Center(

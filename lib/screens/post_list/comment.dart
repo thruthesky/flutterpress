@@ -4,8 +4,8 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
-import 'package:flutterpress/screens/post_list/comment_content.dart';
-import 'package:flutterpress/screens/post_list/comment_header.dart';
+import 'package:flutterpress/screens/post_list/comment.content.dart';
+import 'package:flutterpress/screens/post_list/comment.header.dart';
 import 'package:flutterpress/screens/post_list/forum_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
@@ -48,40 +48,41 @@ class _CommentState extends State<Comment> {
           /// comment header
           CommentHeader(comment: widget.comment),
 
-          /// comment contents
-          if (!widget.comment.deleted && !inEdit)
-            CommentContent(comment: widget.comment),
+          if (!widget.comment.deleted) ...[
+            /// comment contents
+            if (!inEdit) CommentContent(comment: widget.comment),
 
-          if (inEdit)
-            CommentBox(
-              post: widget.post,
-              comment: widget.comment,
-              onCancel: () => changeInEditState(false),
-              onEditted: (comment) {
-                widget.comment.update(comment);
-                changeInEditState(false);
-                setState(() {});
-              },
-            ),
+            /// comment buttons
+            if (!inEdit)
+              ForumButtons(
+                parentID: widget.comment.id,
+                mine: AppService.isMine(widget.comment),
+                isComment: true,
+                showReplyButton: !inReply,
+                likeCount: widget.comment.like,
+                dislikeCount: widget.comment.dislike,
+                onReplyTap: () => changeInReplyState(true),
+                onUpdateTap: () => changeInEditState(true),
+                onDeleted: () => widget.comment.delete(),
+                onVoted: (vote) {
+                  widget.comment.updateVote(vote);
+                  setState(() {});
+                },
+              ),
 
-          /// comment buttons
-          if (!widget.comment.deleted)
-            ForumButtons(
-              parentID: widget.comment.id,
-              isComment: true,
-              mine: AppService.isMine(widget.comment),
-              inEdit: inEdit,
-              showReplyButton: !inReply,
-              likeCount: widget.comment.like,
-              dislikeCount: widget.comment.dislike,
-              onDeleteTap: onDeleteTapped,
-              onReplyTap: () => changeInReplyState(true),
-              onUpdateTap: () => changeInEditState(true),
-              onVoted: (vote) {
-                widget.comment.updateVote(vote);
-                setState(() {});
-              },
-            ),
+            /// comment contents in edit mode
+            if (inEdit)
+              CommentBox(
+                post: widget.post,
+                comment: widget.comment,
+                onCancel: () => changeInEditState(false),
+                onEditted: (comment) {
+                  widget.comment.update(comment);
+                  changeInEditState(false);
+                  setState(() {});
+                },
+              ),
+          ],
 
           /// Reply box
           if (inReply)
@@ -101,7 +102,6 @@ class _CommentState extends State<Comment> {
   }
 
   //// methods
-
   changeInEditState(bool val) {
     inEdit = val;
     setState(() {});
@@ -110,23 +110,5 @@ class _CommentState extends State<Comment> {
   changeInReplyState(bool val) {
     inReply = val;
     setState(() {});
-  }
-
-  onDeleteTapped() {
-    AppService.confirmDialog(
-      'delete'.tr,
-      Text('confirmDelete'.tr),
-      onConfirm: () async {
-        try {
-          await wc.commentDelete(
-            {'comment_ID': widget.comment.id},
-          );
-          widget.comment.delete();
-          setState(() {});
-        } catch (e) {
-          AppService.error('$e'.tr);
-        }
-      },
-    );
   }
 }

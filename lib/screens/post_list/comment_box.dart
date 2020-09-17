@@ -50,8 +50,16 @@ class _CommentBoxState extends State<CommentBox> {
     super.initState();
   }
 
+  /// Only resctrict submission when:
+  ///  1. comment content and files are both empty.
+  ///  2. loading is true.
   onSubmit() async {
-    if (isEmpty(controller.text) || loading) return;
+    if (isEmpty(controller.text) && isEmpty(widget.comment.files)) {
+      AppService.error('Please provide content or image');
+      return;
+    }
+
+    if (loading) return;
 
     loading = true;
     setState(() {});
@@ -68,8 +76,10 @@ class _CommentBoxState extends State<CommentBox> {
     }
 
     if (!isEmpty(widget.comment.id)) {
+      /// update
       params['comment_ID'] = widget.comment.id.toString();
     } else {
+      /// create
       params['comment_post_ID'] = widget.post.id.toString();
     }
 
@@ -88,18 +98,22 @@ class _CommentBoxState extends State<CommentBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        Expanded(
-          child: AppTextInputField(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: sm),
+        Row(children: [
+          Expanded(
+            child: AppTextInputField(
               hintText: 'comment'.tr,
               maxLines: 5,
               inputAction: TextInputAction.newline,
               controller: controller,
               focusNode: focusNode,
-              sufficIcon: Wrap(
-                runAlignment: WrapAlignment.end,
-                direction: Axis.horizontal,
+              withBorder: true,
+              sufficIcon: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FileUploadButton(
                     iconSize: 20,
@@ -115,43 +129,43 @@ class _CommentBoxState extends State<CommentBox> {
                   ),
                   if (loading)
                     Padding(
-                        child: CommonSpinner(), padding: EdgeInsets.all(sm)),
+                      child: CommonSpinner(),
+                      padding: EdgeInsets.all(sm),
+                    ),
                   if (!loading)
                     IconButton(
                       icon: Icon(
                         Icons.send,
                         size: 20,
                       ),
-                      onPressed: !isEmpty(controller.text) ? onSubmit : null,
+                      onPressed: onSubmit,
                     ),
                 ],
               ),
-              onChanged: (value) {
-                setState(() {});
-              }),
-        ),
-      ]),
-      if (uploadProgress > 0) ...[
-        SizedBox(height: xs),
-        Padding(
-          padding: EdgeInsets.only(top: sm),
-          child: LinearProgressIndicator(
-            value: uploadProgress,
-            backgroundColor: Colors.grey,
+            ),
           ),
+        ]),
+        if (uploadProgress > 0) ...[
+          SizedBox(height: xs),
+          Padding(
+            padding: EdgeInsets.only(top: sm),
+            child: LinearProgressIndicator(
+              value: uploadProgress,
+              backgroundColor: Colors.grey,
+            ),
+          ),
+        ],
+        FileDisplay(
+          widget.comment.files,
+          inEdit: true,
+          onFileDeleted: (file) {
+            widget.comment.deleteFile(file);
+            setState(() {});
+          },
         ),
+        if (!isEmpty(widget.parent) || !isEmpty(widget.comment.id))
+          RaisedButton(child: Text('cancel'.tr), onPressed: widget.onCancel)
       ],
-      SizedBox(height: xs),
-      FileDisplay(
-        widget.comment.files,
-        inEdit: true,
-        onFileDeleted: (file) {
-          widget.comment.deleteFile(file);
-          setState(() {});
-        },
-      ),
-      if (!isEmpty(widget.parent) || !isEmpty(widget.comment.id))
-        RaisedButton(child: Text('cancel'.tr), onPressed: widget.onCancel)
-    ]);
+    );
   }
 }

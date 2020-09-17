@@ -10,31 +10,28 @@ import 'package:get/get.dart';
 class ForumButtons extends StatefulWidget {
   final int parentID;
 
-  final bool showReplyButton;
-
-  final bool isComment;
-  final bool inEdit;
   final bool mine;
+  final bool isComment;
+  final bool showReplyButton;
 
   final int likeCount;
   final int dislikeCount;
 
   final Function onReplyTap;
   final Function onUpdateTap;
-  final Function onDeleteTap;
+  final Function onDeleted;
   final Function onVoted;
 
   ForumButtons({
     @required this.parentID,
-    this.showReplyButton = false,
-    this.isComment = false,
-    this.inEdit = false,
     this.mine,
+    this.isComment = false,
+    this.showReplyButton = false,
     this.likeCount = 0,
     this.dislikeCount = 0,
     this.onReplyTap,
     @required this.onUpdateTap,
-    @required this.onDeleteTap,
+    @required this.onDeleted,
     @required this.onVoted(VoteModel vote),
   });
 
@@ -45,6 +42,57 @@ class ForumButtons extends StatefulWidget {
 class _ForumButtonsState extends State<ForumButtons> {
   String loading;
 
+  @override
+  Widget build(BuildContext context) {
+    var likeText =
+        widget.likeCount > 0 ? 'like'.tr + '(${widget.likeCount})' : 'like'.tr;
+    var dislikeText = widget.dislikeCount > 0
+        ? 'dislike'.tr + '(${widget.dislikeCount})'
+        : 'dislike'.tr;
+
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Row(children: [
+        if (widget.showReplyButton)
+          ForumButton(
+            label: 'reply'.tr,
+            onTap: widget.onReplyTap,
+          ),
+        ForumButton(
+          label: likeText,
+          loading: loading == 'like',
+          onTap: () {
+            onVoteButtonTapped('like');
+          },
+        ),
+        ForumButton(
+          label: dislikeText,
+          loading: loading == 'dislike',
+          onTap: () {
+            onVoteButtonTapped('dislike');
+          },
+        ),
+
+        /// mine buttons
+        if (widget.mine && widget.showReplyButton)
+          CommonButton(
+            child: Icon(FontAwesomeIcons.cog, size: md),
+            onTap: () async {
+              var res = await Get.bottomSheet(
+                MineMenu(),
+                backgroundColor: Colors.white,
+              );
+              if (res == 'update') widget.onUpdateTap();
+              if (res == 'delete') onDeleteButtonTapped();
+            },
+          ),
+      ]),
+    );
+  }
+
+  /// METHODS ///
+
+  /// Vote
   onVoteButtonTapped(String choice) async {
     if (widget.mine) {
       AppService.error(
@@ -89,51 +137,24 @@ class _ForumButtonsState extends State<ForumButtons> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    var likeText =
-        widget.likeCount > 0 ? 'like'.tr + '(${widget.likeCount})' : 'like'.tr;
-    var dislikeText = widget.dislikeCount > 0
-        ? 'dislike'.tr + '(${widget.dislikeCount})'
-        : 'dislike'.tr;
-
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      child: Row(children: [
-        if (widget.showReplyButton)
-          ForumButton(
-            label: 'reply'.tr,
-            onTap: widget.onReplyTap,
-          ),
-        ForumButton(
-          label: likeText,
-          loading: loading == 'like',
-          onTap: () {
-            onVoteButtonTapped('like');
-          },
-        ),
-        ForumButton(
-          label: dislikeText,
-          loading: loading == 'dislike',
-          onTap: () {
-            onVoteButtonTapped('dislike');
-          },
-        ),
-
-        /// mine buttons
-        if (widget.mine && widget.showReplyButton)
-          CommonButton(
-            child: Icon(FontAwesomeIcons.cog, size: md),
-            onTap: () async {
-              var res = await Get.bottomSheet(
-                MineMenu(),
-                backgroundColor: Colors.white,
-              );
-              if (res == 'update') widget.onUpdateTap();
-              if (res == 'delete') widget.onDeleteTap();
-            },
-          ),
-      ]),
+  /// Delete
+  onDeleteButtonTapped() {
+    AppService.confirmDialog(
+      'delete'.tr,
+      Text('confirmPostDelete'.tr),
+      onConfirm: () async {
+        try {
+          var params = {'ID': widget.parentID};
+          if (widget.isComment) {
+            await AppService.wc.commentDelete(params);
+          } else {
+            await AppService.wc.postDelete(params);
+          }
+          widget.onDeleted();
+        } catch (e) {
+          AppService.error('$e'.tr);
+        }
+      },
     );
   }
 }

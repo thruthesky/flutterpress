@@ -1,5 +1,6 @@
 import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/models/vote.model.dart';
+import 'package:intl/intl.dart';
 
 class CommentModel {
   dynamic data;
@@ -13,6 +14,8 @@ class CommentModel {
   String authorPhotoUrl;
   String content;
   int depth;
+
+  String date;
 
   List<FileModel> files;
 
@@ -28,6 +31,7 @@ class CommentModel {
     this.authorPhotoUrl,
     this.content,
     this.depth,
+    this.date,
     files,
   }) : this.files = files ?? [];
 
@@ -42,6 +46,13 @@ class CommentModel {
         return FileModel.fromBackendData(f);
       }).toList();
     }
+
+
+    final dateNow = DateFormat('yyyy-MM-dd').format(new DateTime.now());
+
+    final String _date = dateNow == data['short_date_time']
+        ? data['post_date'].split(' ').last
+        : data['short_date_time'];
     
     final _like = data['like'] != null ? data['like'] : 0;
     final _dislike = data['dislike'] != null ? data['dislike'] : 0;
@@ -58,6 +69,7 @@ class CommentModel {
       authorPhotoUrl: data['author_photo_url'] ?? '',
       content: data['comment_content'] ?? '',
       depth: data['depth'],
+      date: _date,
       files: _files,
     );
   }
