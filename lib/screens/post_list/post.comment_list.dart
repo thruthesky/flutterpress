@@ -13,14 +13,12 @@ class CommentList extends StatefulWidget {
 }
 
 class _CommentListState extends State<CommentList> {
-  int commentsToShow;
+  int commentsToShow = 1;
 
   @override
   void initState() {
     if (widget.post.comments.length > 5) {
       commentsToShow = 5;
-    } else {
-      commentsToShow = widget.post.comments.length;
     }
 
     super.initState();

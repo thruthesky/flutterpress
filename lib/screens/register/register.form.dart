@@ -118,7 +118,7 @@ class RegisterFormState extends State<RegisterForm> {
             },
           ),
           AppTextInputField(
-            key: ValueKey(Keys.nicknameInput),
+            key: ValueKey(Keys.mobileInput),
             labelText: 'mobileNo'.tr,
             controller: mobile,
             inputAction: TextInputAction.done,
