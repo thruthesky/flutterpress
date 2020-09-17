@@ -74,7 +74,7 @@ class _ForumButtonsState extends State<ForumButtons> {
         ),
 
         /// mine buttons
-        if (widget.mine && widget.showReplyButton)
+        if (widget.mine)
           CommonButton(
             child: Icon(FontAwesomeIcons.cog, size: md),
             onTap: () async {
@@ -105,7 +105,7 @@ class _ForumButtonsState extends State<ForumButtons> {
     setState(() => loading = choice);
 
     if (!AppService.wc.isUserLoggedIn) {
-    setState(() => loading = null);
+      setState(() => loading = null);
       AppService.confirmDialog(
         'error'.tr,
         Text('Login first to vote'),
@@ -118,16 +118,11 @@ class _ForumButtonsState extends State<ForumButtons> {
     } else {
       try {
         var vote;
+        final params = {'choice': choice, 'ID': widget.parentID};
         if (widget.isComment) {
-          vote = await AppService.wc.commentVote({
-            'choice': choice,
-            'ID': widget.parentID,
-          });
+          vote = await AppService.wc.commentVote(params);
         } else {
-          vote = await AppService.wc.postVote({
-            'choice': choice,
-            'ID': widget.parentID,
-          });
+          vote = await AppService.wc.postVote(params);
         }
         widget.onVoted(vote);
         setState(() => loading = null);

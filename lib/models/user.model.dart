@@ -33,7 +33,7 @@ class UserModel {
       firstName: data['first_name'] ?? '',
       lastName: data['last_name'] ?? '',
       userLogin: data['user_login'],
-      photoURL: data['photoURL'] ?? '',
+      photoURL: data['photo_url'] ?? '',
       sessionId: data['session_id'],
     );
   }
