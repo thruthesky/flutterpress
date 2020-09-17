@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   onPressed: () => Get.back(),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 50),
                 Text('Proceed with your', style: TextStyle(fontSize: lg)),
                 Text(
                   'login'.tr,
