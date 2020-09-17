@@ -96,7 +96,7 @@ class _ForumButtonsState extends State<ForumButtons> {
   onVoteButtonTapped(String choice) async {
     if (widget.mine) {
       AppService.error(
-        'You can\'t vote on your own ${widget.isComment ? 'comment' : 'post'}',
+        'You can\'t $choice your own ${widget.isComment ? 'comment' : 'post'}',
       );
       return;
     }

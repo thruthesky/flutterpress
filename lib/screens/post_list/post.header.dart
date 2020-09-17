@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/widgets/circular_avatar.dart';
+import 'package:get/get.dart';
 
 class PostHeader extends StatelessWidget {
   final PostModel post;
@@ -24,7 +25,7 @@ class PostHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                post.title,
+                post.deleted ? 'deleted'.tr : post.title,
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: md),
               ),
               SizedBox(height: 2),

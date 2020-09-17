@@ -19,6 +19,9 @@ class _CommentListState extends State<CommentList> {
   void initState() {
     if (widget.post.comments.length > 5) {
       commentsToShow = 5;
+    } else {
+      commentsToShow =
+          widget.post.comments.length != 0 ? widget.post.comments.length : 1;
     }
 
     super.initState();
