@@ -46,20 +46,11 @@ class _PostState extends State<Post> {
 
               /// post buttons
               ForumButtons(
-                parentID: widget.post.id,
-                mine: AppService.isMine(widget.post),
+                model: widget.post,
                 showReplyButton: false,
-                likeCount: widget.post.like,
-                dislikeCount: widget.post.dislike,
                 onUpdateTap: onUpdateTapped,
-                onDeleted: () {
-                  widget.post.delete();
-                  setState(() {});
-                },
-                onVoted: (vote) {
-                  widget.post.updateVote(vote);
-                  setState(() {});
-                },
+                onDeleted: () => setState(() {}),
+                onVoted: () => setState(() {}),
               ),
 
               /// comment box

@@ -15,6 +15,8 @@ class ForumBaseModel {
   String date;
   List<FileModel> files;
 
+  bool isPost;
+
   ForumBaseModel({
     this.data,
     this.id,
@@ -24,6 +26,7 @@ class ForumBaseModel {
     this.content,
     this.deleted = false,
     this.date,
+    this.isPost = true,
     files = const <FileModel>[],
     like,
     dislike,
@@ -44,6 +47,7 @@ class ForumBaseModel {
   }
 
   delete() {
+    this.id = 0;
     this.deleted = true;
   }
 

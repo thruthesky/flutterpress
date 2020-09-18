@@ -129,7 +129,7 @@ class _PostListScreenState extends State<PostListScreen>
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onPanDown: (_) {
-            FocusScope.of(context).requestFocus(FocusNode());
+            FocusScope.of(context).requestFocus(new FocusNode());
           },
           child: SingleChildScrollView(
             controller: _scrollController,

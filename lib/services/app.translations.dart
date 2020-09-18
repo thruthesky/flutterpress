@@ -42,6 +42,8 @@ class AppTranslations extends Translations {
           'noMorePost': 'No more post ..',
           'comment': "Comment",
           'loginError': 'Login Error',
+          'errVoteOwnComment': 'You cannot vote on your own comment.',
+          'errVoteOwnPost': 'You cannot vote on your own post.',
           'errTitleEmpty': 'Title is required.'
         },
         'ko': {
@@ -84,6 +86,8 @@ class AppTranslations extends Translations {
           'noMorePost': '@T No more post ..',
           'comment': "@T Comment",
           'loginError': '@T Login Error',
+          'errVoteOwnComment': '@ You cannot vote on your own comment.',
+          'errVoteOwnPost': '@ You cannot vote on your own post.',
           'errTitleEmpty': '@T Title is required.'
         },
       };

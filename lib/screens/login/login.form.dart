@@ -39,7 +39,7 @@ class LoginFormState extends State<LoginForm> {
     /**
      * remove any input focus.
      */
-    FocusScope.of(context).requestFocus(FocusNode());
+    FocusScope.of(context).requestFocus(new FocusNode());
 
     isFormSubmitted = true;
     setState(() {});

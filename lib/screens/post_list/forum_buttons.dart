@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/models/vote.model.dart';
+import 'package:flutterpress/models/forum_base.model.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/commons/common.button.dart';
@@ -8,14 +8,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class ForumButtons extends StatefulWidget {
-  final int parentID;
+  final ForumBaseModel model;
 
-  final bool mine;
-  final bool isComment;
   final bool showReplyButton;
-
-  final int likeCount;
-  final int dislikeCount;
 
   final Function onReplyTap;
   final Function onUpdateTap;
@@ -23,16 +18,12 @@ class ForumButtons extends StatefulWidget {
   final Function onVoted;
 
   ForumButtons({
-    @required this.parentID,
-    this.mine,
-    this.isComment = false,
+    @required this.model,
     this.showReplyButton = false,
-    this.likeCount = 0,
-    this.dislikeCount = 0,
     this.onReplyTap,
     @required this.onUpdateTap,
     @required this.onDeleted,
-    @required this.onVoted(VoteModel vote),
+    @required this.onVoted,
   });
 
   @override
@@ -41,13 +32,21 @@ class ForumButtons extends StatefulWidget {
 
 class _ForumButtonsState extends State<ForumButtons> {
   String loading;
+  bool mine;
+
+  @override
+  void initState() {
+    mine = AppService.isMine(widget.model);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var likeText =
-        widget.likeCount > 0 ? 'like'.tr + '(${widget.likeCount})' : 'like'.tr;
-    var dislikeText = widget.dislikeCount > 0
-        ? 'dislike'.tr + '(${widget.dislikeCount})'
+    var likeText = widget.model.like > 0
+        ? 'like'.tr + '(${widget.model.like})'
+        : 'like'.tr;
+    var dislikeText = widget.model.dislike > 0
+        ? 'dislike'.tr + '(${widget.model.dislike})'
         : 'dislike'.tr;
 
     return Container(
@@ -74,7 +73,7 @@ class _ForumButtonsState extends State<ForumButtons> {
         ),
 
         /// mine buttons
-        if (widget.mine)
+        if (mine)
           CommonButton(
             child: Icon(FontAwesomeIcons.cog, size: md),
             onTap: () async {
@@ -94,10 +93,9 @@ class _ForumButtonsState extends State<ForumButtons> {
 
   /// Vote
   onVoteButtonTapped(String choice) async {
-    if (widget.mine) {
+    if (mine) {
       AppService.error(
-        'You can\'t $choice your own ${widget.isComment ? 'comment' : 'post'}',
-      );
+          widget.model.isPost ? 'errVoteOwnPost'.tr : 'errVoteOwnComment'.tr);
       return;
     }
 
@@ -118,13 +116,14 @@ class _ForumButtonsState extends State<ForumButtons> {
     } else {
       try {
         var vote;
-        final params = {'choice': choice, 'ID': widget.parentID};
-        if (widget.isComment) {
-          vote = await AppService.wc.commentVote(params);
-        } else {
+        final params = {'choice': choice, 'ID': widget.model.id};
+        if (widget.model.isPost) {
           vote = await AppService.wc.postVote(params);
+        } else {
+          vote = await AppService.wc.commentVote(params);
         }
-        widget.onVoted(vote);
+        widget.model.updateVote(vote);
+        widget.onVoted();
         setState(() => loading = null);
       } catch (e) {
         AppService.error(e);
@@ -140,11 +139,12 @@ class _ForumButtonsState extends State<ForumButtons> {
       Text('confirmPostDelete'.tr),
       onConfirm: () async {
         try {
-          if (widget.isComment) {
-            await AppService.wc.commentDelete({'comment_ID': widget.parentID});
+          if (widget.model.isPost) {
+            await AppService.wc.postDelete({'ID': widget.model.id});
           } else {
-            await AppService.wc.postDelete({'ID': widget.parentID});
+            await AppService.wc.commentDelete({'comment_ID': widget.model.id});
           }
+          widget.model.delete();
           widget.onDeleted();
         } catch (e) {
           AppService.error('$e'.tr);

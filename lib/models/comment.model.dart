@@ -31,6 +31,7 @@ class CommentModel extends ForumBaseModel {
           files: files,
           date: date,
           deleted: false,
+          isPost: false,
         );
 
   factory CommentModel.fromBackendData(dynamic data) {
