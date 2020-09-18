@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
+import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -36,6 +39,9 @@ class RegisterFormState extends State<RegisterForm> {
   final nicknameNode = FocusNode();
   final mobileNode = FocusNode();
 
+  String mobileNo = '';
+  AuthCredential credential;
+
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
   ///
@@ -46,25 +52,25 @@ class RegisterFormState extends State<RegisterForm> {
       loading = true;
       setState(() {});
       try {
-        var res = await auth.register({
-          'email': email.text,
-          'password': pass.text,
-          'displayName': nickname.text,
-        });
-        print(res);
-        await wc.register({
+        UserModel user = await wc.register({
           'user_email': email.text,
           'user_pass': pass.text,
           'nickname': nickname.text,
-          'mobile': mobile.text,
+          'mobile': mobileNo,
         });
-        Get.offAllNamed(Routes.home);
+        await auth.loginWithToken(user.firebaseToken);
+        Get.toNamed(Routes.phoneAuth, arguments: mobile.text);
       } catch (e) {
         loading = false;
         setState(() {});
         AppService.error('$e'.tr);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -84,6 +90,7 @@ class RegisterFormState extends State<RegisterForm> {
     return Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           AppTextInputField(
             key: ValueKey(Keys.emailInput),

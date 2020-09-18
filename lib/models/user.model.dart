@@ -8,6 +8,8 @@ class UserModel {
   String userLogin;
   String photoURL;
   String sessionId;
+  String firebaseUID;
+  String firebaseToken;
 
   UserModel({
     this.data,
@@ -19,6 +21,8 @@ class UserModel {
     this.userLogin,
     this.photoURL,
     this.sessionId,
+    this.firebaseUID,
+    this.firebaseToken,
   });
 
   factory UserModel.fromBackendData(dynamic data) {
@@ -35,6 +39,8 @@ class UserModel {
       userLogin: data['user_login'],
       photoURL: data['photo_url'] ?? '',
       sessionId: data['session_id'],
+      firebaseUID: data['firebase_uid'],
+      firebaseToken: data['firebase_custom_login_token'],
     );
   }
 
