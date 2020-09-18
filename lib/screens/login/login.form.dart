@@ -36,6 +36,11 @@ class LoginFormState extends State<LoginForm> {
   /// by both the submit button and the password textfield.
   ///
   _onFormSubmit() async {
+    /**
+     * remove any input focus.
+     */
+    FocusScope.of(context).requestFocus(new FocusNode());
+
     isFormSubmitted = true;
     setState(() {});
     if (_formKey.currentState.validate()) {
@@ -57,6 +62,8 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   void dispose() {
+    email.dispose();
+    pass.dispose();
     passNode.dispose();
     super.dispose();
   }

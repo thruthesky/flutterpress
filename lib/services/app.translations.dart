@@ -15,7 +15,10 @@ class AppTranslations extends Translations {
           'profile': 'Profile',
           'update': 'Update',
           'delete': 'Delete',
+          'deleted': 'Deleted',
           'reply': 'Reply',
+          'like': 'Like',
+          'dislike': 'Dislike',
           'logout': 'Logout',
           'resign': 'Resign',
           'forgotPassword': 'Forgot password?',
@@ -38,6 +41,10 @@ class AppTranslations extends Translations {
           'createPost': 'Create Post',
           'noMorePost': 'No more post ..',
           'comment': "Comment",
+          'loginError': 'Login Error',
+          'errVoteOwnComment': 'You cannot vote on your own comment.',
+          'errVoteOwnPost': 'You cannot vote on your own post.',
+          'errTitleEmpty': 'Title is required.'
         },
         'ko': {
           'version': '버전',
@@ -52,7 +59,10 @@ class AppTranslations extends Translations {
           'profile': '회원 정보',
           'update': '업데이트',
           'delete': '@T delete',
+          'deleted': '@T Deleted',
           'reply': '@T reply',
+          'like': '@T Like',
+          'dislike': '@T Dislike',
           'logout': '로그아웃',
           'resign': '회원 탈퇴',
           'forgotPassword': '@T Forgot password?',
@@ -75,6 +85,10 @@ class AppTranslations extends Translations {
           'createPost': '@T Create Post',
           'noMorePost': '@T No more post ..',
           'comment': "@T Comment",
+          'loginError': '@T Login Error',
+          'errVoteOwnComment': '@ You cannot vote on your own comment.',
+          'errVoteOwnPost': '@ You cannot vote on your own post.',
+          'errTitleEmpty': '@T Title is required.'
         },
       };
 }

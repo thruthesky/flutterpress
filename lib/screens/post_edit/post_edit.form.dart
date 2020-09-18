@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/screens/register/register.form.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
@@ -46,28 +48,43 @@ class _PostEditFormState extends State<PostEditForm> {
 
   void onSubmit() async {
     if (loading) return;
-    setState(() => loading = true);
+    setState(() {
+      loading = true;
+      isFormSubmitted = true;
+    });
 
-    var params = {
-      'slug': slug ?? '',
-      'post_title': title.text,
-      'post_content': content.text,
-    };
+    if (!_formKey.currentState.validate()) {
+      loading = false;
+      setState(() {});
+    } else {
+      var params = {
+        'slug': slug ?? '',
+        'post_title': title.text,
+        'post_content': content.text,
+      };
 
-    var fileIds = [];
-    if (post.files.length > 0) {
-      for (var file in post.files) fileIds.add(file.id);
-      params['files'] = fileIds.join(',');
+      var fileIds = [];
+      if (post.files.length > 0) {
+        for (var file in post.files) fileIds.add(file.id);
+        params['files'] = fileIds.join(',');
+      }
+
+      try {
+        if (isUpdate) params['ID'] = post.id.toString();
+        var res = await wc.postEdit(params, isUpdate: isUpdate);
+        Get.back(result: res);
+      } catch (e) {
+        AppService.error('$e'.tr);
+        setState(() => loading = false);
+      }
     }
+  }
 
-    try {
-      if (isUpdate) params['ID'] = post.id.toString();
-      var res = await wc.postEdit(params, isUpdate: isUpdate);
-      Get.back(result: res);
-    } catch (e) {
-      AppService.error('$e'.tr);
-      setState(() => loading = false);
-    }
+  @override
+  void dispose() {
+    title.dispose();
+    content.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,12 +96,17 @@ class _PostEditFormState extends State<PostEditForm> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AppTextInputField(
                 key: ValueKey(Keys.postTitleInput),
                 hintText: 'title'.tr,
                 controller: title,
                 inputAction: TextInputAction.done,
+                validator: (str) {
+                  if (isEmpty(str)) return 'errTitleEmpty'.tr;
+                },
+                autoValidate: isFormSubmitted,
               ),
               AppTextInputField(
                 key: ValueKey(Keys.postContentInput),
@@ -95,6 +117,8 @@ class _PostEditFormState extends State<PostEditForm> {
                 minLines: 5,
                 maxLines: 15,
               ),
+
+              /// file display
               if (post.files.length > 0) ...[
                 SizedBox(height: lg),
                 Text('Attached images:'),
@@ -103,6 +127,8 @@ class _PostEditFormState extends State<PostEditForm> {
                   setState(() {});
                 }),
               ],
+
+              /// buttons
               SizedBox(height: lg),
               Row(
                 children: [

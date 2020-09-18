@@ -17,7 +17,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
   updateUserProfile(String url) async {
     try {
       await AppService.wc.profileUpdate({
-        'photoURL': url,
+        'photo_url': url,
       });
       uploadProgress = 0;
       setState(() {});

@@ -68,6 +68,18 @@ class RegisterFormState extends State<RegisterForm> {
   }
 
   @override
+  void dispose() {
+    email.dispose();
+    pass.dispose();
+    nickname.dispose();
+    mobile.dispose();
+    passNode.dispose();
+    nicknameNode.dispose();
+    mobileNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -118,7 +130,7 @@ class RegisterFormState extends State<RegisterForm> {
             },
           ),
           AppTextInputField(
-            key: ValueKey(Keys.nicknameInput),
+            key: ValueKey(Keys.mobileInput),
             labelText: 'mobileNo'.tr,
             controller: mobile,
             inputAction: TextInputAction.done,

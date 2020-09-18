@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/models/forum_base.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/keys.dart';
@@ -141,7 +142,7 @@ class AppService {
   /// check if the `item` belongs to the current logged in user.
   ///
   /// item can be either a model of `PostModel` or `CommentModel`.
-  static isMine(item) {
+  static bool isMine(ForumBaseModel item) {
     if (wc.isUserLoggedIn == false) return false;
     if (item == null) return false;
 

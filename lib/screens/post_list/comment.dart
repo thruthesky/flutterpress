@@ -55,22 +55,12 @@ class _CommentState extends State<Comment> {
             /// comment buttons
             if (!inEdit)
               ForumButtons(
-                parentID: widget.comment.id,
-                mine: AppService.isMine(widget.comment),
-                isComment: true,
+                model: widget.comment,
                 showReplyButton: !inReply,
-                likeCount: widget.comment.like,
-                dislikeCount: widget.comment.dislike,
                 onReplyTap: () => changeInReplyState(true),
                 onUpdateTap: () => changeInEditState(true),
-                onDeleted: () {
-                  widget.comment.delete();
-                  setState(() {});
-                },
-                onVoted: (vote) {
-                  widget.comment.updateVote(vote);
-                  setState(() {});
-                },
+                onDeleted: () => setState(() {}),
+                onVoted: () => setState(() {}),
               ),
 
             /// comment contents in edit mode

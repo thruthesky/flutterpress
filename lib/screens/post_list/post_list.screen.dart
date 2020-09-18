@@ -1,6 +1,5 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
@@ -14,6 +13,9 @@ import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:get/get.dart';
 
+
+/// TODO:
+///   - implement pull to refresh
 class PostListScreen extends StatefulWidget {
   @override
   _PostListScreenState createState() => _PostListScreenState();
@@ -127,7 +129,7 @@ class _PostListScreenState extends State<PostListScreen>
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onPanDown: (_) {
-            FocusScope.of(context).requestFocus(FocusNode());
+            FocusScope.of(context).requestFocus(new FocusNode());
           },
           child: SingleChildScrollView(
             controller: _scrollController,

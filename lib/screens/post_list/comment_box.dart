@@ -54,6 +54,7 @@ class _CommentBoxState extends State<CommentBox> {
   ///  1. comment content and files are both empty.
   ///  2. loading is true.
   onSubmit() async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     if (isEmpty(controller.text) && isEmpty(widget.comment.files)) {
       AppService.error('Please provide content or image');
       return;
@@ -65,7 +66,7 @@ class _CommentBoxState extends State<CommentBox> {
     setState(() {});
 
     var params = {
-      'comment_content': controller.text,
+      'comment_content': controller.text.trim(),
       'comment_parent': widget.parent,
     };
 
