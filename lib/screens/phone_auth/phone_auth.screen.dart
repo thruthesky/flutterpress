@@ -24,7 +24,7 @@ class PhoneAuthScreen extends StatelessWidget {
                 SizedBox(height: xxl),
                 PhoneAuthForm(
                   onVerified: (phoneNo) {
-                    Get.offAllNamed(Routes.home);
+                    Get.offAllNamed(Routes.profile);
                   },
                 ),
               ],

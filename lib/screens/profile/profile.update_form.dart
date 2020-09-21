@@ -3,6 +3,7 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
@@ -102,7 +103,9 @@ class ProfileUpdateFormState extends State<ProfileUpdateForm> {
                         AppService.error('$e'.tr);
                       }
                     },
-                    onCancel: () => Get.back,
+                    onCancel: () {
+                      Get.offAllNamed(Routes.home);
+                    },
                   );
                 },
               ),

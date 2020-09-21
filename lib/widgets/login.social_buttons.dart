@@ -16,11 +16,12 @@ class LoginSocialButtons extends StatelessWidget {
   final WordpressController wc = Get.find();
 
   Future socialLogin(User user) {
+    final String uid = user.uid;
     final String provider = user.providerData[0].providerId;
 
     return wc.socialLogin(
-      firebaseUID: user.uid,
-      email: user.email,
+      firebaseUID: uid,
+      email: '$uid@$provider',
       provider: provider,
     );
   }
