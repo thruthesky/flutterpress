@@ -54,6 +54,28 @@
 }();
 ```
 
+* Registration into firebase
+
+``` dart
+    (() async {
+      Map<String, String> data = {
+        'email': 'kakaotalk12345@kakao.com',
+        'password': 'Settings.secretKey+1234',
+        'displayName': 'name123',
+        'photoUrl': '',
+      };
+
+      print('----> kakaotalk login success: $data');
+
+      try {
+        await auth.loginOrRegisterIntoFirebase(data);
+      } catch (e) {
+        print('Going to handle it');
+        AppService.alertError(e);
+      }
+    })();
+```
+
 ### Test
 
 * How to do the integration test.

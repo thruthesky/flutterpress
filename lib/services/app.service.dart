@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/flutterbase_v2/flutterbase.defines.dart';
 import 'package:flutterpress/models/forum_base.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.globals.dart';
@@ -201,5 +202,55 @@ class AppService {
       }
     }
     return file;
+  }
+
+  static isFirebaseError(e) {
+    return e.runtimeType.toString() == "FirebaseAuthException";
+  }
+
+  static getFirebaseErrorData(e) {
+    print('handleFirebaseError(): e.runtimeType: ' + e.runtimeType.toString());
+    print(e);
+    if (e.code == ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL) {
+      return {
+        'title': '중복 소셜 로그인',
+        'message': '동일한 메일 주소의 다른 소셜 아이디로 이미 로그인되어져 있습니다. 다른 소셜아이디로 로그인을 하세요.',
+      };
+    } else {
+      print('code: ${e.code}');
+      print('message: ${e.message}');
+      return {
+        'title': e.code,
+        'message': e.message,
+      };
+    }
+  }
+
+  static alertError(dynamic e) {
+    Map<dynamic, dynamic> data = {
+      'title': '',
+      'message': '',
+    };
+    if (isFirebaseError(e)) {
+      data = getFirebaseErrorData(e);
+    } else {
+      data['title'] = 'Backend error';
+      data['message'] = e;
+    }
+    Get.snackbar(data['title'], data['message'],
+        duration: Duration(seconds: 10));
+  }
+
+
+  static String getKakaoEmail(user) {
+    
+    
+      String email;
+      if ( user.properties['email'] != null ) {
+        email = user.properties['email'];
+      } else {
+        email = 'kakaotalk${user.id}@kakao.com';
+      }
+      return email;
   }
 }
