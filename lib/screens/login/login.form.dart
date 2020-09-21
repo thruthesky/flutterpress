@@ -130,9 +130,8 @@ class LoginFormState extends State<LoginForm> {
               child: Text('forgotPassword'.tr),
             ),
           ),
-          SizedBox(height: md),
+          SizedBox(height: sm),
           Divider(),
-          SizedBox(height: md),
         ],
       ),
     );
