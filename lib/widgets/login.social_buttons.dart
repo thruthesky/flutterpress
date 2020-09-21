@@ -15,16 +15,9 @@ class LoginSocialButtons extends StatelessWidget {
   final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
 
-<<<<<<< HEAD:lib/screens/login/login.social_buttons.dart
-  Future<void> loginOrRegisterIntoWordpress({User user, String provider}) async {
-    final email = 'ID${user.uid}@$provider.com';
-    final password = wc.password('${user.uid}');
-    final name = user.displayName;
-=======
   Future socialLogin(User user) {
     final String uid = user.uid;
     final String provider = user.providerData[0].providerId;
->>>>>>> a60904b19d36895a60935b3342b2acf69c77bf47:lib/widgets/login.social_buttons.dart
 
     return wc.socialLogin(
       firebaseUID: uid,
@@ -48,12 +41,8 @@ class LoginSocialButtons extends StatelessWidget {
           onTap: () async {
             try {
               User user = await auth.loginWithKakaotalkAccount();
-<<<<<<< HEAD:lib/screens/login/login.social_buttons.dart
-              await loginOrRegisterIntoWordpress(user: user, provider: 'kakaotalk');
-=======
               await socialLogin(user);
               Get.toNamed(Routes.phoneAuth);
->>>>>>> a60904b19d36895a60935b3342b2acf69c77bf47:lib/widgets/login.social_buttons.dart
             } catch (e) {
               Get.snackbar('loginError'.tr, e.toString());
             }
@@ -71,12 +60,8 @@ class LoginSocialButtons extends StatelessWidget {
           onTap: () async {
             try {
               User user = await auth.loginWithFacebookAccount(context: context);
-<<<<<<< HEAD:lib/screens/login/login.social_buttons.dart
-              await loginOrRegisterIntoWordpress(user: user, provider: 'facebook');
-=======
               await socialLogin(user);
               Get.toNamed(Routes.phoneAuth);
->>>>>>> a60904b19d36895a60935b3342b2acf69c77bf47:lib/widgets/login.social_buttons.dart
             } catch (e) {
               print(e);
               Get.snackbar('loginError'.tr, e.toString());
@@ -95,12 +80,8 @@ class LoginSocialButtons extends StatelessWidget {
           onTap: () async {
             try {
               User user = await auth.loginWithGoogleAccount();
-<<<<<<< HEAD:lib/screens/login/login.social_buttons.dart
-              await loginOrRegisterIntoWordpress(user: user, provider: 'google');
-=======
               await socialLogin(user);
               Get.toNamed(Routes.phoneAuth);
->>>>>>> a60904b19d36895a60935b3342b2acf69c77bf47:lib/widgets/login.social_buttons.dart
             } catch (e) {
               Get.snackbar('loginError'.tr, e.toString());
             }
@@ -123,12 +104,8 @@ class LoginSocialButtons extends StatelessWidget {
                 onTap: () async {
                   try {
                     User user = await auth.loginWithAppleAccount();
-<<<<<<< HEAD:lib/screens/login/login.social_buttons.dart
-                    await loginOrRegisterIntoWordpress(user: user, provider: 'apple');
-=======
                     await socialLogin(user);
                     Get.toNamed(Routes.phoneAuth);
->>>>>>> a60904b19d36895a60935b3342b2acf69c77bf47:lib/widgets/login.social_buttons.dart
                   } catch (e) {
                     Get.snackbar('loginError'.tr, e.toString());
                   }
