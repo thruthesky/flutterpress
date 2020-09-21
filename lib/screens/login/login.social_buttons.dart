@@ -14,8 +14,8 @@ class LoginSocialButtons extends StatelessWidget {
   final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
 
-  Future<void> loginOrRegister({User user, String provider}) async {
-    final email = '${user.uid}@$provider.com';
+  Future<void> loginOrRegisterIntoWordpress({User user, String provider}) async {
+    final email = 'ID${user.uid}@$provider.com';
     final password = wc.password('${user.uid}');
     final name = user.displayName;
 
@@ -53,7 +53,7 @@ class LoginSocialButtons extends StatelessWidget {
           onTap: () async {
             try {
               User user = await auth.loginWithKakaotalkAccount();
-              await loginOrRegister(user: user, provider: 'kakaotalk');
+              await loginOrRegisterIntoWordpress(user: user, provider: 'kakaotalk');
             } catch (e) {
               Get.snackbar('loginError'.tr, e.toString());
             }
@@ -71,7 +71,7 @@ class LoginSocialButtons extends StatelessWidget {
           onTap: () async {
             try {
               User user = await auth.loginWithFacebookAccount(context: context);
-              await loginOrRegister(user: user, provider: 'facebook');
+              await loginOrRegisterIntoWordpress(user: user, provider: 'facebook');
             } catch (e) {
               Get.snackbar('loginError'.tr, e.toString());
             }
@@ -89,7 +89,7 @@ class LoginSocialButtons extends StatelessWidget {
           onTap: () async {
             try {
               User user = await auth.loginWithGoogleAccount();
-              await loginOrRegister(user: user, provider: 'google');
+              await loginOrRegisterIntoWordpress(user: user, provider: 'google');
             } catch (e) {
               Get.snackbar('loginError'.tr, e.toString());
             }
@@ -112,7 +112,7 @@ class LoginSocialButtons extends StatelessWidget {
                 onTap: () async {
                   try {
                     User user = await auth.loginWithAppleAccount();
-                    await loginOrRegister(user: user, provider: 'apple');
+                    await loginOrRegisterIntoWordpress(user: user, provider: 'apple');
                   } catch (e) {
                     Get.snackbar('loginError'.tr, e.toString());
                   }
