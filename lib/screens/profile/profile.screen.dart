@@ -15,7 +15,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Keys.profileScaffold),
-      appBar: AppBar(title: Text('profile'.tr)),
+      appBar: AppBar(
+        title: Text('profile'.tr),
+        automaticallyImplyLeading: false,
+      ),
       endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Container(

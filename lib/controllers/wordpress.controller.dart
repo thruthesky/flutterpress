@@ -129,6 +129,22 @@ class WordpressController extends GetxController {
     update();
   }
 
+  /// Social login
+  ///
+  Future<UserModel> socialLogin({String firebaseUID, String email, String provider}) async {
+    var result = await AppService.getHttp({
+      'route': 'user.firebaseSocialLogin',
+      'email': email,
+      'firebase_uid': firebaseUID,
+      'provider': provider
+    });
+
+    print('socialLogin:: Result');
+    print(result);
+
+    return _updateCurrentUser(result);
+  }
+
   /// This will make an Http request for editting post.
   ///
   /// Editting can either be creating or updating.

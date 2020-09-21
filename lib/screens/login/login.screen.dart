@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/screens/login/login.social_buttons.dart';
+import 'package:flutterpress/widgets/login.social_buttons.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/screens/login/login.form.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutterpress/widgets/custom_page_header.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -18,25 +18,13 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FlatButton(
-                  padding: EdgeInsets.all(0),
-                  child: Row(
-                    children: [
-                      Icon(FontAwesomeIcons.chevronLeft),
-                      SizedBox(width: lg),
-                      Text('Back', style: TextStyle(fontSize: md)),
-                    ],
-                  ),
-                  onPressed: () => Get.back(),
-                ),
-                SizedBox(height: 50),
-                Text('Proceed with your', style: TextStyle(fontSize: lg)),
-                Text(
-                  'login'.tr,
-                  style: TextStyle(fontSize: xl, fontWeight: FontWeight.bold),
+                CustomPageHeader(
+                  title: 'login'.tr,
+                  subtitle: 'Proceed with your',
                 ),
                 SizedBox(height: xl),
                 LoginForm(),
+                SizedBox(height: md),
                 Center(child: Text('Login with')),
                 SizedBox(height: md),
                 LoginSocialButtons(),

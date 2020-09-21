@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 class PhoneAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String phoneNo = Get.arguments;
 
     return Scaffold(
       // appBar: AppBar(),
@@ -23,9 +22,11 @@ class PhoneAuthScreen extends StatelessWidget {
                   style: TextStyle(fontSize: lg),
                 ),
                 SizedBox(height: xxl),
-                PhoneAuthForm(phoneNo: phoneNo, onVerified: () {
-                  Get.offAllNamed(Routes.home);
-                },),
+                PhoneAuthForm(
+                  onVerified: (phoneNo) {
+                    Get.offAllNamed(Routes.profile);
+                  },
+                ),
               ],
             ),
           ),

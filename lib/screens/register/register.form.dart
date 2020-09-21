@@ -33,11 +33,9 @@ class RegisterFormState extends State<RegisterForm> {
   final email = TextEditingController();
   final pass = TextEditingController();
   final nickname = TextEditingController();
-  final mobile = TextEditingController();
 
   final passNode = FocusNode();
   final nicknameNode = FocusNode();
-  final mobileNode = FocusNode();
 
   String mobileNo = '';
   AuthCredential credential;
@@ -59,7 +57,7 @@ class RegisterFormState extends State<RegisterForm> {
           'mobile': mobileNo,
         });
         await auth.loginWithToken(user.firebaseToken);
-        Get.toNamed(Routes.phoneAuth, arguments: mobile.text);
+        Get.toNamed(Routes.phoneAuth);
       } catch (e) {
         loading = false;
         setState(() {});
@@ -78,10 +76,8 @@ class RegisterFormState extends State<RegisterForm> {
     email.dispose();
     pass.dispose();
     nickname.dispose();
-    mobile.dispose();
     passNode.dispose();
     nicknameNode.dispose();
-    mobileNode.dispose();
     super.dispose();
   }
 
@@ -136,24 +132,19 @@ class RegisterFormState extends State<RegisterForm> {
               if (isEmpty(nickname)) return 'nickname_empty'.tr;
             },
           ),
-          AppTextInputField(
-            key: ValueKey(Keys.mobileInput),
-            labelText: 'mobileNo'.tr,
-            controller: mobile,
-            inputAction: TextInputAction.done,
-            inputType: TextInputType.text,
-            onEditingComplete: _onFormSubmit,
-            focusNode: mobileNode,
-            autoValidate: isFormSubmitted,
-            validator: (mobile) {
-              if (isEmpty(mobile)) return 'Mobile number is empty'.tr;
-            },
+          SizedBox(height: sm),
+          SizedBox(
+            width: double.infinity,
+            child: RaisedButton(
+              key: ValueKey(Keys.formSubmitButton),
+              onPressed: _onFormSubmit,
+              child: Text('submit'.tr.toUpperCase()),
+              color: Colors.blue[600],
+              textColor: Colors.white,
+            ),
           ),
-          RaisedButton(
-            key: ValueKey(Keys.formSubmitButton),
-            onPressed: _onFormSubmit,
-            child: Text('submit'.tr),
-          ),
+          SizedBox(height: md),
+          Divider(),
         ],
       ),
     );
