@@ -9,7 +9,6 @@ import 'package:flutterpress/flutterbase_v2/flutterbase.defines.dart';
 import 'package:flutterpress/models/forum_base.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.globals.dart';
-import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/widgets/app.simple_dialog.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -193,7 +192,7 @@ class AppService {
   }
 
   /// Hnadles all kinds of error from Wordpress PHP backend to Firebase error.
-  static alertError(dynamic e, [String message]) {
+  static alertError(dynamic e, [dynamic message]) {
     Map<dynamic, dynamic> data = {
       'title': '',
       'message': '',
@@ -209,8 +208,11 @@ class AppService {
     }
 
     print('alertError() with: $data');
-    Get.snackbar(data['title'], data['message'],
-        duration: Duration(seconds: 10));
+    Get.snackbar(
+      data['title'],
+      data['message'],
+      duration: Duration(seconds: 10),
+    );
   }
 
   static String getErrorMessage(e) {

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/flutterbase_v2/widgets/social_login/phone_auth.form.dart';
-import 'package:flutterpress/services/app.service.dart';
-import 'package:flutterpress/services/routes.dart';
+import 'package:flutterpress/screens/phone_auth/phone_auth.form.dart';
 import 'package:flutterpress/widgets/custom_page_header.dart';
 import 'package:get/get.dart';
 
@@ -29,19 +27,7 @@ class PhoneAuthScreen extends StatelessWidget {
                   description: 'phoneAuthVerificationDescription'.tr,
                 ),
                 SizedBox(height: xl),
-                PhoneAuthForm(
-                  onVerified: (phoneNo) async {
-                    try {
-                      await wc.profileUpdate({'mobile': phoneNo});
-                      Get.offAllNamed(Routes.profile);
-                    } catch (e) {
-                      AppService.alertError(e);
-                    }
-                  },
-                  onError: (e) {
-                    AppService.alertError(e);
-                  },
-                ),
+                PhoneAuthForm(),
                 SizedBox(height: md),
               ],
             ),

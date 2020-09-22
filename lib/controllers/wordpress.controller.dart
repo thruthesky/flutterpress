@@ -19,9 +19,9 @@ class WordpressController extends GetxController {
 
   Box userBox = Hive.box(HiveBox.user);
 
-  UserModel user;
+  UserModel user = UserModel();
 
-  bool get isUserLoggedIn => user != null;
+  bool get isUserLoggedIn => user.id != null;
 
   /// Get version of backend API.
   ///
@@ -44,8 +44,9 @@ class WordpressController extends GetxController {
   /// Updates the user instance and notify or update listeners.
   ///
   UserModel _updateCurrentUser(Map<String, dynamic> res) {
-    this.user = UserModel.fromBackendData(res);
+    user = UserModel.fromBackendData(res);
     userBox.put(BoxKey.currentUser, res);
+    this.user = user;
     update();
 
     /// @add return
@@ -124,14 +125,18 @@ class WordpressController extends GetxController {
   /// Logouts the current logged in user.
   ///
   logout() {
-    user = null;
+    user = UserModel();
     userBox.delete(BoxKey.currentUser);
     update();
   }
 
   /// Social login
   ///
-  Future<UserModel> socialLogin({String firebaseUID, String email, String provider}) async {
+  Future<UserModel> socialLogin({
+    String firebaseUID,
+    String email,
+    String provider,
+  }) async {
     var result = await AppService.getHttp({
       'route': 'user.firebaseSocialLogin',
       'email': email,
@@ -139,10 +144,27 @@ class WordpressController extends GetxController {
       'provider': provider
     });
 
-    print('socialLogin:: Result');
+    print('socialLogin:: firebaseSocialLogin');
     print(result);
 
     return _updateCurrentUser(result);
+  }
+
+  Future<dynamic> phoneAuthCodeVerification({
+    String sessionID,
+    String verificationCode,
+    String mobileNo,
+  }) async {
+    var result = await AppService.getHttp({
+      'route': 'user.verifyPhoneVerificationCode',
+      'sessionInfo': sessionID,
+      'code': verificationCode,
+      'mobile': mobileNo,
+      'session_id': user.sessionId,
+    });
+    // print('phoneAuthCodeVerification:: Result');
+    // print(result);
+    return result;
   }
 
   /// This will make an Http request for editting post.

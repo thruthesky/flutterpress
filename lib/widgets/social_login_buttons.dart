@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
-import 'package:flutterpress/flutterbase_v2/widgets/social_login/login_social_icon.dart';
+import 'package:flutterpress/widgets/social_login_icon.dart';
 import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
@@ -84,7 +84,6 @@ class LoginSocialButtons extends StatelessWidget {
             try {
               User user = await auth.loginWithGoogleAccount();
               await socialLogin(user);
-              Get.toNamed(Routes.phoneAuth);
             } catch (e) {
               AppService.alertError('loginError'.tr, e);
             }

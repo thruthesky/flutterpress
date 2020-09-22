@@ -68,6 +68,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
         if (uploadProgress > 0) Text('$uploadProgress'),
         Text('ID: ${AppService.wc.user.id}'),
         Text('Email: ${AppService.wc.user.userEmail}'),
+        Text('Number: ${AppService.wc.user.mobile}'),
       ],
     );
   }

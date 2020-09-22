@@ -22,6 +22,8 @@ class AppTextInputField extends StatefulWidget {
 
   final bool withBorder;
 
+  final bool enabled;
+
   AppTextInputField({
     this.inputAction,
     this.hintText,
@@ -40,6 +42,7 @@ class AppTextInputField extends StatefulWidget {
     this.minLines = 1,
     this.maxLines = 1,
     this.withBorder = false,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -52,6 +55,7 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       textAlign: TextAlign.left,
       textAlignVertical: TextAlignVertical.center,
       minLines: widget.minLines,

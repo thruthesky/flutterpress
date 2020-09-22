@@ -15,7 +15,8 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<WordpressController>(
-      builder: (wc) {
+      builder: (wc) {;
+
         return CircularAvatar(
           photoURL: wc.user.photoURL,
           height: height,
