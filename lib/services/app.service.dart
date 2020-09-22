@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
@@ -216,11 +217,19 @@ class AppService {
   }
 
   static String getErrorMessage(e) {
+    if (e is String) return e;
+
+    /// IOS errors
+    if (e is NsError) {
+      print('iOS:: NsError happened!');
+      return e.localizedDescription;
+    }
+
     if (e.runtimeType.toString() == 'KakaoAuthError') {
       // TODO: This is an imaginationary code. It's not working. Need to rewrite.
       return e.message;
     } else {
-      return e;
+      return 'unexpected_error';
     }
   }
 

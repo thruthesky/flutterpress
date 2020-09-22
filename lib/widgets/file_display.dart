@@ -19,7 +19,7 @@ class FileDisplay extends StatelessWidget {
   });
 
   onDeleteTapped(FileModel file) {
-    AppService.confirmDialog('deleteImage', Text('confirmDelete'.tr),
+    AppService.confirmDialog('deleteImage'.tr, Text('confirmDelete'.tr),
         onConfirm: () async {
       try {
         await AppService.wc.fileDelete({'ID': file.id});

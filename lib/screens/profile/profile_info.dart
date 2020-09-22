@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/screens/profile/profile_image.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -43,6 +44,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 },
                 onUploaded: (file) {
                   updateUserProfile(file.thumbnailUrl);
+                  uploadProgress = 0;
+                  setState(() {});
                 },
               ),
             ),
@@ -65,8 +68,14 @@ class _ProfileInfoState extends State<ProfileInfo> {
               ),
           ],
         ),
-        if (uploadProgress > 0) Text('$uploadProgress'),
-        Text('ID: ${AppService.wc.user.id}'),
+        if (uploadProgress != 0)
+          Container(
+            padding: EdgeInsets.only(top: sm, right: lg, left: lg),
+            child: LinearProgressIndicator(
+              value: uploadProgress,
+            ),
+          ),
+        SizedBox(height: sm),
         Text('Email: ${AppService.wc.user.userEmail}'),
         Text('Number: ${AppService.wc.user.mobile}'),
       ],

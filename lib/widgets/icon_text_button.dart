@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginSocialIcon extends StatelessWidget {
-  LoginSocialIcon({
+class IconTextButton extends StatelessWidget {
+  IconTextButton({
     @required this.child,
     @required this.text,
     @required this.onTap,

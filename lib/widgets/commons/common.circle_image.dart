@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CircleImageContainer extends StatelessWidget {
-
   final ImageProvider imageProvider;
   final double height, width;
 
@@ -23,6 +22,6 @@ class CircleImageContainer extends StatelessWidget {
           image: imageProvider,
         ),
       ),
-    );;
+    );
   }
 }
