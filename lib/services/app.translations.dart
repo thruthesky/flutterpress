@@ -47,7 +47,8 @@ class AppTranslations extends Translations {
           'loginError': 'Login Error',
           'errVoteOwnComment': 'You cannot vote on your own comment.',
           'errVoteOwnPost': 'You cannot vote on your own post.',
-          'errTitleEmpty': 'Title is required.'
+          'errTitleEmpty': 'Title is required.',
+          'unexpected_error': 'Unexpected error happened!'
         },
         'ko': {
           'version': '버전',
@@ -94,7 +95,8 @@ class AppTranslations extends Translations {
           'loginError': '@T Login Error',
           'errVoteOwnComment': '@ You cannot vote on your own comment.',
           'errVoteOwnPost': '@ You cannot vote on your own post.',
-          'errTitleEmpty': '@T Title is required.'
+          'errTitleEmpty': '@T Title is required.',
+          'unexpected_error': '@t Unexpected error happened!'
         },
       };
 }

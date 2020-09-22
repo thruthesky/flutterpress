@@ -10,6 +10,7 @@ import 'package:flutterpress/models/forum_base.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/widgets/app.simple_dialog.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -33,46 +34,14 @@ class AppService {
     Function onConfirm,
     Function onCancel,
   }) async {
-    await Get.dialog(
-      SimpleDialog(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title),
-            SizedBox(
-              height: 10,
-            ),
-            content
-          ],
-        ),
-        children: [
-          Divider(),
-          Row(
-            children: [
-              FlatButton(
-                key: ValueKey(Keys.dialogConfirmButton),
-                onPressed: onConfirm != null
-                    ? () {
-                        Get.back();
-                        onConfirm();
-                      }
-                    : null,
-                child: Text(textConfirm ?? 'yes'.tr),
-              ),
-              Spacer(),
-              FlatButton(
-                key: ValueKey(Keys.dialogCancelButton),
-                onPressed: () {
-                  Get.back();
-                  if (onCancel != null) onCancel();
-                },
-                child: Text('cancel'.tr),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+    await Get.dialog(AppSimpleDialog(
+      title: title,
+      content: content,
+      textConfirm: textConfirm,
+      textCancel: textCancel,
+      onConfirm: onConfirm,
+      onCancel: onCancel,
+    ));
   }
 
   ///
@@ -134,7 +103,7 @@ class AppService {
       );
     } catch (e) {
       // TODO: Handle errors
-      throw 'Unexpected error happened!';
+      throw 'unexpected_error';
     }
 
     if (response.data is String) throw response.data;
