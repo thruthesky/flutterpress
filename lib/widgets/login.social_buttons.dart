@@ -1,13 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
-// import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
 import 'package:flutterpress/flutterbase_v2/widgets/social_login/login_social_icon.dart';
 import 'package:flutterpress/services/routes.dart';
-// import 'package:flutterpress/models/user.model.dart';
-// import 'package:flutterpress/services/app.service.dart';
-// import 'package:flutterpress/services/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
