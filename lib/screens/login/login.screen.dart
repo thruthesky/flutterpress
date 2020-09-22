@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/widgets/login.social_buttons.dart';
+import 'package:flutterpress/widgets/social_login_buttons.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/screens/login/login.form.dart';
 import 'package:flutterpress/widgets/custom_page_header.dart';
