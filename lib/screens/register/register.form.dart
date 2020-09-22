@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
@@ -37,8 +36,6 @@ class RegisterFormState extends State<RegisterForm> {
   final passNode = FocusNode();
   final nicknameNode = FocusNode();
 
-  String mobileNo = '';
-  AuthCredential credential;
 
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
@@ -54,7 +51,6 @@ class RegisterFormState extends State<RegisterForm> {
           'user_email': email.text,
           'user_pass': pass.text,
           'nickname': nickname.text,
-          'mobile': mobileNo,
         });
         await auth.loginWithToken(user.firebaseToken);
         Get.toNamed(Routes.phoneAuth);
