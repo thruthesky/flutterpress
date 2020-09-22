@@ -29,6 +29,7 @@ class UserModel {
     this.firebaseUID,
     this.firebaseToken,
     this.socialLogin,
+    this.mobile,
   });
 
 
@@ -50,6 +51,7 @@ class UserModel {
       firebaseUID: data['firebase_uid'],
       firebaseToken: data['firebase_custom_login_token'],
       socialLogin: data['social_login'] ?? '',
+      mobile: data['mobile'] ?? '',
     );
   }
 

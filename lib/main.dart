@@ -62,7 +62,8 @@ class _FlutterPressState extends State<FlutterPress>
       ),
       locale: Locale('ko'),
       translations: AppTranslations(),
-      initialRoute: Routes.home,
+      // initialRoute: Routes.home,
+      initialRoute: Routes.phoneAuth,
       getPages: [
         GetPage(name: Routes.home, page: () => HomeScreen()),
         GetPage(name: Routes.login, page: () => LoginScreen()),

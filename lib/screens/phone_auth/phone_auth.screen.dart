@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutterbase_v2/widgets/social_login/phone_auth.form.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
+import 'package:flutterpress/widgets/custom_page_header.dart';
 import 'package:get/get.dart';
 
 class PhoneAuthScreen extends StatelessWidget {
+  final WordpressController wc = Get.find();
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       // appBar: AppBar(),
       body: SafeArea(
@@ -15,18 +19,30 @@ class PhoneAuthScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(lg),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 100),
-                Text(
-                  'Phone number verification',
-                  style: TextStyle(fontSize: lg),
+                CustomPageHeader(
+                  showBackButton: false,
+                  title: 'verification'.tr,
+                  subtitle: 'phoneAuthVerificationSubtitle'.tr,
+                  subtitleSize: md,
+                  description: 'phoneAuthVerificationDescription'.tr,
                 ),
-                SizedBox(height: xxl),
+                SizedBox(height: xl),
                 PhoneAuthForm(
-                  onVerified: (phoneNo) {
-                    Get.offAllNamed(Routes.profile);
+                  onVerified: (phoneNo) async {
+                    try {
+                      await wc.profileUpdate({'mobile': phoneNo});
+                      Get.offAllNamed(Routes.profile);
+                    } catch (e) {
+                      AppService.alertError(e);
+                    }
+                  },
+                  onError: (e) {
+                    AppService.alertError(e);
                   },
                 ),
+                SizedBox(height: md),
               ],
             ),
           ),

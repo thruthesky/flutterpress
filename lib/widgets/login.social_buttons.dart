@@ -48,7 +48,6 @@ class LoginSocialButtons extends StatelessWidget {
               await socialLogin(firebaseUser);
             } catch (e) {
               AppService.alertError('loginError'.tr, e);
-              // Get.snackbar('loginError'.tr, e.toString());
             }
           },
         ),
@@ -68,7 +67,7 @@ class LoginSocialButtons extends StatelessWidget {
               Get.toNamed(Routes.phoneAuth);
             } catch (e) {
               print(e);
-              Get.snackbar('loginError'.tr, e.toString());
+              AppService.alertError('loginError'.tr, e);
             }
           },
         ),
@@ -87,7 +86,7 @@ class LoginSocialButtons extends StatelessWidget {
               await socialLogin(user);
               Get.toNamed(Routes.phoneAuth);
             } catch (e) {
-              Get.snackbar('loginError'.tr, e.toString());
+              AppService.alertError('loginError'.tr, e);
             }
           },
         ),
@@ -109,9 +108,8 @@ class LoginSocialButtons extends StatelessWidget {
                   try {
                     User user = await auth.loginWithAppleAccount();
                     await socialLogin(user);
-                    Get.toNamed(Routes.phoneAuth);
                   } catch (e) {
-                    Get.snackbar('loginError'.tr, e.toString());
+                    AppService.alertError('loginError'.tr, e);
                   }
                 },
               );
