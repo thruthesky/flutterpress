@@ -17,7 +17,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       key: ValueKey(Keys.profileScaffold),
       appBar: AppBar(
         title: Text('profile'.tr),
-        automaticallyImplyLeading: false,
       ),
       endDrawer: AppDrawer(),
       body: SingleChildScrollView(

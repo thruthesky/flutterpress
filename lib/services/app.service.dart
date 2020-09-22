@@ -15,6 +15,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:validators/validators.dart' as validator;
 
 class AppService {
   static final WordpressController wc = Get.find();
@@ -154,12 +155,7 @@ class AppService {
 
   static String isValidEmail(String email) {
     if (isEmpty(email)) return 'user_email_empty'.tr;
-
-    /// TODO - Change this to validation library.
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    return regex.hasMatch(email) ? null : 'invalid_email_format'.tr;
+    return validator.isEmail(email) ? null : 'invalid_email_format'.tr;
   }
 
   static String isValidPassword(String pass) {
@@ -235,7 +231,7 @@ class AppService {
     };
     if (isFirebaseError(e)) {
       data = getFirebaseErrorData(e);
-    } else if ( message != null ) {
+    } else if (message != null) {
       data['title'] = e;
       data['message'] = getErrorMessage(message);
     } else {
@@ -249,21 +245,21 @@ class AppService {
   }
 
   static String getErrorMessage(e) {
-    if ( e.runtimeType.toString() == 'KakaoAuthError' ) { // TODO: This is an imaginationary code. It's not working. Need to rewrite.
+    if (e.runtimeType.toString() == 'KakaoAuthError') {
+      // TODO: This is an imaginationary code. It's not working. Need to rewrite.
       return e.message;
     } else {
       return e;
     }
   }
 
-
   static String getKakaoEmail(user) {
-      String email;
-      if ( user.properties['email'] != null ) {
-        email = user.properties['email'];
-      } else {
-        email = 'kakaotalk${user.id}@kakao.com';
-      }
-      return email;
+    String email;
+    if (user.properties['email'] != null) {
+      email = user.properties['email'];
+    } else {
+      email = 'kakaotalk${user.id}@kakao.com';
+    }
+    return email;
   }
 }
