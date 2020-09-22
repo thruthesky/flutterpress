@@ -155,6 +155,7 @@ class AppService {
   static String isValidEmail(String email) {
     if (isEmpty(email)) return 'user_email_empty'.tr;
 
+    /// TODO - Change this to validation library.
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
@@ -226,25 +227,37 @@ class AppService {
     }
   }
 
-  static alertError(dynamic e) {
+  /// Hnadles all kinds of error from Wordpress PHP backend to Firebase error.
+  static alertError(dynamic e, [String message]) {
     Map<dynamic, dynamic> data = {
       'title': '',
       'message': '',
     };
     if (isFirebaseError(e)) {
       data = getFirebaseErrorData(e);
+    } else if ( message != null ) {
+      data['title'] = e;
+      data['message'] = getErrorMessage(message);
     } else {
-      data['title'] = 'Backend error';
-      data['message'] = e;
+      data['title'] = 'Error';
+      data['message'] = getErrorMessage(e);
     }
+
+    print('alertError() with: $data');
     Get.snackbar(data['title'], data['message'],
         duration: Duration(seconds: 10));
   }
 
+  static String getErrorMessage(e) {
+    if ( e.runtimeType.toString() == 'KakaoAuthError' ) { // TODO: This is an imaginationary code. It's not working. Need to rewrite.
+      return e.message;
+    } else {
+      return e;
+    }
+  }
+
 
   static String getKakaoEmail(user) {
-    
-    
       String email;
       if ( user.properties['email'] != null ) {
         email = user.properties['email'];

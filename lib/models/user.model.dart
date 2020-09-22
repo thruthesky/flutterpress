@@ -11,6 +11,10 @@ class UserModel {
   String firebaseUID;
   String firebaseToken;
   String socialLogin;
+  String mobile;
+
+
+  bool get hasMobile => mobile != null && mobile.toString().length > 7;
 
   UserModel({
     this.data,
@@ -26,6 +30,8 @@ class UserModel {
     this.firebaseToken,
     this.socialLogin,
   });
+
+
 
   factory UserModel.fromBackendData(dynamic data) {
     if (data is String) {

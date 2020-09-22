@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
 import 'package:flutterpress/flutterbase_v2/widgets/social_login/login_social_icon.dart';
+import 'package:flutterpress/models/user.model.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -11,15 +13,21 @@ class LoginSocialButtons extends StatelessWidget {
   final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
 
-  Future socialLogin(User user) {
-    final String uid = user.uid;
-    final String provider = user.providerData[0].providerId;
+  Future socialLogin(User firebaseUser) async {
+    final String uid = firebaseUser.uid;
+    final String provider = firebaseUser.providerData[0].providerId;
 
-    return wc.socialLogin(
+    UserModel user = await wc.socialLogin(
       firebaseUID: uid,
-      email: '$uid@$provider',
+      email: firebaseUser.email,
       provider: provider,
     );
+
+    if (user.hasMobile) {
+      Get.offAllNamed(Routes.home);
+    } else {
+      Get.toNamed(Routes.phoneAuth);
+    }
   }
 
   @override
@@ -36,11 +44,11 @@ class LoginSocialButtons extends StatelessWidget {
           text: '카카오톡',
           onTap: () async {
             try {
-              User user = await auth.loginWithKakaotalkAccount();
-              await socialLogin(user);
-              Get.toNamed(Routes.phoneAuth);
+              User firebaseUser = await auth.loginWithKakaotalkAccount();
+              await socialLogin(firebaseUser);
             } catch (e) {
-              Get.snackbar('loginError'.tr, e.toString());
+              AppService.alertError('loginError'.tr, e);
+              // Get.snackbar('loginError'.tr, e.toString());
             }
           },
         ),
