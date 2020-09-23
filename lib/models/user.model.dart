@@ -14,8 +14,9 @@ class UserModel {
   String mobile;
   String birthday;
 
-
   bool get hasMobile => mobile != null && mobile.toString().length > 7;
+
+  bool get isRegisteredWithWordpress => socialLogin == 'wordpress';
 
   UserModel({
     this.data,
@@ -34,12 +35,16 @@ class UserModel {
     this.birthday,
   });
 
-
-
   factory UserModel.fromBackendData(dynamic data) {
     if (data is String) {
       return UserModel(data: data);
     }
+
+    final String _provider =
+        data['social_login'] != null && data['social_login'] != ''
+            ? data['social_login'].split('.')[0]
+            : 'wordpress';
+
     return UserModel(
       data: data,
       id: int.parse(data['ID']), // User's ID from backend is string.
@@ -52,9 +57,9 @@ class UserModel {
       sessionId: data['session_id'],
       firebaseUID: data['firebase_uid'],
       firebaseToken: data['firebase_custom_login_token'],
-      socialLogin: data['social_login'] ?? '',
       mobile: data['mobile'] ?? '',
-      birthday: data['birthday'] ?? ''
+      birthday: data['birthday'] ?? '',
+      socialLogin: _provider,
     );
   }
 

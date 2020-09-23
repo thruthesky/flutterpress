@@ -22,20 +22,11 @@ class LoginSocialButtons extends StatelessWidget {
 
   Future socialLogin(User firebaseUser) async {
     if (onSuccess != null) onSuccess();
-
-    final String uid = firebaseUser.uid;
-    final String provider = firebaseUser.providerData[0].providerId;
-
-    UserModel user = await wc.socialLogin(
-      firebaseUID: uid,
-      email: firebaseUser.email,
-      provider: provider,
-    );
-
+    UserModel user = await wc.socialLogin(firebaseUser);
     AppService.onUserLogin(user);
   }
 
-  onError(e) {
+  onError(e) {  
     if (onFail != null) onFail();
     AppService.alertError('loginError'.tr, e);
   }

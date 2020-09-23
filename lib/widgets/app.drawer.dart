@@ -18,7 +18,14 @@ class _AppDrawerState extends State<AppDrawer> {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                child: Text('Drawer Header'),
+                child: Column(
+                  children: [
+                    if (_.isUserLoggedIn) ...[
+                      Text(_.user.nickName),
+                      Text('Logged in with ${_.user.socialLogin}'),
+                    ]
+                  ],
+                ),
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
@@ -28,25 +35,24 @@ class _AppDrawerState extends State<AppDrawer> {
                 child: Text('home'.tr),
                 onPressed: () => Get.toNamed(Routes.home),
               ),
-              if (!_.isUserLoggedIn)
+              if (!_.isUserLoggedIn) ...[
                 FlatButton(
                   key: ValueKey(Routes.login),
                   child: Text('login'.tr),
                   onPressed: () => Get.toNamed(Routes.login),
                 ),
-              if (!_.isUserLoggedIn)
                 FlatButton(
                   key: ValueKey(Routes.register),
                   child: Text('register'.tr),
                   onPressed: () => Get.toNamed(Routes.register),
                 ),
-              if (_.isUserLoggedIn)
+              ],
+              if (_.isUserLoggedIn) ...[
                 FlatButton(
                   key: ValueKey(Routes.profile),
                   child: Text('profile'.tr),
                   onPressed: () => Get.toNamed(Routes.profile),
                 ),
-              if (_.isUserLoggedIn)
                 FlatButton(
                   child: Text('logout'.tr),
                   onPressed: () {
@@ -54,6 +60,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     Get.offAllNamed(Routes.home);
                   },
                 ),
+              ],
             ],
           );
         },

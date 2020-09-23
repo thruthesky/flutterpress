@@ -8,7 +8,6 @@ import 'package:flutterpress/widgets/commons/common.button.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:flutterpress/widgets/or_divider.dart';
 import 'package:get/get.dart';
-import 'package:flutterpress/controllers/wordpress.controller.dart';
 
 class PhoneAuthCodeForm extends StatefulWidget {
   final String mobileNo;
@@ -20,7 +19,6 @@ class PhoneAuthCodeForm extends StatefulWidget {
 }
 
 class _PhoneAuthCodeFormState extends State<PhoneAuthCodeForm> {
-  final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
   final _codeController = TextEditingController();
@@ -110,12 +108,12 @@ class _PhoneAuthCodeFormState extends State<PhoneAuthCodeForm> {
       setState(() {});
 
       try {
-        await wc.phoneAuthCodeVerification(
+        await AppService.wc.phoneAuthCodeVerification(
           sessionID: widget.sessionID,
           verificationCode: _codeController.text,
           mobileNo: widget.mobileNo,
         );
-        wc.user.mobile = widget.mobileNo;
+        AppService.wc.updateUserMobile(widget.mobileNo);
         loading = true;
         setState(() {});
         Get.offAllNamed(Routes.profile);

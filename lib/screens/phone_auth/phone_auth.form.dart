@@ -6,7 +6,6 @@ import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:get/get.dart';
-import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/country_code_selector.dart';
 
@@ -17,7 +16,6 @@ class PhoneAuthForm extends StatefulWidget {
 
 class _PhoneAuthFormState extends State<PhoneAuthForm> {
   final FirebaseAuth _fbAuth = FirebaseAuth.instance;
-  final WordpressController wc = Get.find();
 
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
@@ -34,7 +32,7 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    print(wc.user.sessionId);
+    print(AppService.wc.user.sessionId);
 
     return Form(
       key: _formKey,

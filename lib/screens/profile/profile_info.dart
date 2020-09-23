@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/screens/profile/info_text.dart';
@@ -15,8 +14,6 @@ class ProfileInfo extends StatefulWidget {
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
-  final WordpressController wc = Get.find();
-
   double uploadProgress = 0;
 
   updateUserProfile(String url) async {
@@ -105,7 +102,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
             padding: EdgeInsets.all(sm),
             width: double.infinity,
             child: InfoText(
-              wc.user.email,
+              AppService.wc.user.email,
               centered: true,
               iconRightSpacing: sm,
             ),
@@ -118,21 +115,22 @@ class _ProfileInfoState extends State<ProfileInfo> {
             padding: EdgeInsets.all(sm),
             child: Column(
               children: [
-                /// TODO: show only when user registered with wordpress.
-                SizedBox(
-                  width: double.infinity,
-                  child: InfoText(
-                    wc.user.email,
-                    iconRightSpacing: sm,
-                    fontSize: md,
-                    label: 'email'.tr,
+                if (AppService.wc.user.isRegisteredWithWordpress) ...[
+                  SizedBox(
+                    width: double.infinity,
+                    child: InfoText(
+                      AppService.wc.user.email,
+                      iconRightSpacing: sm,
+                      fontSize: md,
+                      label: 'email'.tr,
+                    ),
                   ),
-                ),
-                SizedBox(height: lg),
+                  SizedBox(height: lg),
+                ],
                 SizedBox(
                   width: double.infinity,
                   child: InfoText(
-                    wc.user.nickName,
+                    AppService.wc.user.nickName,
                     iconRightSpacing: sm,
                     label: 'nickname'.tr,
                     isRequired: true,
@@ -143,7 +141,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 SizedBox(
                   width: double.infinity,
                   child: InfoText(
-                    wc.user.mobile,
+                    AppService.wc.user.mobile,
                     label: 'mobileNo'.tr,
                     iconRightSpacing: sm,
                     isRequired: true,
@@ -154,7 +152,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 SizedBox(
                   width: double.infinity,
                   child: InfoText(
-                    wc.user.birthday,
+                    AppService.wc.user.birthday,
                     label: 'birthday'.tr,
                     iconRightSpacing: sm,
                     isRequired: true,

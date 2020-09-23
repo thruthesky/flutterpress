@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/comment.model.dart';
@@ -132,17 +133,19 @@ class WordpressController extends GetxController {
 
   /// Social login
   ///
-  Future<UserModel> socialLogin({
-    String firebaseUID,
-    String email,
-    String provider,
-  }) async {
-    var result = await AppService.getHttp({
+  Future<UserModel> socialLogin(User fbUser) async {
+    final String uid = fbUser.uid;
+    final String provider = fbUser.providerData[0].providerId;
+
+    final params = {
       'route': 'user.firebaseSocialLogin',
-      'email': email,
-      'firebase_uid': firebaseUID,
-      'provider': provider
-    });
+      'firebase_uid': uid,
+      'provider': provider,
+      'email': fbUser.email,
+      'nickname': fbUser.displayName,
+    };
+
+    var result = await AppService.getHttp(params);
 
     print('socialLogin:: firebaseSocialLogin');
     print(result);
@@ -165,6 +168,11 @@ class WordpressController extends GetxController {
     // print('phoneAuthCodeVerification:: Result');
     // print(result);
     return result;
+  }
+
+  updateUserMobile(String mobile) {
+    user.mobile = mobile;
+    update();
   }
 
   /// This will make an Http request for editting post.
