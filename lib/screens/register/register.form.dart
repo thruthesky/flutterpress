@@ -53,6 +53,7 @@ class RegisterFormState extends State<RegisterForm> {
           'nickname': nickname.text,
         });
         await auth.loginWithToken(user.firebaseToken);
+        AppService.onUserLogin(user);
         Get.toNamed(Routes.phoneAuth);
       } catch (e) {
         loading = false;

@@ -233,6 +233,9 @@ class AppService {
     }
   }
 
+
+
+  /// Returns an email address for Kakao login.
   static String getKakaoEmail(user) {
     String email;
     if (user.properties['email'] != null) {
@@ -241,5 +244,17 @@ class AppService {
       email = 'kakaotalk${user.id}@kakao.com';
     }
     return email;
+  }
+
+
+  /// Whenever a user register or login, this method will be called.
+  /// [user] is the `user reponse` from PHP wordpress backend.
+  static onUserLogin(user) {
+    ///
+    /// Check if user has mobile. If not, go to mobile verification code page.
+    /// 
+    
+
+    /// Check if user has nickname. If not, go to profile update page, indicating 'nickname is missing'.
   }
 }

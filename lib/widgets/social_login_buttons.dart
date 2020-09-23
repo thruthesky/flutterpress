@@ -23,6 +23,8 @@ class LoginSocialButtons extends StatelessWidget {
       provider: provider,
     );
 
+    AppService.onUserLogin(user);
+
     if (user.hasMobile) {
       Get.offAllNamed(Routes.home);
     } else {

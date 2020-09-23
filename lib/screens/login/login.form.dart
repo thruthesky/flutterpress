@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
+import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -47,10 +48,11 @@ class LoginFormState extends State<LoginForm> {
       loading = true;
       setState(() {});
       try {
-        await wc.login({
+        UserModel user = await wc.login({
           'user_email': email.value.text,
           'user_pass': pass.value.text,
         });
+        AppService.onUserLogin(user);
         Get.offAllNamed(Routes.home);
       } catch (e) {
         loading = false;
