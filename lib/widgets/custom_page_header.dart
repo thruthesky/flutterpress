@@ -28,7 +28,7 @@ class CustomPageHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 50),
-        Text(subtitle, style: TextStyle(fontSize: subtitleSize)),
+        Text(subtitle, style: TextStyle(fontSize: subtitleSize, fontWeight: FontWeight.w700)),
         Text(
           title,
           style: TextStyle(fontSize: titleSize, fontWeight: FontWeight.bold),

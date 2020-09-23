@@ -54,7 +54,6 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 ProfileImage(
                   width: 160,
                   height: 160,
-                  
                 ),
                 Positioned(
                   bottom: 1,
@@ -99,11 +98,17 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 value: uploadProgress,
               ),
             ),
+
+          /// Full name
+          /// TODO: show user's fullname instead of email
           Container(
             padding: EdgeInsets.all(sm),
             width: double.infinity,
-            child:
-                InfoText(wc.user.email, centered: true, iconRightSpacing: sm),
+            child: InfoText(
+              wc.user.email,
+              centered: true,
+              iconRightSpacing: sm,
+            ),
           ),
 
           SizedBox(height: md),
@@ -113,13 +118,25 @@ class _ProfileInfoState extends State<ProfileInfo> {
             padding: EdgeInsets.all(sm),
             child: Column(
               children: [
+                /// TODO: show only when user registered with wordpress.
+                SizedBox(
+                  width: double.infinity,
+                  child: InfoText(
+                    wc.user.email,
+                    iconRightSpacing: sm,
+                    fontSize: md,
+                    label: 'email'.tr,
+                  ),
+                ),
+                SizedBox(height: lg),
                 SizedBox(
                   width: double.infinity,
                   child: InfoText(
                     wc.user.nickName,
                     iconRightSpacing: sm,
-                    fontSize: 20,
                     label: 'nickname'.tr,
+                    isRequired: true,
+                    requiredError: 'err_update_nickname'.tr,
                   ),
                 ),
                 SizedBox(height: lg),
@@ -128,8 +145,9 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   child: InfoText(
                     wc.user.mobile,
                     label: 'mobileNo'.tr,
-                    fontSize: 20,
                     iconRightSpacing: sm,
+                    isRequired: true,
+                    requiredError: 'err_update_mobile'.tr,
                   ),
                 ),
                 SizedBox(height: lg),
@@ -138,8 +156,9 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   child: InfoText(
                     wc.user.birthday,
                     label: 'birthday'.tr,
-                    fontSize: 20,
                     iconRightSpacing: sm,
+                    isRequired: true,
+                    requiredError: 'err_update_birthday'.tr,
                   ),
                 ),
               ],

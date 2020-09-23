@@ -6,7 +6,9 @@ import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/commons/common.button.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
+import 'package:flutterpress/widgets/social_login_buttons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
@@ -18,8 +20,6 @@ class LoginForm extends StatefulWidget {
   }
 }
 
-/// TODO
-///   - Update UI
 class LoginFormState extends State<LoginForm> {
   final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
@@ -47,13 +47,13 @@ class LoginFormState extends State<LoginForm> {
     if (_formKey.currentState.validate()) {
       loading = true;
       setState(() {});
+
       try {
         UserModel user = await wc.login({
           'user_email': email.value.text,
           'user_pass': pass.value.text,
         });
         AppService.onUserLogin(user);
-        Get.offAllNamed(Routes.home);
       } catch (e) {
         loading = false;
         setState(() {});
@@ -72,8 +72,6 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Form(
       key: _formKey,
       child: Column(
@@ -87,9 +85,9 @@ class LoginFormState extends State<LoginForm> {
             onEditingComplete: passNode.requestFocus,
             autoValidate: isFormSubmitted,
             validator: (email) => AppService.isValidEmail(email),
-            sufficIcon: Icon(FontAwesomeIcons.userAlt),
+            sufficIcon: Icon(FontAwesomeIcons.userAlt, size: 20),
           ),
-          SizedBox(height: sm),
+          SizedBox(height: lg),
           AppTextInputField(
             key: ValueKey(Keys.passwordInput),
             labelText: 'password'.tr,
@@ -103,6 +101,7 @@ class LoginFormState extends State<LoginForm> {
             sufficIcon: IconButton(
               icon: Icon(
                 hidePassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+                size: 20,
               ),
               onPressed: () {
                 hidePassword = !hidePassword;
@@ -110,32 +109,57 @@ class LoginFormState extends State<LoginForm> {
               },
             ),
           ),
-          SizedBox(height: xl),
+          SizedBox(height: loading ? xxl : xl),
           if (loading) Center(child: CommonSpinner()),
-          if (!loading)
-            SizedBox(
+          if (!loading) ...[
+            Container(
               width: double.infinity,
               child: RaisedButton(
+                padding: EdgeInsets.all(sm),
                 key: ValueKey(Keys.formSubmitButton),
                 onPressed: _onFormSubmit,
-                child: Text('login'.tr.toUpperCase()),
-                color: Colors.blue[600],
+                child: Text(
+                  'login'.tr.toUpperCase(),
+                  style: TextStyle(fontSize: 20),
+                ),
+                color: Colors.blue[400],
                 textColor: Colors.white,
               ),
             ),
-          SizedBox(height: sm),
-          SizedBox(
-            width: double.infinity,
-            child: FlatButton(
-              key: ValueKey(Keys.forgotPasswordButton),
-              onPressed: () {
-                print('TODO: FORGOT PASSWORD');
-              },
-              child: Text('forgotPassword'.tr),
+            SizedBox(height: lg),
+            Row(
+              children: [
+                CommonButton(
+                  child: Text('forgotPassword'.tr),
+                  padding: EdgeInsets.all(0),
+                  onTap: () {
+                    print('TODO: forgot password');
+                  },
+                ),
+                Spacer(),
+                CommonButton(
+                  child: Text('register'.tr),
+                  padding: EdgeInsets.all(0),
+                  onTap: () {
+                    Get.toNamed(Routes.register);
+                  },
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: sm),
-          Divider(),
+
+            /// social buttons
+            SizedBox(height: xl),
+            LoginSocialButtons(
+              onSuccess: () {
+                loading = true;
+                setState(() {});
+              },
+              onFail: () {
+                loading = false;
+                setState(() {});
+              },
+            ),
+          ],
         ],
       ),
     );

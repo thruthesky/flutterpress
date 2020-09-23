@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InfoText extends StatelessWidget {
@@ -17,12 +18,17 @@ class InfoText extends StatelessWidget {
   final EdgeInsets padding;
   final Function onTapped;
 
+  final bool isRequired;
+  final String requiredError;
+
   InfoText(
     this.str, {
+    this.isRequired = false,
+    this.requiredError,
     this.label = '',
     this.labelSize = sm,
     this.fontSize = md,
-    this.fontWeight = FontWeight.w500,
+    this.fontWeight = FontWeight.w600,
     this.labelFontWeight = FontWeight.w300,
     this.iconSize = sm,
     this.padding = const EdgeInsets.all(sm),
@@ -33,14 +39,22 @@ class InfoText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String text = str;
+    Color textColor = Colors.black54;
+    double textSize = fontSize;
+    if (isRequired && isEmpty(str)) {
+      text = this.requiredError;
+      textColor = Colors.red[500];
+    }
+
     Widget child = Stack(
       alignment: centered ? Alignment.center : Alignment.centerLeft,
       children: [
         Text(
-          str,
+          text,
           style: TextStyle(
-            color: Colors.black54,
-            fontSize: fontSize,
+            color: textColor,
+            fontSize: textSize,
             fontWeight: fontWeight,
           ),
         ),

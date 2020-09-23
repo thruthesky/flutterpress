@@ -4,9 +4,10 @@ import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.auth.service.dart';
 import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/keys.dart';
-import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
+import 'package:flutterpress/widgets/social_login_buttons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
@@ -22,8 +23,6 @@ bool isFormSubmitted = false;
 bool hidePassword = true;
 bool loading = false;
 
-/// TODO
-///   - Update UI
 class RegisterFormState extends State<RegisterForm> {
   final FlutterbaseAuthService auth = FlutterbaseAuthService();
   final WordpressController wc = Get.find();
@@ -36,16 +35,21 @@ class RegisterFormState extends State<RegisterForm> {
   final passNode = FocusNode();
   final nicknameNode = FocusNode();
 
-
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
   ///
   _onFormSubmit() async {
+    /**
+     * remove any input focus.
+     */
+    FocusScope.of(context).requestFocus(new FocusNode());
+
     isFormSubmitted = true;
     setState(() {});
     if (_formKey.currentState.validate()) {
       loading = true;
       setState(() {});
+
       try {
         UserModel user = await wc.register({
           'user_email': email.text,
@@ -54,7 +58,6 @@ class RegisterFormState extends State<RegisterForm> {
         });
         await auth.loginWithToken(user.firebaseToken);
         AppService.onUserLogin(user);
-        Get.toNamed(Routes.phoneAuth);
       } catch (e) {
         loading = false;
         setState(() {});
@@ -96,6 +99,7 @@ class RegisterFormState extends State<RegisterForm> {
             validator: (email) => AppService.isValidEmail(email),
             sufficIcon: Icon(FontAwesomeIcons.userAlt),
           ),
+          SizedBox(height: xl),
           AppTextInputField(
             key: ValueKey(Keys.passwordInput),
             labelText: 'password'.tr,
@@ -116,6 +120,7 @@ class RegisterFormState extends State<RegisterForm> {
               },
             ),
           ),
+          SizedBox(height: xl),
           AppTextInputField(
             key: ValueKey(Keys.nicknameInput),
             labelText: 'nickname'.tr,
@@ -129,19 +134,37 @@ class RegisterFormState extends State<RegisterForm> {
               if (isEmpty(nickname)) return 'nickname_empty'.tr;
             },
           ),
-          SizedBox(height: sm),
-          SizedBox(
-            width: double.infinity,
-            child: RaisedButton(
-              key: ValueKey(Keys.formSubmitButton),
-              onPressed: _onFormSubmit,
-              child: Text('submit'.tr.toUpperCase()),
-              color: Colors.blue[600],
-              textColor: Colors.white,
+          SizedBox(height: loading ? xxl : xl),
+          if (loading) Center(child: CommonSpinner()),
+          if (!loading) ...[
+            Container(
+              width: double.infinity,
+              child: RaisedButton(
+                padding: EdgeInsets.all(sm),
+                key: ValueKey(Keys.formSubmitButton),
+                onPressed: _onFormSubmit,
+                child: Text(
+                  'register'.tr.toUpperCase(),
+                  style: TextStyle(fontSize: 20),
+                ),
+                color: Colors.blue[400],
+                textColor: Colors.white,
+              ),
             ),
-          ),
-          SizedBox(height: md),
-          Divider(),
+
+            /// social buttons
+            SizedBox(height: xl),
+            LoginSocialButtons(
+              onSuccess: () {
+                loading = true;
+                setState(() {});
+              },
+              onFail: () {
+                loading = false;
+                setState(() {});
+              },
+            ),
+          ],
         ],
       ),
     );

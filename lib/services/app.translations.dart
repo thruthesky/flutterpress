@@ -24,7 +24,7 @@ class AppTranslations extends Translations {
           'forgotPassword': 'Forgot password?',
           'confirmResign': 'Are you sure you want to resign?',
           'confirmDelete': 'Are you sure you want to delete this?',
-          'email': 'Email',
+          'email': 'Email Address',
           'password': 'Password',
           'nickname': 'Nickname',
           'firstname': 'Firstname',
@@ -32,6 +32,9 @@ class AppTranslations extends Translations {
           'birthday': 'Birthday',
           'mobileNo': 'Mobile No.',
           'error': 'Error',
+          'err_update_nickname': 'Update your nickname',
+          'err_update_mobile': 'Update your mobile number',
+          'err_update_birthday': 'Update your birthday',
           'user_email_empty': 'Email is empty!',
           'user_pass_empty': 'Password is empty!',
           'nickname_empty': 'Nickname is empty!',
@@ -50,7 +53,13 @@ class AppTranslations extends Translations {
           'errVoteOwnComment': 'You cannot vote on your own comment.',
           'errVoteOwnPost': 'You cannot vote on your own post.',
           'errTitleEmpty': 'Title is required.',
-          'unexpected_error': 'Unexpected error happened!'
+          'unexpected_error': 'Unexpected error happened!',
+          'sendCode': 'Send Code',
+          'verifyCode': 'Verify Code',
+          'inputCode': 'Input Code',
+          'resendCode': 'Reset Code',
+          'changeNumber': 'Change Number',
+          'err_number_verification_code': 'Verification code is empty!',
         },
         'ko': {
           'version': '버전',
@@ -100,7 +109,13 @@ class AppTranslations extends Translations {
           'errVoteOwnComment': '@ You cannot vote on your own comment.',
           'errVoteOwnPost': '@ You cannot vote on your own post.',
           'errTitleEmpty': '@T Title is required.',
-          'unexpected_error': '@t Unexpected error happened!'
+          'unexpected_error': '@t Unexpected error happened!',
+          'sendCode': '@T Send Code',
+          'verifyCode': '@T Verify Code',
+          'inputCode': '@Input Code',
+          'resendCode': '@Reset Code',
+          'changeNumber': '@Change Number',
+          'err_number_verification_code': '@t Verification code is empty!',
         },
       };
 }

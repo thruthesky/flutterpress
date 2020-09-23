@@ -24,6 +24,10 @@ class AppTextInputField extends StatefulWidget {
 
   final bool enabled;
 
+  final EdgeInsets contentPadding;
+
+  final double contentSize;
+
   AppTextInputField({
     this.inputAction,
     this.hintText,
@@ -43,6 +47,8 @@ class AppTextInputField extends StatefulWidget {
     this.maxLines = 1,
     this.withBorder = false,
     this.enabled = true,
+    this.contentPadding = const EdgeInsets.all(0),
+    this.contentSize = md,
   }) : super(key: key);
 
   @override
@@ -68,8 +74,9 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       onEditingComplete: widget.onEditingComplete,
       validator: widget.validator,
       autovalidate: validate,
+      style: TextStyle(fontSize: widget.contentSize),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(sm),
+        contentPadding: widget.contentPadding,
         labelText: widget.labelText,
         hintText: widget.hintText,
         suffixIcon: widget.sufficIcon,

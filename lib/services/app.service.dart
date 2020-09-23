@@ -8,8 +8,10 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.defines.dart';
 import 'package:flutterpress/models/forum_base.model.dart';
+import 'package:flutterpress/models/user.model.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/app.globals.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/app.simple_dialog.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -233,28 +235,17 @@ class AppService {
     }
   }
 
-
-
-  /// Returns an email address for Kakao login.
-  static String getKakaoEmail(user) {
-    String email;
-    if (user.properties['email'] != null) {
-      email = user.properties['email'];
-    } else {
-      email = 'kakaotalk${user.id}@kakao.com';
-    }
-    return email;
-  }
-
-
   /// Whenever a user register or login, this method will be called.
   /// [user] is the `user reponse` from PHP wordpress backend.
-  static onUserLogin(user) {
-    ///
-    /// Check if user has mobile. If not, go to mobile verification code page.
-    /// 
-    
+  static onUserLogin(UserModel user) {
+    if (!user.hasMobile) {
+      return Get.offNamed(Routes.phoneAuth);
+    }
 
-    /// Check if user has nickname. If not, go to profile update page, indicating 'nickname is missing'.
+    if (isEmpty(user.nickName)) {
+      return Get.offNamed(Routes.profile);
+    } else {
+      return Get.offAllNamed(Routes.home);
+    }
   }
 }

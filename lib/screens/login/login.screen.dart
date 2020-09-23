@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
-import 'package:flutterpress/widgets/social_login_buttons.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/screens/login/login.form.dart';
 import 'package:flutterpress/widgets/custom_page_header.dart';
@@ -20,7 +19,7 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(lg),
+            padding: EdgeInsets.symmetric(horizontal: xl),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -30,10 +29,6 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: xl),
                 LoginForm(),
-                SizedBox(height: md),
-                Center(child: Text('Login with')),
-                SizedBox(height: md),
-                LoginSocialButtons(),
               ],
             ),
           ),

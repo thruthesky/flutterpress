@@ -49,7 +49,10 @@ class _AppDrawerState extends State<AppDrawer> {
               if (_.isUserLoggedIn)
                 FlatButton(
                   child: Text('logout'.tr),
-                  onPressed: () => _.logout(),
+                  onPressed: () {
+                    _.logout();
+                    Get.offAllNamed(Routes.home);
+                  },
                 ),
             ],
           );

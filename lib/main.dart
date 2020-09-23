@@ -6,6 +6,7 @@ import 'package:flutterpress/flutter_i18n/locale.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.controller.dart';
 import 'package:flutterpress/screens/home/home.screen.dart';
 import 'package:flutterpress/screens/login/login.screen.dart';
+import 'package:flutterpress/screens/phone_auth/phone_auth.code_screen.dart';
 import 'package:flutterpress/screens/phone_auth/phone_auth.screen.dart';
 import 'package:flutterpress/screens/post_edit/post_edit.screen.dart';
 import 'package:flutterpress/screens/post_list/post_list.screen.dart';
@@ -72,6 +73,7 @@ class _FlutterPressState extends State<FlutterPress>
         GetPage(name: Routes.postList, page: () => PostListScreen()),
         GetPage(name: Routes.postEdit, page: () => PostEditScreen()),
         GetPage(name: Routes.phoneAuth, page: () => PhoneAuthScreen()),
+        GetPage(name: Routes.phoneAuthCode, page: () => PhoneAuthCodeScreen()),
       ],
     );
   }
