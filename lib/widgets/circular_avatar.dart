@@ -9,14 +9,35 @@ class CircularAvatar extends StatelessWidget {
   final double height;
   final double width;
 
+  final bool withShadow;
+  final double shadowSpread;
+  final double shadowBlur;
+  final Offset shadowPosition;
+  final Color shadowColor;
+
   CircularAvatar({
     this.photoURL = '',
     this.height = 150.0,
     this.width = 150.0,
+    this.withShadow = false,
+    this.shadowSpread = 2,
+    this.shadowBlur = 3,
+    this.shadowPosition = const Offset(0, 2),
+    this.shadowColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    BoxShadow shadow;
+    if (withShadow) {
+      shadow = BoxShadow(
+        spreadRadius: shadowSpread,
+        blurRadius: shadowBlur,
+        offset: shadowPosition,
+        color: shadowColor ?? Colors.grey.withOpacity(0.7),
+      );
+    }
+
     return !isEmpty(photoURL)
         ? CachedNetworkImage(
             width: width,
@@ -24,18 +45,20 @@ class CircularAvatar extends StatelessWidget {
             imageUrl: photoURL,
             placeholder: (context, url) => CommonSpinner(),
             imageBuilder: (context, provider) {
-              return CircleImageContainer(
+              return CommonCircleImage(
                 imageProvider: provider,
                 width: width,
                 height: height,
+                shadows: withShadow ? [shadow] : null,
               );
             },
             errorWidget: (context, url, error) => Icon(Icons.error),
           )
-        : CircleImageContainer(
+        : CommonCircleImage(
             imageProvider: AssetImage('assets/images/anonymous.jpg'),
             width: width,
             height: height,
+            shadows: withShadow ? [shadow] : null,
           );
   }
 }

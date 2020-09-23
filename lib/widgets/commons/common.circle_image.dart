@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CircleImageContainer extends StatelessWidget {
+class CommonCircleImage extends StatelessWidget {
   final ImageProvider imageProvider;
   final double height, width;
+  final List<BoxShadow> shadows;
 
-  CircleImageContainer({
+  CommonCircleImage({
     this.imageProvider,
     @required this.height,
     @required this.width,
+    this.shadows,
   });
 
   @override
@@ -21,6 +23,7 @@ class CircleImageContainer extends StatelessWidget {
           fit: BoxFit.fill,
           image: imageProvider,
         ),
+        boxShadow: shadows,
       ),
     );
   }

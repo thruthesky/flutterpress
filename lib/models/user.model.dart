@@ -1,7 +1,7 @@
 class UserModel {
   dynamic data;
   int id;
-  String userEmail;
+  String email;
   String nickName;
   String firstName;
   String lastName;
@@ -12,6 +12,7 @@ class UserModel {
   String firebaseToken;
   String socialLogin;
   String mobile;
+  String birthday;
 
 
   bool get hasMobile => mobile != null && mobile.toString().length > 7;
@@ -19,7 +20,7 @@ class UserModel {
   UserModel({
     this.data,
     this.id,
-    this.userEmail,
+    this.email,
     this.nickName,
     this.firstName,
     this.lastName,
@@ -30,6 +31,7 @@ class UserModel {
     this.firebaseToken,
     this.socialLogin,
     this.mobile,
+    this.birthday,
   });
 
 
@@ -41,7 +43,7 @@ class UserModel {
     return UserModel(
       data: data,
       id: int.parse(data['ID']), // User's ID from backend is string.
-      userEmail: data['user_email'],
+      email: data['user_email'],
       nickName: data['nickname'],
       firstName: data['first_name'] ?? '',
       lastName: data['last_name'] ?? '',
@@ -52,6 +54,7 @@ class UserModel {
       firebaseToken: data['firebase_custom_login_token'],
       socialLogin: data['social_login'] ?? '',
       mobile: data['mobile'] ?? '',
+      birthday: data['birthday'] ?? ''
     );
   }
 
