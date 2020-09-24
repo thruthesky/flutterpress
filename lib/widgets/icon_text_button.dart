@@ -29,7 +29,7 @@ class IconTextButton extends StatelessWidget {
             Text(
               text,
               style: TextStyle(
-                color: textColor ?? Colors.grey,
+                color: textColor ?? Color(0xff707070),
               ),
             ),
           ],

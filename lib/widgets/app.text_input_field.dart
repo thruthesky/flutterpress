@@ -2,56 +2,75 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 
 class AppTextInputField extends StatefulWidget {
-  final TextInputAction inputAction;
-  final String hintText;
-  final String labelText;
-  final TextEditingController controller;
-  final TextInputType inputType;
-  final FocusNode focusNode;
-  final Function onEditingComplete;
-  final bool obscureText;
-  final bool autoValidate;
-  final Widget sufficIcon;
-  final Widget icon;
+  final Key key;
 
   final Function validator;
   final Function onChanged;
+  final Function onEditingComplete;
+
+  final TextEditingController controller;
+  final TextInputAction inputAction;
+  final TextInputType inputType;
+  final FocusNode focusNode;
+
+  final bool autoValidate;
+  final bool obscureText;
+  final bool withBorder;
+  final bool enabled;
+
+  final Widget sufficIcon;
+  final Widget icon;
 
   final int minLines;
   final int maxLines;
 
-  final bool withBorder;
+  final String hintText;
+  final String labelText;
 
-  final bool enabled;
+  final double contentSize;
+  final double labelSize;
+  final double hintSize;
+
+  final FontWeight contentWeight;
+  final FontWeight labelWeight;
+  final FontWeight hintWeight;
+
+  final Color contentColor;
+  final Color labelColor;
+  final Color hintColor;
 
   final EdgeInsets contentPadding;
 
-  final double contentSize;
-  final FontWeight contentWeight;
-
   AppTextInputField({
-    this.inputAction,
-    this.hintText,
-    this.labelText,
+    this.key,
+    this.validator(String value),
+    this.onChanged(String value),
+    this.onEditingComplete,
     this.controller,
+    this.inputAction,
     this.inputType,
     this.focusNode,
-    this.onEditingComplete,
+    this.hintText,
+    this.labelText,
     this.obscureText = false,
     this.sufficIcon,
     this.icon,
-    Key key,
     this.autoValidate = false,
-    this.validator(String value),
-    this.onChanged(String value),
     this.minLines = 1,
     this.maxLines = 1,
     this.withBorder = false,
     this.enabled = true,
-    this.contentPadding = const EdgeInsets.all(0),
     this.contentSize = md,
-    this.contentWeight,
-  }) : super(key: key);
+    this.labelSize = 18,
+    this.hintSize = md,
+    this.contentWeight = FontWeight.normal,
+    this.labelWeight = FontWeight.normal,
+    this.hintWeight = FontWeight.normal,
+    this.contentColor,
+    this.labelColor,
+    this.hintColor,
+    this.contentPadding = const EdgeInsets.only(right: 0, bottom: 5, left: 0),
+  });
 
   @override
   _AppTextInputFieldState createState() => _AppTextInputFieldState();
@@ -79,7 +98,7 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
     }
 
     return TextFormField(
-      
+      key: widget.key,
       enabled: widget.enabled,
       textAlign: TextAlign.left,
       textAlignVertical: TextAlignVertical.center,
@@ -93,13 +112,26 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       onEditingComplete: widget.onEditingComplete,
       validator: widget.validator,
       autovalidate: validate,
-      style: TextStyle(fontSize: widget.contentSize, fontWeight: widget.contentWeight),
+      style: TextStyle(
+        color: widget.contentColor ?? Colors.black,
+        fontSize: widget.contentSize,
+        fontWeight: widget.contentWeight,
+      ),
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
         contentPadding: widget.contentPadding,
         labelText: widget.labelText,
+        labelStyle: TextStyle(
+          color: widget.labelColor ?? Color(0xff717171),
+          fontSize: widget.labelSize,
+          fontWeight: widget.labelWeight,
+        ),
         hintText: widget.hintText,
-        hintStyle: TextStyle(color: Color(0xffb7b7b7)),
+        hintStyle: TextStyle(
+          color: widget.hintColor ?? Color(0xffb7b7b7),
+          fontSize: widget.hintSize,
+          fontWeight: widget.labelWeight,
+        ),
         suffixIcon: widget.sufficIcon,
         icon: widget.icon,
         focusedBorder: focused,

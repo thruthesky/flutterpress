@@ -110,9 +110,10 @@ class LoginFormState extends State<LoginForm> {
               },
             ),
           ),
-          SizedBox(height: loading ? xxl : xl),
+          SizedBox(height: 55),
           if (loading) Center(child: CommonSpinner()),
           if (!loading) ...[
+            /// submit button
             CommonFormSubmitButton(
               key: ValueKey(Keys.formSubmitButton),
               padding: EdgeInsets.all(sm),
@@ -120,12 +121,14 @@ class LoginFormState extends State<LoginForm> {
               onPressed: _onFormSubmit,
             ),
             SizedBox(height: lg),
+
+            /// forgot password & register buttons
             Row(
               children: [
                 CommonButton(
                   child: Text(
                     'forgotPassword'.tr,
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: sm),
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                   ),
                   padding: EdgeInsets.all(0),
                   onTap: () {
@@ -136,7 +139,7 @@ class LoginFormState extends State<LoginForm> {
                 CommonButton(
                   child: Text(
                     'register'.tr,
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: sm),
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                   ),
                   padding: EdgeInsets.all(0),
                   onTap: () {
@@ -147,7 +150,7 @@ class LoginFormState extends State<LoginForm> {
             ),
 
             /// social buttons
-            SizedBox(height: xl),
+            SizedBox(height: 55),
             LoginSocialButtons(
               onSuccess: () {
                 loading = true;

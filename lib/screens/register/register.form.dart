@@ -32,9 +32,11 @@ class RegisterFormState extends State<RegisterForm> {
   final email = TextEditingController();
   final pass = TextEditingController();
   final nickname = TextEditingController();
+  final name = TextEditingController();
 
   final passNode = FocusNode();
   final nicknameNode = FocusNode();
+  final nameNode = FocusNode();
 
   /// This function is moved here so it can be reference
   /// by both the submit button and the password textfield.
@@ -56,6 +58,7 @@ class RegisterFormState extends State<RegisterForm> {
           'user_email': email.text,
           'user_pass': pass.text,
           'nickname': nickname.text,
+          'name': name.text
         });
         await auth.loginWithToken(user.firebaseToken);
         AppService.onUserLogin(user);
@@ -93,12 +96,13 @@ class RegisterFormState extends State<RegisterForm> {
             key: ValueKey(Keys.emailInput),
             labelText: 'email'.tr,
             controller: email,
+            contentWeight: FontWeight.w500,
             inputAction: TextInputAction.next,
             inputType: TextInputType.emailAddress,
             onEditingComplete: passNode.requestFocus,
             autoValidate: isFormSubmitted,
             validator: (email) => AppService.isValidEmail(email),
-            sufficIcon: Icon(FontAwesomeIcons.userAlt),
+            sufficIcon: Icon(FontAwesomeIcons.userAlt, size: 19.5),
           ),
           SizedBox(height: xl),
           AppTextInputField(
@@ -112,8 +116,10 @@ class RegisterFormState extends State<RegisterForm> {
             autoValidate: isFormSubmitted,
             validator: (pass) => AppService.isValidPassword(pass),
             sufficIcon: IconButton(
+              
               icon: Icon(
                 hidePassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+                size: 19.5,
               ),
               onPressed: () {
                 hidePassword = !hidePassword;
@@ -123,19 +129,33 @@ class RegisterFormState extends State<RegisterForm> {
           ),
           SizedBox(height: xl),
           AppTextInputField(
+            key: ValueKey(Keys.nameInput),
+            labelText: 'name'.tr,
+            controller: name,
+            inputAction: TextInputAction.done,
+            inputType: TextInputType.text,
+            onEditingComplete: _onFormSubmit,
+            focusNode: nameNode,
+            autoValidate: isFormSubmitted,
+            validator: (nickname) {
+              if (isEmpty(nickname)) return 'name_empty'.tr;
+            },
+          ),
+          SizedBox(height: xl),
+          AppTextInputField(
             key: ValueKey(Keys.nicknameInput),
             labelText: 'nickname'.tr,
             controller: nickname,
             inputAction: TextInputAction.done,
             inputType: TextInputType.text,
-            onEditingComplete: _onFormSubmit,
+            onEditingComplete: nameNode.requestFocus,
             focusNode: nicknameNode,
             autoValidate: isFormSubmitted,
             validator: (nickname) {
               if (isEmpty(nickname)) return 'nickname_empty'.tr;
             },
           ),
-          SizedBox(height: loading ? xxl : xl),
+          SizedBox(height: 45),
           if (loading) Center(child: CommonSpinner()),
           if (!loading) ...[
             CommonFormSubmitButton(

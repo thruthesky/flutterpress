@@ -26,8 +26,10 @@ class RegisterScreen extends StatelessWidget {
                 CommonPageHeader(
                   title: 'register'.tr,
                   subtitle: 'Fill in the form',
+                  subtitleSize: 20,
+                  subtitleWeight: FontWeight.w400,
                 ),
-                SizedBox(height: xl),
+                SizedBox(height: 45),
                 RegisterForm(),
               ],
             ),

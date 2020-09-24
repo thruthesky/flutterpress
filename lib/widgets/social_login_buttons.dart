@@ -17,8 +17,15 @@ class LoginSocialButtons extends StatelessWidget {
 
   final Function onSuccess;
   final Function onFail;
+  final double logoSize;
+  final Color logoTextColor;
 
-  LoginSocialButtons({this.onSuccess, this.onFail});
+  LoginSocialButtons({
+    this.onSuccess,
+    this.onFail,
+    this.logoSize = 52,
+    this.logoTextColor,
+  });
 
   Future socialLogin(User firebaseUser) async {
     if (onSuccess != null) onSuccess();
@@ -35,7 +42,10 @@ class LoginSocialButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        OrDivider(),
+        OrDivider(
+          fontSize: 17,
+          spacing: 7,
+        ),
         SizedBox(height: md),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,7 +59,7 @@ class LoginSocialButtons extends StatelessWidget {
                   return IconTextButton(
                     child: FaIcon(
                       FontAwesomeIcons.apple,
-                      size: 50,
+                      size: logoSize,
                       color: Colors.grey[700],
                     ),
                     text: '애플',
@@ -72,7 +82,7 @@ class LoginSocialButtons extends StatelessWidget {
             IconTextButton(
               child: FaIcon(
                 FontAwesomeIcons.googlePlusG,
-                size: 50,
+                size: logoSize,
                 color: Colors.red[900],
               ),
               text: '구글',
@@ -90,7 +100,7 @@ class LoginSocialButtons extends StatelessWidget {
             IconTextButton(
               child: FaIcon(
                 FontAwesomeIcons.facebook,
-                size: 50,
+                size: logoSize,
                 color: Colors.blue[900],
               ),
               text: '페이스북',
@@ -110,7 +120,7 @@ class LoginSocialButtons extends StatelessWidget {
             IconTextButton(
               child: Image.asset(
                 'assets/images/kakaotalk.png',
-                width: 50,
+                width: logoSize,
               ),
               text: '카카오톡',
               onTap: () async {

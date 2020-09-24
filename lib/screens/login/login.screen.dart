@@ -26,6 +26,9 @@ class LoginScreen extends StatelessWidget {
                 CommonPageHeader(
                   title: 'login'.tr,
                   subtitle: 'Proceed with your',
+                  subtitleSize: 20,
+                  subtitleSpacing: -0.5,
+                  subtitleWeight: FontWeight.w500,
                 ),
                 SizedBox(height: xl),
                 LoginForm(),

@@ -9,6 +9,7 @@ class Keys {
   static String emailInput = 'emailInput';
   static String passwordInput = 'passwordInput';
   static String nicknameInput = 'nicknameInput';
+  static String nameInput = 'nameInput';
   static String mobileInput = 'mobileInput';
   static String formSubmitButton = 'formSubmitButton';
   static String resignButton = 'resignButton';
