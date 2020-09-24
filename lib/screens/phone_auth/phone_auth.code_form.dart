@@ -34,10 +34,15 @@ class _PhoneAuthCodeFormState extends State<PhoneAuthCodeForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('inputCode'.tr),
+            Text(
+              'inputCode'.tr,
+              style: TextStyle(fontSize: 15),
+            ),
             AppTextInputField(
               controller: _codeController,
               contentSize: 43,
+              hintSize: 43,
+              hintWeight: FontWeight.w500,
               hintText: 'XXXXXX',
               contentPadding: EdgeInsets.symmetric(vertical: sm),
               inputType: TextInputType.phone,

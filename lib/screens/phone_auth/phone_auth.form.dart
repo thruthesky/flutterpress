@@ -57,6 +57,7 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
           Text('mobileNo'.tr),
           AppTextInputField(
             contentSize: 23,
+            hintSize: 23,
             contentPadding: EdgeInsets.symmetric(vertical: xs),
             inputType: TextInputType.phone,
             inputAction: TextInputAction.done,

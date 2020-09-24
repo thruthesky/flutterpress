@@ -130,7 +130,7 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
         hintStyle: TextStyle(
           color: widget.hintColor ?? Color(0xffb7b7b7),
           fontSize: widget.hintSize,
-          fontWeight: widget.labelWeight,
+          fontWeight: widget.hintWeight,
         ),
         suffixIcon: widget.sufficIcon,
         icon: widget.icon,
