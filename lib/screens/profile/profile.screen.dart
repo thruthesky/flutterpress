@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/screens/profile/profile_info.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.app_bar.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Keys.profileScaffold),
-      appBar: AppBar(
+      appBar: CommonAppBar(
         title: Text('profile'.tr),
       ),
       endDrawer: AppDrawer(),

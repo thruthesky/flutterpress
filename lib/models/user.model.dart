@@ -3,8 +3,7 @@ class UserModel {
   int id;
   String email;
   String nickName;
-  String firstName;
-  String lastName;
+  String name;
   String userLogin;
   String photoURL;
   String sessionId;
@@ -23,8 +22,7 @@ class UserModel {
     this.id,
     this.email,
     this.nickName,
-    this.firstName,
-    this.lastName,
+    this.name,
     this.userLogin,
     this.photoURL,
     this.sessionId,
@@ -50,8 +48,7 @@ class UserModel {
       id: int.parse(data['ID']), // User's ID from backend is string.
       email: data['user_email'],
       nickName: data['nickname'],
-      firstName: data['first_name'] ?? '',
-      lastName: data['last_name'] ?? '',
+      name: data['name'] ?? '',
       userLogin: data['user_login'],
       photoURL: data['photo_url'] ?? '',
       sessionId: data['session_id'],

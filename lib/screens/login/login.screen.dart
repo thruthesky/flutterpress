@@ -28,7 +28,6 @@ class LoginScreen extends StatelessWidget {
                   subtitle: 'Proceed with your',
                   subtitleSize: 20,
                   subtitleSpacing: -0.5,
-                  subtitleWeight: FontWeight.w500,
                 ),
                 SizedBox(height: xl),
                 LoginForm(),
