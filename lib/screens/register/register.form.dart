@@ -7,6 +7,7 @@ import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
+import 'package:flutterpress/widgets/commons/common.form_submit_button.dart';
 import 'package:flutterpress/widgets/social_login_buttons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -137,19 +138,11 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(height: loading ? xxl : xl),
           if (loading) Center(child: CommonSpinner()),
           if (!loading) ...[
-            Container(
-              width: double.infinity,
-              child: RaisedButton(
-                padding: EdgeInsets.all(sm),
-                key: ValueKey(Keys.formSubmitButton),
-                onPressed: _onFormSubmit,
-                child: Text(
-                  'register'.tr.toUpperCase(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                color: Colors.blue[400],
-                textColor: Colors.white,
-              ),
+            CommonFormSubmitButton(
+              key: ValueKey(Keys.formSubmitButton),
+              padding: EdgeInsets.all(sm),
+              text: 'register'.tr.toUpperCase(),
+              onPressed: _onFormSubmit,
             ),
 
             /// social buttons

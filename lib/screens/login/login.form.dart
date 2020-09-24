@@ -8,6 +8,7 @@ import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:flutterpress/widgets/commons/common.button.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
+import 'package:flutterpress/widgets/commons/common.form_submit_button.dart';
 import 'package:flutterpress/widgets/social_login_buttons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -112,25 +113,20 @@ class LoginFormState extends State<LoginForm> {
           SizedBox(height: loading ? xxl : xl),
           if (loading) Center(child: CommonSpinner()),
           if (!loading) ...[
-            Container(
-              width: double.infinity,
-              child: RaisedButton(
-                padding: EdgeInsets.all(sm),
-                key: ValueKey(Keys.formSubmitButton),
-                onPressed: _onFormSubmit,
-                child: Text(
-                  'login'.tr.toUpperCase(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                color: Colors.blue[400],
-                textColor: Colors.white,
-              ),
+            CommonFormSubmitButton(
+              key: ValueKey(Keys.formSubmitButton),
+              padding: EdgeInsets.all(sm),
+              text: 'login'.tr.toUpperCase(),
+              onPressed: _onFormSubmit,
             ),
             SizedBox(height: lg),
             Row(
               children: [
                 CommonButton(
-                  child: Text('forgotPassword'.tr),
+                  child: Text(
+                    'forgotPassword'.tr,
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: sm),
+                  ),
                   padding: EdgeInsets.all(0),
                   onTap: () {
                     print('TODO: forgot password');
@@ -138,7 +134,10 @@ class LoginFormState extends State<LoginForm> {
                 ),
                 Spacer(),
                 CommonButton(
-                  child: Text('register'.tr),
+                  child: Text(
+                    'register'.tr,
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: sm),
+                  ),
                   padding: EdgeInsets.all(0),
                   onTap: () {
                     Get.toNamed(Routes.register);

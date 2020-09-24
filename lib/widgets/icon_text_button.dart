@@ -5,6 +5,7 @@ class IconTextButton extends StatelessWidget {
     @required this.child,
     @required this.text,
     @required this.onTap,
+    this.textColor,
     this.padding = 8.0,
     this.itemSpace = 8.0,
   });
@@ -13,6 +14,7 @@ class IconTextButton extends StatelessWidget {
   final Function onTap;
   final double padding;
   final double itemSpace;
+  final Color textColor;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,7 +26,12 @@ class IconTextButton extends StatelessWidget {
           children: [
             child,
             SizedBox(height: itemSpace),
-            Text(text),
+            Text(
+              text,
+              style: TextStyle(
+                color: textColor ?? Colors.grey,
+              ),
+            ),
           ],
         ),
       ),

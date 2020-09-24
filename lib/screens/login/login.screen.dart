@@ -3,7 +3,8 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/screens/login/login.form.dart';
-import 'package:flutterpress/widgets/custom_page_header.dart';
+import 'package:flutterpress/widgets/commons/common.app_bar.dart';
+import 'package:flutterpress/widgets/commons/common.page_header.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -11,9 +12,8 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Keys.loginScaffold),
-      appBar: AppBar(
+      appBar: CommonAppBar(
         title: Text('login'.tr),
-        centerTitle: false,
       ),
       endDrawer: AppDrawer(),
       body: SafeArea(
@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomPageHeader(
+                CommonPageHeader(
                   title: 'login'.tr,
                   subtitle: 'Proceed with your',
                 ),

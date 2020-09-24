@@ -3,7 +3,8 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/widgets/app.drawer.dart';
 import 'package:flutterpress/screens/register/register.form.dart';
 import 'package:flutterpress/services/keys.dart';
-import 'package:flutterpress/widgets/custom_page_header.dart';
+import 'package:flutterpress/widgets/commons/common.app_bar.dart';
+import 'package:flutterpress/widgets/commons/common.page_header.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -11,9 +12,8 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Keys.registerScaffold),
-      appBar: AppBar(
+      appBar: CommonAppBar(
         title: Text('register'.tr),
-        centerTitle: false,
       ),
       endDrawer: AppDrawer(),
       body: SafeArea(
@@ -23,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomPageHeader(
+                CommonPageHeader(
                   title: 'register'.tr,
                   subtitle: 'Fill in the form',
                 ),

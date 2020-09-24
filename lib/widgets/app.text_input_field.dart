@@ -27,6 +27,7 @@ class AppTextInputField extends StatefulWidget {
   final EdgeInsets contentPadding;
 
   final double contentSize;
+  final FontWeight contentWeight;
 
   AppTextInputField({
     this.inputAction,
@@ -49,6 +50,7 @@ class AppTextInputField extends StatefulWidget {
     this.enabled = true,
     this.contentPadding = const EdgeInsets.all(0),
     this.contentSize = md,
+    this.contentWeight,
   }) : super(key: key);
 
   @override
@@ -60,7 +62,24 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
 
   @override
   Widget build(BuildContext context) {
+    InputBorder focused;
+    InputBorder enabled = UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.black),
+    );
+
+    if (widget.withBorder) {
+      focused = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: Colors.blue),
+      );
+      enabled = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: Colors.grey),
+      );
+    }
+
     return TextFormField(
+      
       enabled: widget.enabled,
       textAlign: TextAlign.left,
       textAlignVertical: TextAlignVertical.center,
@@ -74,25 +93,17 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       onEditingComplete: widget.onEditingComplete,
       validator: widget.validator,
       autovalidate: validate,
-      style: TextStyle(fontSize: widget.contentSize),
+      style: TextStyle(fontSize: widget.contentSize, fontWeight: widget.contentWeight),
       decoration: InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         contentPadding: widget.contentPadding,
         labelText: widget.labelText,
         hintText: widget.hintText,
+        hintStyle: TextStyle(color: Color(0xffb7b7b7)),
         suffixIcon: widget.sufficIcon,
         icon: widget.icon,
-        focusedBorder: widget.withBorder
-            ? OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(color: Colors.blue),
-              )
-            : null,
-        enabledBorder: widget.withBorder
-            ? OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(color: Colors.grey),
-              )
-            : null,
+        focusedBorder: focused,
+        enabledBorder: enabled,
       ),
       onChanged: (value) {
         if (widget.onChanged != null) {
