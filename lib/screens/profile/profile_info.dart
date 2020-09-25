@@ -109,7 +109,6 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 ),
 
               /// Full name
-              /// TODO: show user's fullname instead of email
               Container(
                 padding: EdgeInsets.all(sm),
                 width: double.infinity,
@@ -146,6 +145,10 @@ class _ProfileInfoState extends State<ProfileInfo> {
                           iconRightSpacing: sm,
                           fontSize: 16,
                           label: 'email'.tr,
+                          onTapped: () {
+                            /// TODO: update function.
+                            print('TODO: email update');
+                          },
                         ),
                       ),
                       SizedBox(height: lg),

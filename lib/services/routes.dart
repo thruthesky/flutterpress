@@ -7,6 +7,7 @@ class Routes {
   static final String postEdit = '/postEdit';
   static final String phoneAuth = '/phoneAuth';
   static final String phoneAuthCode = '/phoneAuthCode';
+  static final String passwordReset = '/passwordReset';
 
   static final String chatting = '/chatting';
 }

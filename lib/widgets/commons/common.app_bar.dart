@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
+import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/widgets/profile_image.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +8,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   CommonAppBar({
     Key key,
     this.title,
-    this.actions = const [],
+    this.actions,
     this.centerTitle = false,
     this.showBackButton = true,
     this.backgroundColor,
@@ -41,20 +42,19 @@ class _CommonAppBarState extends State<CommonAppBar> {
       backgroundColor: widget.backgroundColor ?? Color(0xff0283d0),
       elevation: widget.elevation,
       actions: [
-        ...widget.actions,
-        if (wc.isUserLoggedIn)
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: (widget.preferredSize.height - 40) / 2,
-              horizontal: 0,
-            ),
-            child: ProfileImage(
-              height: 40,
-              width: 40,
-              withShadow: false,
-              hiddenWhenLoggedOut: true,
-            ),
+        if (!isEmpty(widget.actions)) ...widget.actions,
+        Container(
+          padding: EdgeInsets.symmetric(
+            vertical: (widget.preferredSize.height - 40) / 2,
+            horizontal: 0,
           ),
+          child: ProfileImage(
+            height: 40,
+            width: 40,
+            withShadow: false,
+            hiddenWhenLoggedOut: true,
+          ),
+        ),
         Builder(
           builder: (context) => IconButton(
             icon: Icon(Icons.menu),

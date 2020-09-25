@@ -132,7 +132,7 @@ class LoginFormState extends State<LoginForm> {
                   ),
                   padding: EdgeInsets.all(0),
                   onTap: () {
-                    print('TODO: forgot password');
+                    Get.toNamed(Routes.passwordReset);
                   },
                 ),
                 Spacer(),

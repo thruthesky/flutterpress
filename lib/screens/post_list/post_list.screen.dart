@@ -13,7 +13,6 @@ import 'package:flutterpress/widgets/commons/common.app_bar.dart';
 import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 import 'package:flutterpress/widgets/commons/common.button.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 /// TODO:
