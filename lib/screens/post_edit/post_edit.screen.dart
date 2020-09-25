@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/screens/post_edit/post_edit.form.dart';
 import 'package:flutterpress/services/keys.dart';
-import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 
 class PostEditScreen extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class PostEditScreen extends StatelessWidget {
     return Scaffold(
       key: ValueKey(Keys.postEditScreenScaffold),
       appBar: AppBar(),
-      endDrawer: AppDrawer(),
+      endDrawer: CommonAppDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(child: PostEditForm()),
       ),

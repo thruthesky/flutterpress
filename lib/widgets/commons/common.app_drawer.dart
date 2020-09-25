@@ -3,12 +3,12 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:get/get.dart';
 
-class AppDrawer extends StatefulWidget {
+class CommonAppDrawer extends StatefulWidget {
   @override
-  _AppDrawerState createState() => _AppDrawerState();
+  _CommonAppDrawerState createState() => _CommonAppDrawerState();
 }
 
-class _AppDrawerState extends State<AppDrawer> {
+class _CommonAppDrawerState extends State<CommonAppDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(

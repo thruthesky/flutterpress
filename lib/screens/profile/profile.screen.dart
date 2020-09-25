@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/screens/profile/profile_info.dart';
 import 'package:flutterpress/services/keys.dart';
-import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 import 'package:flutterpress/widgets/commons/common.app_bar.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: CommonAppBar(
         title: Text('profile'.tr),
       ),
-      endDrawer: AppDrawer(),
+      endDrawer: CommonAppDrawer(),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(10),

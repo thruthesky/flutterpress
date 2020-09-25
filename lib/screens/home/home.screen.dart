@@ -3,7 +3,8 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
-import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.app_bar.dart';
+import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,11 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Keys.homeScaffold),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
+      appBar: CommonAppBar(
         title: Text('home'.tr),
+        showBackButton: false,
       ),
-      endDrawer: AppDrawer(),
+      endDrawer: CommonAppDrawer(),
       body: Container(
         padding: EdgeInsets.all(10),
         child: GetBuilder<WordpressController>(

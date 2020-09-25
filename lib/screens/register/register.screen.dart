@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 import 'package:flutterpress/screens/register/register.form.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/widgets/commons/common.app_bar.dart';
@@ -15,7 +15,7 @@ class RegisterScreen extends StatelessWidget {
       appBar: CommonAppBar(
         title: Text('register'.tr),
       ),
-      endDrawer: AppDrawer(),
+      endDrawer: CommonAppDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(

@@ -5,7 +5,7 @@ import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/screens/profile/info.update_form.dart';
 import 'package:flutterpress/screens/profile/info_text.dart';
 import 'package:flutterpress/screens/profile/profile.forum_info.dart';
-import 'package:flutterpress/screens/profile/profile_image.dart';
+import 'package:flutterpress/widgets/profile_image.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/file_upload_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

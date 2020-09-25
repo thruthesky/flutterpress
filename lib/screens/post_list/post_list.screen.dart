@@ -9,10 +9,12 @@ import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:flutterpress/widgets/app.drawer.dart';
+import 'package:flutterpress/widgets/commons/common.app_bar.dart';
+import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
+import 'package:flutterpress/widgets/commons/common.button.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
 
 /// TODO:
 ///   - implement pull to refresh
@@ -97,34 +99,33 @@ class _PostListScreenState extends State<PostListScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Keys.postListScaffold),
-      appBar: AppBar(
+      appBar: CommonAppBar(
         title: Text('postList'.tr),
-        actions: [
-          if (wc.isUserLoggedIn)
-            IconButton(
-              key: ValueKey(Keys.postEditButton),
-              icon: Icon(Icons.add),
-              onPressed: () async {
-                var post = await Get.toNamed(
-                  Routes.postEdit,
-                  arguments: {'slug': slug},
-                );
-                if (!isEmpty(post)) {
-                  addOnTop(post);
-                }
-              },
-            ),
-          Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-            ),
-          ),
-        ],
+        actions: wc.isUserLoggedIn
+            ? [
+                CommonButton(
+                  key: ValueKey(Keys.postEditButton),
+                  child: Icon(Icons.edit, size: 24),
+                  padding: EdgeInsets.only(right: sm),
+                  onTap: () async {
+                    var post = await Get.toNamed(
+                      Routes.postEdit,
+                      arguments: {'slug': slug},
+                    );
+                    if (!isEmpty(post)) {
+                      addOnTop(post);
+                    }
+                  },
+                ),
+                CommonButton(
+                  child: Icon(Icons.search, size: 24),
+                  padding: EdgeInsets.only(right: sm),
+                  onTap: () {},
+                ),
+              ]
+            : null,
       ),
-      endDrawer: AppDrawer(),
+      endDrawer: CommonAppDrawer(),
       body: Container(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
