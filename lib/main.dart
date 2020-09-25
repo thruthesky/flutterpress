@@ -11,6 +11,7 @@ import 'package:flutterpress/screens/phone_auth/phone_auth.code_screen.dart';
 import 'package:flutterpress/screens/phone_auth/phone_auth.screen.dart';
 import 'package:flutterpress/screens/post_edit/post_edit.screen.dart';
 import 'package:flutterpress/screens/post_list/post_list.screen.dart';
+import 'package:flutterpress/screens/post_view/post_view.screen.dart';
 import 'package:flutterpress/screens/profile/profile.screen.dart';
 import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/routes.dart';
@@ -74,6 +75,7 @@ class _FlutterPressState extends State<FlutterPress>
         GetPage(name: Routes.register, page: () => RegisterScreen()),
         GetPage(name: Routes.profile, page: () => ProfileScreen()),
         GetPage(name: Routes.postList, page: () => PostListScreen()),
+        GetPage(name: Routes.postView, page: () => PostViewScreen()),
         GetPage(name: Routes.postEdit, page: () => PostEditScreen()),
         GetPage(name: Routes.phoneAuth, page: () => PhoneAuthScreen()),
         GetPage(name: Routes.phoneAuthCode, page: () => PhoneAuthCodeScreen()),

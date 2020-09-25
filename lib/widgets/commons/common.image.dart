@@ -2,6 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import './common.spinner.dart';
 
+typedef Widget WidgetBuilder(
+  BuildContext context,
+  ImageProvider imageProvider,
+);
+
 class CommonImage extends StatelessWidget {
   CommonImage(
     this.url, {
@@ -10,6 +15,7 @@ class CommonImage extends StatelessWidget {
     this.width,
     this.height,
     this.defaultChild,
+    this.builder,
   });
   final String url;
   final BoxFit fit;
@@ -22,6 +28,8 @@ class CommonImage extends StatelessWidget {
 
   /// [defaultChild] 만약, 이미지가 null 인 경우, 대신 표시 할 이미지를 지정 할 수 있다.
   final Widget defaultChild;
+
+  final WidgetBuilder builder;
   @override
   Widget build(BuildContext context) {
     if (url == null) {
@@ -41,6 +49,7 @@ class CommonImage extends StatelessWidget {
       height: height,
       placeholder: (context, url) => CommonSpinner(),
       errorWidget: (context, url, error) => Icon(Icons.error),
+      imageBuilder: builder,
       fadeInDuration: fadeInOut
           ? const Duration(milliseconds: 500)
           : const Duration(milliseconds: 0),

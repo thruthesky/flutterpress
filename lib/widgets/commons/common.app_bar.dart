@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/profile_image.dart';
 import 'package:get/get.dart';
 
@@ -43,17 +44,22 @@ class _CommonAppBarState extends State<CommonAppBar> {
       elevation: widget.elevation,
       actions: [
         if (!isEmpty(widget.actions)) ...widget.actions,
-        Container(
-          padding: EdgeInsets.symmetric(
-            vertical: (widget.preferredSize.height - 40) / 2,
-            horizontal: 0,
+        GestureDetector(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: (widget.preferredSize.height - 40) / 2,
+              horizontal: 0,
+            ),
+            child: ProfileImage(
+              height: 40,
+              width: 40,
+              withShadow: false,
+              hiddenWhenLoggedOut: true,
+            ),
           ),
-          child: ProfileImage(
-            height: 40,
-            width: 40,
-            withShadow: false,
-            hiddenWhenLoggedOut: true,
-          ),
+          onTap: () {
+            Get.toNamed(Routes.profile);
+          },
         ),
         Builder(
           builder: (context) => IconButton(

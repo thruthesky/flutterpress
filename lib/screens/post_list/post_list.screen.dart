@@ -135,6 +135,7 @@ class _PostListScreenState extends State<PostListScreen>
             controller: _scrollController,
             child: SafeArea(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// post list
                   PostList(posts),
