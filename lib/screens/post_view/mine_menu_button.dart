@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:get/get.dart';
 
-class MineMenu extends StatelessWidget {
+class MineMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

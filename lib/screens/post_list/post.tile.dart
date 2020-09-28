@@ -87,6 +87,7 @@ class PostTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   child: CommonImage(
                     post.files[0].thumbnailUrl,
+                    height: 60,
                     width: 90,
                   ),
                 ),

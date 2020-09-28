@@ -12,10 +12,13 @@ class FileDisplay extends StatelessWidget {
   final bool inEdit;
   final Function onFileDeleted;
 
+  final int filesToShow;
+
   FileDisplay(
     this.files, {
     this.inEdit = false,
     this.onFileDeleted(FileModel file),
+    this.filesToShow = 4,
   });
 
   onDeleteTapped(FileModel file) {
@@ -81,7 +84,9 @@ class ImageStack extends StatelessWidget {
       child: Stack(children: [
         CommonImage(
           photoUrl,
-          height: withHeight ? 100 : null,
+          height: withHeight ? 220 : null,
+          width: double.infinity,
+          fit: BoxFit.cover,
         ),
         if (inEdit)
           Positioned(

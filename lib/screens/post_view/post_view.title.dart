@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/screens/post_view/forum_buttons.dart';
+import 'package:flutterpress/screens/post_view/mine_menu_button.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/post.model.dart';
@@ -44,7 +44,7 @@ class PostViewHeader extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(bottom: md, left: md, right: md, top: sm),
+          margin: EdgeInsets.only(bottom: xs, left: md, right: md, top: xs),
           child: Row(
             children: [
               CircularAvatar(
@@ -71,7 +71,7 @@ class PostViewHeader extends StatelessWidget {
                 iconSize: 16,
                 onPressed: () async {
                   var res = await Get.bottomSheet(
-                    MineMenu(),
+                    MineMenuButton(),
                     backgroundColor: Colors.white,
                   );
                   if (res == 'update' && onUpdateButtonTap != null) onUpdateButtonTap();

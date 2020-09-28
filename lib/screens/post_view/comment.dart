@@ -58,8 +58,8 @@ class _CommentState extends State<Comment> {
                 model: widget.comment,
                 showReplyButton: !inReply,
                 onReplyTap: () => changeInReplyState(true),
-                onUpdateTap: () => changeInEditState(true),
-                onDeleted: () => setState(() {}),
+                // onUpdateTap: () => changeInEditState(true),
+                // onDeleted: () => setState(() {}),
                 onVoted: () => setState(() {}),
               ),
 
