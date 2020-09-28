@@ -33,11 +33,11 @@ class PostView extends StatelessWidget {
         Container(
           width: double.infinity,
           color: Color(0xFFF4F4F4),
-          padding: EdgeInsets.all(lg),
+          padding: EdgeInsets.all(md),
           child: SelectableText(post.content),
         ),
         ForumButtons(
-          padding: EdgeInsets.symmetric(vertical: sm, horizontal: lg),
+          padding: EdgeInsets.all(md),
           model: post,
           onVoted: (vote) {
             post.updateVote(vote);

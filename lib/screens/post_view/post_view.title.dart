@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/screens/post_view/mine_menu_button.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/post.model.dart';
@@ -21,6 +22,7 @@ class PostViewHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Column(
       children: [
         Container(
@@ -58,7 +60,7 @@ class PostViewHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${post.authorName} - No. ${post.id} - Date: ${post.date}',
+                      '${AppService.authorName(post.authorName)} - No. ${post.id} - Date: ${post.date}',
                       style: TextStyle(fontSize: sm),
                     ),
                     Text(post.slug + ' - Views 201',

@@ -8,7 +8,7 @@ class MineMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height: context.size.height * .3,
+        height: context.height * .3,
         child: Column(
           children: [
             Padding(
