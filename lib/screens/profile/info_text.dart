@@ -28,7 +28,7 @@ class InfoText extends StatelessWidget {
     this.label = '',
     this.labelSize = sm,
     this.fontSize = md,
-    this.fontWeight = FontWeight.w600,
+    this.fontWeight = FontWeight.w400,
     this.labelFontWeight = FontWeight.w300,
     this.iconSize = sm,
     this.padding = const EdgeInsets.all(sm),
@@ -40,7 +40,7 @@ class InfoText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String text = str;
-    Color textColor = Colors.black54;
+    Color textColor = Color(0xff707070);
     double textSize = fontSize;
     if (isRequired && isEmpty(str)) {
       text = this.requiredError;
@@ -63,7 +63,7 @@ class InfoText extends StatelessWidget {
           child: Icon(
             FontAwesomeIcons.edit,
             size: iconSize,
-            color: Colors.black54,
+            color: Color(0xff909090),
           ),
         )
       ],
@@ -89,7 +89,6 @@ class InfoText extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: child,
       onTap: () {
-        print('infoText::tapped');
         if (onTapped != null) onTapped();
       },
     );

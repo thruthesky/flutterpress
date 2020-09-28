@@ -4,11 +4,13 @@ import 'common.spinner.dart';
 /// FutterButton 과 비슷한데, 그냥 텍스트로 클릭이 되는 것이다.
 class CommonButton extends StatelessWidget {
   CommonButton({
+    this.key,
     this.showSpinner = false,
     this.padding = const EdgeInsets.all(8.0),
     this.child,
     this.onTap,
   });
+  final Key key;
   final bool showSpinner;
   final Widget child;
   final Function onTap;
@@ -17,6 +19,7 @@ class CommonButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: key,
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Padding(

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/screens/post_list/post.dart';
+import 'package:flutterpress/screens/post_list/post.tile.dart';
 import 'package:flutterpress/services/keys.dart';
+import 'package:flutterpress/services/routes.dart';
 import 'package:get/get.dart';
 
 class PostList extends StatefulWidget {
@@ -21,7 +22,16 @@ class _PostListState extends State<PostList> {
     return !isEmpty(widget.posts)
         ? Column(
             key: ValueKey(Keys.postList),
-            children: [for (PostModel post in widget.posts) Post(post: post)],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (PostModel post in widget.posts)
+                GestureDetector(
+                  child: PostTile(post: post),
+                  onTap: () {
+                    Get.toNamed(Routes.postView, arguments: post);
+                  },
+                )
+            ],
           )
         : SizedBox.shrink();
   }

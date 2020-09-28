@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
@@ -44,42 +43,42 @@ class _FileDisplayOverlayState extends State<FileDisplayOverlay> {
         padding: EdgeInsets.all(sm),
         child: Stack(
           children: [
+            Center(
+              child: CommonImage(widget.files[index].url),
+            ),
             Positioned(
               child: GestureDetector(
                 child: Icon(FontAwesomeIcons.timesCircle, color: Colors.white),
                 onTap: () => Get.back(),
               ),
-              right: 0,
+              right: md,
               top: xxl,
             ),
-            Center(
-              child: CommonImage(widget.files[index].url),
-            ),
             if (widget.files.length > 1)
-            Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: sm),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      child: Icon(
-                        FontAwesomeIcons.arrowAltCircleLeft,
-                        color: Colors.white,
+              Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: sm),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        child: Icon(
+                          FontAwesomeIcons.arrowAltCircleLeft,
+                          color: Colors.white,
+                        ),
+                        onTap: () => previous(),
                       ),
-                      onTap: () => previous(),
-                    ),
-                    Spacer(),
-                    GestureDetector(
-                      child: Icon(
-                        FontAwesomeIcons.arrowAltCircleRight,
-                        color: Colors.white,
+                      Spacer(),
+                      GestureDetector(
+                        child: Icon(
+                          FontAwesomeIcons.arrowAltCircleRight,
+                          color: Colors.white,
+                        ),
+                        onTap: () => next(),
                       ),
-                      onTap: () => next(),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         ),
       ),

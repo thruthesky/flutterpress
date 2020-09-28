@@ -12,22 +12,28 @@ class FileDisplay extends StatelessWidget {
   final bool inEdit;
   final Function onFileDeleted;
 
+  final int filesToShow;
+
   FileDisplay(
     this.files, {
     this.inEdit = false,
     this.onFileDeleted(FileModel file),
+    this.filesToShow = 4,
   });
 
   onDeleteTapped(FileModel file) {
-    AppService.confirmDialog('deleteImage'.tr, Text('confirmDelete'.tr),
-        onConfirm: () async {
-      try {
-        await AppService.wc.fileDelete({'ID': file.id});
-        onFileDeleted(file);
-      } catch (e) {
-        AppService.error(e);
-      }
-    });
+    AppService.confirmDialog(
+      'deleteImage'.tr,
+      Text('confirmDelete'.tr),
+      onConfirm: () async {
+        try {
+          await AppService.wc.fileDelete({'ID': file.id});
+          onFileDeleted(file);
+        } catch (e) {
+          AppService.error(e);
+        }
+      },
+    );
   }
 
   onImageTap({int index = 0}) {
@@ -41,44 +47,13 @@ class FileDisplay extends StatelessWidget {
         : Column(
             children: [
               SizedBox(height: sm),
-              if (files.length == 1)
-                ImageStack(
-                  photoUrl: files[0].thumbnailUrl,
-                  inEdit: inEdit,
-                  withHeight: false,
-                  onDeleteTap: () => onDeleteTapped(files[0]),
-                  onImageTap: () => onImageTap(),
-                ),
-              if (files.length > 1)
-                GridView.count(
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisSpacing: 3,
-                  mainAxisSpacing: 3,
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  children: [
-                    /// show only six image if images count exceed 6
-                    if (files.length > 6)
-                      for (var i = 0; i <= 5; i++)
-                        ImageStack(
-                          photoUrl: files[i - 1].thumbnailUrl,
-                          inEdit: inEdit,
-                          onDeleteTap: () => onDeleteTapped(files[i]),
-                          onImageTap: () => onImageTap(index: i),
-                          moreImageCount: i == 5 ? files.length - 6 : null,
-                        ),
-
-                    /// show all image if image is below or equal 6
-                    if (files.length <= 6)
-                      for (var i = 0; i <= files.length - 1; i++)
-                        ImageStack(
-                          photoUrl: files[i].thumbnailUrl,
-                          inEdit: inEdit,
-                          onDeleteTap: () => onDeleteTapped(files[i]),
-                          onImageTap: () => onImageTap(index: i),
-                        ),
-                  ],
-                ),
+              ImageStack(
+                photoUrl: files[0].thumbnailUrl,
+                inEdit: inEdit,
+                withHeight: false,
+                onDeleteTap: () => onDeleteTapped(files[0]),
+                onImageTap: () => onImageTap(),
+              ),
             ],
           );
   }
@@ -109,7 +84,9 @@ class ImageStack extends StatelessWidget {
       child: Stack(children: [
         CommonImage(
           photoUrl,
-          height: withHeight ? 100 : null,
+          height: withHeight ? 220 : null,
+          width: double.infinity,
+          fit: BoxFit.cover,
         ),
         if (inEdit)
           Positioned(

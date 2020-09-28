@@ -4,7 +4,6 @@ import 'package:flutterpress/models/forum_base.model.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/commons/common.button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class ForumButtons extends StatefulWidget {
@@ -13,17 +12,17 @@ class ForumButtons extends StatefulWidget {
   final bool showReplyButton;
 
   final Function onReplyTap;
-  final Function onUpdateTap;
-  final Function onDeleted;
   final Function onVoted;
+  final EdgeInsets padding;
+  final double textSize;
 
   ForumButtons({
     @required this.model,
     this.showReplyButton = false,
     this.onReplyTap,
-    @required this.onUpdateTap,
-    @required this.onDeleted,
     @required this.onVoted,
+    this.padding = const EdgeInsets.only(top: 10),
+    this.textSize,
   });
 
   @override
@@ -50,15 +49,17 @@ class _ForumButtonsState extends State<ForumButtons> {
         : 'dislike'.tr;
 
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      padding: widget.padding,
       child: Row(children: [
         if (widget.showReplyButton && AppService.wc.isUserLoggedIn)
           ForumButton(
             label: 'reply'.tr,
+          labelSize: widget.textSize,
             onTap: widget.onReplyTap,
           ),
         ForumButton(
           label: likeText,
+          labelSize: widget.textSize,
           loading: loading == 'like',
           onTap: () {
             onVoteButtonTapped('like');
@@ -66,25 +67,12 @@ class _ForumButtonsState extends State<ForumButtons> {
         ),
         ForumButton(
           label: dislikeText,
+          labelSize: widget.textSize,
           loading: loading == 'dislike',
           onTap: () {
             onVoteButtonTapped('dislike');
           },
         ),
-
-        /// mine buttons
-        if (mine)
-          CommonButton(
-            child: Icon(FontAwesomeIcons.cog, size: md),
-            onTap: () async {
-              var res = await Get.bottomSheet(
-                MineMenu(),
-                backgroundColor: Colors.white,
-              );
-              if (res == 'update') widget.onUpdateTap();
-              if (res == 'delete') onDeleteButtonTapped();
-            },
-          ),
       ]),
     );
   }
@@ -131,37 +119,18 @@ class _ForumButtonsState extends State<ForumButtons> {
       }
     }
   }
-
-  /// Delete
-  onDeleteButtonTapped() {
-    AppService.confirmDialog(
-      'delete'.tr,
-      Text('confirmPostDelete'.tr),
-      onConfirm: () async {
-        try {
-          if (widget.model.isPost) {
-            await AppService.wc.postDelete({'ID': widget.model.id});
-          } else {
-            await AppService.wc.commentDelete({'comment_ID': widget.model.id});
-          }
-          widget.model.delete();
-          widget.onDeleted();
-        } catch (e) {
-          AppService.error('$e'.tr);
-        }
-      },
-    );
-  }
 }
 
 class ForumButton extends StatelessWidget {
   final String label;
+  final double labelSize;
   final Function onTap;
   final bool loading;
 
   ForumButton({
     this.label,
     this.onTap,
+    this.labelSize = sm,
     this.loading = false,
   });
 
@@ -173,44 +142,7 @@ class ForumButton extends StatelessWidget {
       onTap: onTap,
       child: Text(
         label,
-        style: TextStyle(fontSize: md, color: Colors.blue[500]),
-      ),
-    );
-  }
-}
-
-class MineMenu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        height: context.height * .3,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(md),
-              child: Text('Choose Action'),
-            ),
-            FlatButton(
-              child: Text('update'.tr),
-              onPressed: () {
-                Get.back(result: 'update');
-              },
-            ),
-            FlatButton(
-              child: Text('delete'.tr),
-              onPressed: () {
-                Get.back(result: 'delete');
-              },
-            ),
-            FlatButton(
-              child: Text('close'.tr),
-              onPressed: () {
-                Get.back();
-              },
-            )
-          ],
-        ),
+        style: TextStyle(fontSize: labelSize, color: Colors.blue[500]),
       ),
     );
   }

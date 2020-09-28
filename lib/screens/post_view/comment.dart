@@ -3,10 +3,10 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/comment.model.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/screens/post_list/comment_box.dart';
-import 'package:flutterpress/screens/post_list/comment.content.dart';
-import 'package:flutterpress/screens/post_list/comment.header.dart';
-import 'package:flutterpress/screens/post_list/forum_buttons.dart';
+import 'package:flutterpress/screens/post_view/comment_box.dart';
+import 'package:flutterpress/screens/post_view/comment.content.dart';
+import 'package:flutterpress/screens/post_view/comment.header.dart';
+import 'package:flutterpress/screens/post_view/forum_buttons.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
@@ -58,8 +58,8 @@ class _CommentState extends State<Comment> {
                 model: widget.comment,
                 showReplyButton: !inReply,
                 onReplyTap: () => changeInReplyState(true),
-                onUpdateTap: () => changeInEditState(true),
-                onDeleted: () => setState(() {}),
+                // onUpdateTap: () => changeInEditState(true),
+                // onDeleted: () => setState(() {}),
                 onVoted: () => setState(() {}),
               ),
 

@@ -4,6 +4,7 @@ import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
+import 'package:flutterpress/widgets/commons/common.form_submit_button.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:get/get.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -39,7 +40,12 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Select country code'),
+          Text(
+            'Select country code',
+            style: TextStyle(
+                color: Color(0xff5f5f5f), fontWeight: FontWeight.w500),
+          ),
+          SizedBox(height: 6),
           CountryCodeSelector(
             enabled: !loading,
             initialSelection: countryCode,
@@ -47,11 +53,12 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
               countryCode = _.dialCode;
             },
           ),
-          SizedBox(height: xl),
+          SizedBox(height: 50),
           Text('mobileNo'.tr),
           AppTextInputField(
-            contentSize: lg,
-            contentPadding: EdgeInsets.symmetric(vertical: sm),
+            contentSize: 23,
+            hintSize: 23,
+            contentPadding: EdgeInsets.symmetric(vertical: xs),
             inputType: TextInputType.phone,
             inputAction: TextInputAction.done,
             controller: _phoneController,
@@ -63,18 +70,10 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
           SizedBox(height: xxl),
           if (loading) Center(child: CommonSpinner()),
           if (!loading)
-            SizedBox(
-              width: double.infinity,
-              child: FlatButton(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Text(
-                  'sendCode'.tr,
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-                color: Colors.blue[500],
-                onPressed: () => verifyPhoneNumber(),
-              ),
-            ),
+          CommonFormSubmitButton(
+            text: 'sendCode'.tr.toUpperCase(),
+            onPressed: () => verifyPhoneNumber(),
+          ),
         ],
       ),
     );

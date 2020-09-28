@@ -60,7 +60,7 @@ class PostModel extends ForumBaseModel {
       authorId: int.parse(data['post_author']),
       authorName: data['author_name'],
       authorPhotoUrl: data['author_photo_url'],
-      content: data['post_content'],
+      content: data['post_content'] ?? '',
       files: data['files'],
       date: data['short_date_time'],
       deleted: false,

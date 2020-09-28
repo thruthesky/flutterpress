@@ -17,8 +17,15 @@ class LoginSocialButtons extends StatelessWidget {
 
   final Function onSuccess;
   final Function onFail;
+  final double logoSize;
+  final Color logoTextColor;
 
-  LoginSocialButtons({this.onSuccess, this.onFail});
+  LoginSocialButtons({
+    this.onSuccess,
+    this.onFail,
+    this.logoSize = 52,
+    this.logoTextColor,
+  });
 
   Future socialLogin(User firebaseUser) async {
     if (onSuccess != null) onSuccess();
@@ -26,7 +33,7 @@ class LoginSocialButtons extends StatelessWidget {
     AppService.onUserLogin(user);
   }
 
-  onError(e) {  
+  onError(e) {
     if (onFail != null) onFail();
     AppService.alertError('loginError'.tr, e);
   }
@@ -35,22 +42,54 @@ class LoginSocialButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        OrDivider(),
-        SizedBox(height: lg),
+        OrDivider(
+          fontSize: 17,
+          spacing: 7,
+        ),
+        SizedBox(height: md),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            /// [KakaoTalk Sign-in]
+            /// [Apple Sign-in]
+            FutureBuilder<Object>(
+              future: auth.appleSignInAvailable,
+              builder: (context, snapshot) {
+                // print('snapshot: ${snapshot.data}');
+                if (snapshot.data == true) {
+                  return IconTextButton(
+                    child: FaIcon(
+                      FontAwesomeIcons.apple,
+                      size: logoSize,
+                      color: Colors.grey[700],
+                    ),
+                    text: '애플',
+                    onTap: () async {
+                      try {
+                        User user = await auth.loginWithAppleAccount();
+                        await socialLogin(user);
+                      } catch (e) {
+                        onError(e);
+                      }
+                    },
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              },
+            ),
+
+            /// [Google Sign-in]
             IconTextButton(
-              child: Image.asset(
-                'assets/images/kakaotalk.png',
-                width: 36,
+              child: FaIcon(
+                FontAwesomeIcons.googlePlusG,
+                size: logoSize,
+                color: Colors.red[900],
               ),
-              text: '카카오톡',
+              text: '구글',
               onTap: () async {
                 try {
-                  User firebaseUser = await auth.loginWithKakaotalkAccount();
-                  await socialLogin(firebaseUser);
+                  User user = await auth.loginWithGoogleAccount();
+                  await socialLogin(user);
                 } catch (e) {
                   onError(e);
                 }
@@ -61,7 +100,7 @@ class LoginSocialButtons extends StatelessWidget {
             IconTextButton(
               child: FaIcon(
                 FontAwesomeIcons.facebook,
-                size: 36,
+                size: logoSize,
                 color: Colors.blue[900],
               ),
               text: '페이스북',
@@ -77,48 +116,19 @@ class LoginSocialButtons extends StatelessWidget {
               },
             ),
 
-            /// [Google Sign-in]
+            /// [KakaoTalk Sign-in]
             IconTextButton(
-              child: FaIcon(
-                FontAwesomeIcons.googlePlusG,
-                size: 36,
-                color: Colors.red[900],
+              child: Image.asset(
+                'assets/images/kakaotalk.png',
+                width: logoSize,
               ),
-              text: '구글',
+              text: '카카오톡',
               onTap: () async {
                 try {
-                  User user = await auth.loginWithGoogleAccount();
-                  await socialLogin(user);
+                  User firebaseUser = await auth.loginWithKakaotalkAccount();
+                  await socialLogin(firebaseUser);
                 } catch (e) {
                   onError(e);
-                }
-              },
-            ),
-
-            /// [Apple Sign-in]
-            FutureBuilder<Object>(
-              future: auth.appleSignInAvailable,
-              builder: (context, snapshot) {
-                // print('snapshot: ${snapshot.data}');
-                if (snapshot.data == true) {
-                  return IconTextButton(
-                    child: FaIcon(
-                      FontAwesomeIcons.apple,
-                      size: 36,
-                      color: Colors.grey[700],
-                    ),
-                    text: '애플',
-                    onTap: () async {
-                      try {
-                        User user = await auth.loginWithAppleAccount();
-                        await socialLogin(user);
-                      } catch (e) {
-                        onError(e);
-                      }
-                    },
-                  );
-                } else {
-                  return SizedBox.shrink();
                 }
               },
             ),

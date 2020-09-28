@@ -5,6 +5,7 @@ import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/app.text_input_field.dart';
 import 'package:flutterpress/widgets/commons/common.button.dart';
+import 'package:flutterpress/widgets/commons/common.form_submit_button.dart';
 import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:flutterpress/widgets/or_divider.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,6 @@ class PhoneAuthCodeForm extends StatefulWidget {
 }
 
 class _PhoneAuthCodeFormState extends State<PhoneAuthCodeForm> {
-
   final _formKey = GlobalKey<FormState>();
   final _codeController = TextEditingController();
 
@@ -34,14 +34,20 @@ class _PhoneAuthCodeFormState extends State<PhoneAuthCodeForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('inputCode'.tr),
+            Text(
+              'inputCode'.tr,
+              style: TextStyle(fontSize: 15),
+            ),
             AppTextInputField(
-              contentSize: xl,
+              controller: _codeController,
+              contentSize: 43,
+              hintSize: 43,
+              hintWeight: FontWeight.w500,
+              hintText: 'XXXXXX',
               contentPadding: EdgeInsets.symmetric(vertical: sm),
               inputType: TextInputType.phone,
               inputAction: TextInputAction.done,
-              controller: _codeController,
-              hintText: 'XXXXXX',
+              contentWeight: FontWeight.w500,
               autoValidate: isFormSubmitted,
               validator: (str) {
                 if (isEmpty(str)) return 'err_number_verification_code'.tr;
@@ -50,27 +56,26 @@ class _PhoneAuthCodeFormState extends State<PhoneAuthCodeForm> {
             SizedBox(height: xxl),
             if (loading) Center(child: CommonSpinner()),
             if (!loading) ...[
-              SizedBox(
-                width: double.infinity,
-                child: FlatButton(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    'sendCode'.tr,
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                  color: Colors.blue[500],
-                  onPressed: () => verifyCode(),
-                ),
+              CommonFormSubmitButton(
+                text: 'verify'.tr.toUpperCase(),
+                onPressed: () => verifyCode(),
               ),
               SizedBox(height: xxl),
-              OrDivider(),
+              OrDivider(
+                fontSize: 20,
+                spacing: sm,
+              ),
               SizedBox(height: md),
               Row(
                 children: [
                   CommonButton(
                     child: Text(
                       'resendCode'.tr,
-                      style: TextStyle(color: Colors.blue[900]),
+                      style: TextStyle(
+                        color: Color(0xff032674),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     onTap: loading
                         ? null
@@ -82,12 +87,24 @@ class _PhoneAuthCodeFormState extends State<PhoneAuthCodeForm> {
                   CommonButton(
                     child: Text(
                       'changeNumber'.tr,
-                      style: TextStyle(color: Colors.blue[900]),
+                      style: TextStyle(
+                        color: Color(0xff032674),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     onTap: loading
                         ? null
                         : () {
-                            Get.back();
+                            AppService.confirmDialog(
+                              'confirm',
+                              Text(
+                                'Are you sure you want to change your number?',
+                              ),
+                              onConfirm: () {
+                                Get.back();
+                              },
+                            );
                           },
                   ),
                 ],

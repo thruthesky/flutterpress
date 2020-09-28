@@ -5,10 +5,12 @@ class Keys {
   static String profileScaffold = 'profileScaffold';
   static String postListScaffold = 'postListScaffold';
   static String postEditScreenScaffold = 'postEditScreenScaffold';
+  static String passwordResetScreenScaffold = 'passwordResetScreenScaffold';
 
   static String emailInput = 'emailInput';
   static String passwordInput = 'passwordInput';
   static String nicknameInput = 'nicknameInput';
+  static String nameInput = 'nameInput';
   static String mobileInput = 'mobileInput';
   static String formSubmitButton = 'formSubmitButton';
   static String resignButton = 'resignButton';

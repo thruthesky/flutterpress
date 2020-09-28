@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/screens/phone_auth/phone_auth.code_form.dart';
-import 'package:flutterpress/widgets/custom_page_header.dart';
+import 'package:flutterpress/widgets/commons/common.page_header.dart';
 import 'package:get/get.dart';
 
 class PhoneAuthCodeScreen extends StatelessWidget {
@@ -20,13 +20,11 @@ class PhoneAuthCodeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomPageHeader(
+                CommonPageHeader(
                   showBackButton: false,
                   title: 'Verify',
-                  subtitle: 'Input verification code',
-                  subtitleSize: md,
+                  subtitle: 'Input Verification Code',
                   description: 'Verification code sent to $mobileNo',
-                  descriptionSize: sm,
                 ),
                 SizedBox(height: xxl),
                 PhoneAuthCodeForm(mobileNo: mobileNo, sessionID: sessionID),

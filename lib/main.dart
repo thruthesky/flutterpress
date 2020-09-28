@@ -6,10 +6,12 @@ import 'package:flutterpress/flutter_i18n/locale.dart';
 import 'package:flutterpress/flutterbase_v2/flutterbase.controller.dart';
 import 'package:flutterpress/screens/home/home.screen.dart';
 import 'package:flutterpress/screens/login/login.screen.dart';
+import 'package:flutterpress/screens/pasword_reset/pasword_reset.screen.dart';
 import 'package:flutterpress/screens/phone_auth/phone_auth.code_screen.dart';
 import 'package:flutterpress/screens/phone_auth/phone_auth.screen.dart';
 import 'package:flutterpress/screens/post_edit/post_edit.screen.dart';
 import 'package:flutterpress/screens/post_list/post_list.screen.dart';
+import 'package:flutterpress/screens/post_view/post_view.screen.dart';
 import 'package:flutterpress/screens/profile/profile.screen.dart';
 import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/routes.dart';
@@ -35,9 +37,11 @@ class _FlutterPressState extends State<FlutterPress>
   final FlutterbaseController flutterbaseController = Get.put(
     FlutterbaseController(
       facebookAppId: 783671305107698,
-      facebookRedirectUrl: 'https://www.facebook.com/connect/login_success.html',
+      facebookRedirectUrl:
+          'https://www.facebook.com/connect/login_success.html',
       kakaotalkClientId: '3ac9c1457bb0724adb20a949bffd720e', // Native App Key
-      kakaotalkJavascriptClientId: '937af10cf8688bd9a7554cf088b2ac3e', // Javascript App Key
+      kakaotalkJavascriptClientId:
+          '937af10cf8688bd9a7554cf088b2ac3e', // Javascript App Key
     ),
   );
 
@@ -71,9 +75,11 @@ class _FlutterPressState extends State<FlutterPress>
         GetPage(name: Routes.register, page: () => RegisterScreen()),
         GetPage(name: Routes.profile, page: () => ProfileScreen()),
         GetPage(name: Routes.postList, page: () => PostListScreen()),
+        GetPage(name: Routes.postView, page: () => PostViewScreen()),
         GetPage(name: Routes.postEdit, page: () => PostEditScreen()),
         GetPage(name: Routes.phoneAuth, page: () => PhoneAuthScreen()),
         GetPage(name: Routes.phoneAuthCode, page: () => PhoneAuthCodeScreen()),
+        GetPage(name: Routes.passwordReset, page: () => PasswordResetScreen()),
       ],
     );
   }

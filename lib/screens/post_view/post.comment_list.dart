@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/screens/post_list/comment.dart';
+import 'package:flutterpress/screens/post_view/comment.dart';
 
 class CommentList extends StatefulWidget {
   final PostModel post;
