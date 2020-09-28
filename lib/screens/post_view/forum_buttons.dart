@@ -54,7 +54,7 @@ class _ForumButtonsState extends State<ForumButtons> {
         if (widget.showReplyButton && AppService.wc.isUserLoggedIn)
           ForumButton(
             label: 'reply'.tr,
-          labelSize: widget.textSize,
+            labelSize: widget.textSize,
             onTap: widget.onReplyTap,
           ),
         ForumButton(
