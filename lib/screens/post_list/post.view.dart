@@ -6,11 +6,11 @@ import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/comment_box.dart';
 import 'package:flutterpress/screens/post_list/forum_buttons.dart';
 import 'package:flutterpress/screens/post_list/post.comment_list.dart';
-import 'package:flutterpress/screens/post_list/post_view.header.dart';
+import 'package:flutterpress/screens/post_list/post.view_header.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/file_display.dart';
-import 'package:flutterpress/widgets/no_comments.dart';
+import 'package:flutterpress/screens/post_list/no_comments.dart';
 import 'package:get/get.dart';
 
 class PostView extends StatefulWidget {

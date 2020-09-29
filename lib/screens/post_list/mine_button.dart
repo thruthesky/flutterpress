@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/widgets/commons/common.icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -15,11 +16,11 @@ class MineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      constraints: BoxConstraints(maxHeight: iconSize * 2),
-      icon: Icon(FontAwesomeIcons.ellipsisV),
+    return CommonIconButton(
+      icon: FontAwesomeIcons.ellipsisV,
       iconSize: iconSize,
-      onPressed: () async {
+      iconColor: Color(0xDE000000),
+      onTap: () async {
         var res = await Get.bottomSheet(
           MineMenu(),
           backgroundColor: Colors.white,

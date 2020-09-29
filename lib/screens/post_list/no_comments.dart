@@ -13,13 +13,19 @@ class NoComments extends StatelessWidget {
       Text(
         'No comments, yet.',
         style: TextStyle(
-            fontSize: 20, color: textColor, fontWeight: FontWeight.w500),
+          fontSize: 20,
+          color: textColor,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       SizedBox(height: sm),
       Text(
         'Be the first to add a comment on this post.',
         style: TextStyle(
-            fontSize: 14, color: textColor, fontWeight: FontWeight.w400),
+          fontSize: 14,
+          color: textColor,
+          fontWeight: FontWeight.w400,
+        ),
       ),
       SizedBox(height: xs),
       FlatButton(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/screens/post_list/post_view.dart';
+import 'package:flutterpress/screens/post_list/post.view.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/screens/post_list/post.tile.dart';
 
