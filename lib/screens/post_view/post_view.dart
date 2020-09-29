@@ -14,10 +14,6 @@ import 'package:flutterpress/widgets/no_comments.dart';
 import 'package:get/get.dart';
 
 class PostView extends StatefulWidget {
-  PostView(this.post);
-
-  final PostModel post;
-
   @override
   _PostViewState createState() => _PostViewState();
 }
@@ -27,24 +23,32 @@ class _PostViewState extends State<PostView> {
 
   final double titleSize = 20;
 
+  PostModel post;
+
   bool inReply = false;
+
+  @override
+  void initState() {
+    post = Get.arguments;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         PostViewHeader(
-          widget.post,
+          post,
           onUpdateButtonTap: onUpdateTapped,
           onDeleteButtonTap: onDeleteTapped,
         ),
-        FileDisplay(widget.post.files),
+        FileDisplay(post.files),
         Container(
           width: double.infinity,
           color: Color(0xFFF4F4F4),
           padding: EdgeInsets.all(md),
           child: SelectableText(
-            widget.post.content,
+            post.content,
             style: TextStyle(
               fontWeight: FontWeight.w500,
               color: Color(0xDE000000),
@@ -54,7 +58,7 @@ class _PostViewState extends State<PostView> {
         ForumButtons(
           showReplyButton: !inReply,
           padding: EdgeInsets.all(md),
-          model: widget.post,
+          model: post,
           onVoted: () {
             setState(() {});
           },
@@ -66,24 +70,24 @@ class _PostViewState extends State<PostView> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: md),
             child: CommentBox(
-              post: widget.post,
-              parent: widget.post.id,
+              post: post,
+              parent: post.id,
               onCancel: () => setState(() {
                 inReply = false;
               }),
               onEditted: (comment) {
-                widget.post.insertComment(widget.post.id, comment);
+                post.insertComment(post.id, comment);
                 inReply = false;
                 setState(() {});
               },
             ),
           ),
-        if (widget.post.comments.length > 0)
+        if (post.comments.length > 0)
           Container(
             padding: EdgeInsets.symmetric(horizontal: md),
-            child: CommentList(post: widget.post),
+            child: CommentList(post: post),
           ),
-        if (isEmpty(widget.post.comments) && !inReply)
+        if (isEmpty(post.comments) && !inReply)
           NoComments(
             onCreateTap: () => setState(() {
               inReply = true;
@@ -97,10 +101,10 @@ class _PostViewState extends State<PostView> {
   onUpdateTapped() async {
     var res = await Get.toNamed(
       Routes.postEdit,
-      arguments: {'post': widget.post},
+      arguments: {'post': post},
     );
     if (!isEmpty(res)) {
-      widget.post.update(res);
+      post.update(res);
       setState(() {});
     }
   }
@@ -112,8 +116,8 @@ class _PostViewState extends State<PostView> {
       Text('confirmPostDelete'.tr),
       onConfirm: () async {
         try {
-          await AppService.wc.postDelete({'ID': widget.post.id});
-          widget.post.delete();
+          await AppService.wc.postDelete({'ID': post.id});
+          post.delete();
         } catch (e) {
           AppService.error('$e'.tr);
         }

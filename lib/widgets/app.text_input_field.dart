@@ -112,7 +112,7 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       onEditingComplete: widget.onEditingComplete,
       validator: (str) {
         str = str.trim();
-        return widget.validator(str);
+        if (widget.validator != null) return widget.validator(str);
       },
       autovalidate: validate,
       style: TextStyle(

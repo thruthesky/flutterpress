@@ -3,6 +3,7 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/screens/post_list/no_posts.dart';
 import 'package:flutterpress/screens/post_list/post_list.dart';
 import 'package:flutterpress/services/app.config.dart';
 import 'package:flutterpress/services/keys.dart';
@@ -11,6 +12,7 @@ import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/commons/common.app_bar.dart';
 import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 import 'package:flutterpress/widgets/commons/common.button.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:get/get.dart';
 
 /// TODO:
@@ -28,17 +30,21 @@ class _PostListScreenState extends State<PostListScreen> {
   String slug;
   List<PostModel> posts = [];
 
-  bool loading = false;
+  bool loading = true;
   bool noMorePost = false;
+  bool noPosts = false;
+
   int page = 1;
   @override
   void initState() {
     var args = Get.arguments;
     slug = args ?? 'uncategorized';
-    getPosts();
 
+    getPosts();
     _scrollController.addListener(() {
       if (loading || noMorePost) return;
+      loading = true;
+      setState(() {});
 
       if (_scrollController.position.pixels >
           (_scrollController.position.maxScrollExtent - 250)) {
@@ -54,11 +60,7 @@ class _PostListScreenState extends State<PostListScreen> {
   }
 
   getPosts() async {
-    if (loading) return;
-    loading = true;
-    setState(() {});
     if (noMorePost) return;
-
     List<PostModel> _ps = [];
     try {
       _ps = await AppService.wc.getPosts(slug: slug, page: page);
@@ -66,7 +68,12 @@ class _PostListScreenState extends State<PostListScreen> {
       AppService.alertError(e);
     }
 
-    if (isEmpty(_ps)) return;
+    if (isEmpty(_ps)) {
+      if (page == 1) noPosts = true;
+      setState(() {});
+      return;
+    }
+
     page += 1;
 
     if (_ps.length < AppConfig.noOfPostsPerPage) noMorePost = true;
@@ -80,7 +87,7 @@ class _PostListScreenState extends State<PostListScreen> {
     return Scaffold(
       key: ValueKey(Keys.postListScaffold),
       appBar: CommonAppBar(
-        title: Text('postList'.tr),
+        title: Text('$slug'.tr),
         actions: wc.isUserLoggedIn
             ? [
                 CommonButton(
@@ -121,49 +128,34 @@ class _PostListScreenState extends State<PostListScreen> {
             onPanDown: (_) {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
-            child: posts.length > 0
-                ? SingleChildScrollView(
-                    controller: _scrollController,
-                    child: PostList(
-                      posts,
-                      loading: loading,
-                      noMorePost: noMorePost,
-                    ),
-                  )
-                : Container(
-                    padding: EdgeInsets.all(md),
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: noPosts
+                  ? NoPosts()
+                  : Column(
                       children: [
-                        Text(
-                          'No posts, yet.',
-                          style: TextStyle(
-                            fontSize: 27,
-                            fontWeight: FontWeight.w500,
+                        /// post list
+                        PostList(posts),
+
+                        /// loader
+                        if (loading && !noMorePost)
+                          Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: lg),
+                              child: CommonSpinner(),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: md),
-                        Text(
-                          'Won’t you be the first to write?',
-                          style: TextStyle(
-                            fontSize: 19,
-                            color: Color(0xDE000000),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(height: md),
-                        Text(
-                          'Please...',
-                          style: TextStyle(
-                            fontSize: md,
-                            color: Color(0xDE000000),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+
+                        if (noMorePost)
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('noMorePost'.tr),
+                            ),
+                          )
                       ],
                     ),
-                  ),
+            ),
           ),
         ),
       ),
