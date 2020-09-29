@@ -102,7 +102,6 @@ class _CommentBoxState extends State<CommentBox> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: sm),
         Row(children: [
           Expanded(
             child: AppTextInputField(
@@ -112,6 +111,7 @@ class _CommentBoxState extends State<CommentBox> {
               controller: controller,
               focusNode: focusNode,
               withBorder: true,
+              contentPadding: EdgeInsets.all(md),
               sufficIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,

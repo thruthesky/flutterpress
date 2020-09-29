@@ -248,4 +248,12 @@ class AppService {
       return Get.offAllNamed(Routes.home);
     }
   }
+
+  static authorName(String name) {
+    String authorName = name;
+    if (authorName.length > 10) {
+      authorName = authorName.substring(0, 9) + '...';
+    }
+    return authorName;
+  }
 }

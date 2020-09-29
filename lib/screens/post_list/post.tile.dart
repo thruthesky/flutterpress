@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
+import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/widgets/circular_avatar.dart';
 import 'package:flutterpress/widgets/commons/common.image.dart';
 
@@ -12,6 +13,7 @@ class PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authorName = AppService.authorName(post.authorName);
     final withUserPhoto = !isEmpty(post.authorPhotoUrl);
     final withFiles = !isEmpty(post.files);
 
@@ -31,7 +33,7 @@ class PostTile extends StatelessWidget {
     double firstLineAlignment = 0;
 
     if ((!withUserPhoto && !withFiles) || (withUserPhoto && withFiles)) {
-      firstline = post.authorName + ' - $firstline';
+      firstline = authorName + ' - $firstline';
     }
     if (withUserPhoto && withFiles) {
       avatarSize = 35;
@@ -74,7 +76,7 @@ class PostTile extends StatelessWidget {
                       userAvatar,
                       SizedBox(height: xs),
                       Text(
-                        post.authorName,
+                        authorName,
                         style: TextStyle(fontSize: 12),
                         overflow: TextOverflow.ellipsis,
                       )

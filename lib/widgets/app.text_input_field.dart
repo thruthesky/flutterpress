@@ -110,7 +110,10 @@ class _AppTextInputFieldState extends State<AppTextInputField> {
       focusNode: widget.focusNode,
       obscureText: widget.obscureText,
       onEditingComplete: widget.onEditingComplete,
-      validator: widget.validator,
+      validator: (str) {
+        str = str.trim();
+        return widget.validator(str);
+      },
       autovalidate: validate,
       style: TextStyle(
         color: widget.contentColor ?? Colors.black,

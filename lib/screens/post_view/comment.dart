@@ -7,6 +7,7 @@ import 'package:flutterpress/screens/post_view/comment_box.dart';
 import 'package:flutterpress/screens/post_view/comment.content.dart';
 import 'package:flutterpress/screens/post_view/comment.header.dart';
 import 'package:flutterpress/screens/post_view/forum_buttons.dart';
+import 'package:flutterpress/screens/post_view/mine_button.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
@@ -37,10 +38,10 @@ class _CommentState extends State<Comment> {
             ? (widget.comment.depth * 5).toDouble()
             : 0,
       ),
-      padding: EdgeInsets.all(xs),
+      padding: EdgeInsets.all(sm),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.grey[200],
+        color: Color(0xFFF4F4F4),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,15 +53,34 @@ class _CommentState extends State<Comment> {
             /// comment contents
             if (!inEdit) CommentContent(comment: widget.comment),
 
+            Divider(
+              color: Color(0xFFDDDDDD),
+              thickness: 1,
+            ),
+
             /// comment buttons
             if (!inEdit)
-              ForumButtons(
-                model: widget.comment,
-                showReplyButton: !inReply,
-                onReplyTap: () => changeInReplyState(true),
-                // onUpdateTap: () => changeInEditState(true),
-                // onDeleted: () => setState(() {}),
-                onVoted: () => setState(() {}),
+              Row(
+                children: [
+                  ForumButtons(
+                    model: widget.comment,
+                    showReplyButton: !inReply,
+                    onReplyTap: () => changeInReplyState(true),
+                    onVoted: () => setState(() {}),
+                    padding: null,
+                  ),
+                  Spacer(),
+                  if (AppService.isMine(widget.comment))
+                  MineButton(
+                    onSelect: (option) {
+                      if (option == MineOption.update)
+                        setState(() {
+                          inEdit = true;
+                        });
+                      if (option == MineOption.delete) onDeleteTapped();
+                    },
+                  ),
+                ],
               ),
 
             /// comment contents in edit mode
@@ -78,7 +98,8 @@ class _CommentState extends State<Comment> {
           ],
 
           /// Reply box
-          if (inReply)
+          if (inReply) ...[
+            SizedBox(height: sm),
             CommentBox(
               post: widget.post,
               parent: widget.comment.id,
@@ -89,6 +110,7 @@ class _CommentState extends State<Comment> {
                 widget.onReplied();
               },
             ),
+          ],
         ],
       ),
     );
@@ -103,5 +125,22 @@ class _CommentState extends State<Comment> {
   changeInReplyState(bool val) {
     inReply = val;
     setState(() {});
+  }
+
+  /// Delete
+  onDeleteTapped() {
+    AppService.confirmDialog(
+      'delete'.tr,
+      Text('confirmPostDelete'.tr),
+      onConfirm: () async {
+        try {
+          await AppService.wc.commentDelete({'comment_ID': widget.comment.id});
+          widget.comment.delete();
+          setState(() {});
+        } catch (e) {
+          AppService.error('$e'.tr);
+        }
+      },
+    );
   }
 }

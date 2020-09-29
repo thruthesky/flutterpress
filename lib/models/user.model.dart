@@ -15,6 +15,8 @@ class UserModel {
 
   bool get hasMobile => mobile != null && mobile.toString().length > 7;
 
+  bool get hasNickname => nickName != null && nickName != '';
+
   bool get isRegisteredWithWordpress => socialLogin == 'wordpress';
 
   UserModel({
