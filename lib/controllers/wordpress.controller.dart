@@ -142,7 +142,7 @@ class WordpressController extends GetxController {
       'firebase_uid': uid,
       'provider': provider,
       'email': fbUser.email,
-      'nickname': fbUser.displayName,
+      'name': fbUser.displayName
     };
 
     var result = await AppService.getHttp(params);
@@ -173,6 +173,29 @@ class WordpressController extends GetxController {
   updateUserMobile(String mobile) {
     user.mobile = mobile;
     update();
+  }
+
+  /// This will make an Http request for fetching posts.
+  ///
+  Future<List<PostModel>> getPosts({
+    String slug,
+    int postsPerPage,
+    int page = 1,
+  }) async {
+    List<PostModel> posts = [];
+    Map<String, dynamic> re;
+    re = await AppService.getHttp({
+      'route': 'post.search',
+      'slug': slug ?? 'uncategorized',
+      'posts_per_page': postsPerPage ?? AppConfig.noOfPostsPerPage,
+      'paged': page,
+    }, require: [
+      'slug'
+    ]);
+    re.remove('route');
+    if (isEmpty(re)) return posts;
+    re.forEach((key, value) => posts.add(PostModel.fromBackendData(value)));
+    return posts;
   }
 
   /// This will make an Http request for editting post.

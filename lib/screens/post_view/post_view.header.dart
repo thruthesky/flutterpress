@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/screens/post_view/mine_menu_button.dart';
+import 'package:flutterpress/screens/post_view/mine_button.dart';
 import 'package:flutterpress/services/app.service.dart';
-import 'package:get/get.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/post.model.dart';
 import 'package:flutterpress/widgets/circular_avatar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PostViewHeader extends StatelessWidget {
   PostViewHeader(
@@ -22,7 +20,6 @@ class PostViewHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Column(
       children: [
         Container(
@@ -63,23 +60,28 @@ class PostViewHeader extends StatelessWidget {
                       '${AppService.authorName(post.authorName)} - No. ${post.id} - Date: ${post.date}',
                       style: TextStyle(fontSize: sm),
                     ),
-                    Text(post.slug + ' - Views 201',
-                        style: TextStyle(fontSize: md))
+
+                    /// TODO: view count
+                    Text(
+                      post.slug + ' - 201 views',
+                      style: TextStyle(fontSize: md),
+                    )
                   ],
                 ),
               ),
-              IconButton(
-                icon: Icon(FontAwesomeIcons.ellipsisV),
-                iconSize: 16,
-                onPressed: () async {
-                  var res = await Get.bottomSheet(
-                    MineMenuButton(),
-                    backgroundColor: Colors.white,
-                  );
-                  if (res == 'update' && onUpdateButtonTap != null) onUpdateButtonTap();
-                  if (res == 'delete' && onDeleteButtonTap != null) onDeleteButtonTap();
-                },
-              ),
+              if (AppService.isMine(post))
+                MineButton(
+                  onSelect: (option) {
+                    if (option == MineOption.update &&
+                        onUpdateButtonTap != null) {
+                      onUpdateButtonTap();
+                    }
+                    if (option == MineOption.delete &&
+                        onDeleteButtonTap != null) {
+                      onDeleteButtonTap();
+                    }
+                  },
+                ),
             ],
           ),
         )

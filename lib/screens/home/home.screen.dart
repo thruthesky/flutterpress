@@ -44,10 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     RaisedButton(
                       key: ValueKey(Routes.postList),
                       child: Text('postList'.tr),
-                      onPressed: () => Get.toNamed(
-                        Routes.postList,
-                        arguments: {},
-                      ),
+                      onPressed: () => Get.toNamed(Routes.postList),
                     ),
                     RaisedButton(
                       key: ValueKey('discuss'),

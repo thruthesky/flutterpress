@@ -7,7 +7,6 @@ import 'package:flutterpress/screens/post_view/comment_box.dart';
 import 'package:flutterpress/screens/post_view/comment.content.dart';
 import 'package:flutterpress/screens/post_view/comment.header.dart';
 import 'package:flutterpress/screens/post_view/forum_buttons.dart';
-import 'package:flutterpress/services/app.service.dart';
 import 'package:get/get.dart';
 
 class Comment extends StatefulWidget {
@@ -40,7 +39,7 @@ class _CommentState extends State<Comment> {
       padding: EdgeInsets.all(xs),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.grey[200],
+        color: Color(0xFFF4F4F4),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,15 +51,18 @@ class _CommentState extends State<Comment> {
             /// comment contents
             if (!inEdit) CommentContent(comment: widget.comment),
 
+            Divider(
+              color: Color(0xFFDDDDDD),
+              thickness: 1,
+            ),
             /// comment buttons
             if (!inEdit)
               ForumButtons(
                 model: widget.comment,
                 showReplyButton: !inReply,
                 onReplyTap: () => changeInReplyState(true),
-                // onUpdateTap: () => changeInEditState(true),
-                // onDeleted: () => setState(() {}),
                 onVoted: () => setState(() {}),
+                padding: null,
               ),
 
             /// comment contents in edit mode

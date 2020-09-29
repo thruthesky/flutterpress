@@ -18,9 +18,9 @@ class ForumButtons extends StatefulWidget {
 
   ForumButtons({
     @required this.model,
+    @required this.onVoted,
     this.showReplyButton = false,
     this.onReplyTap,
-    @required this.onVoted,
     this.padding = const EdgeInsets.only(top: 10),
     this.textSize,
   });
@@ -42,10 +42,10 @@ class _ForumButtonsState extends State<ForumButtons> {
   @override
   Widget build(BuildContext context) {
     var likeText = widget.model.like > 0
-        ? 'like'.tr + '(${widget.model.like})'
+        ? 'like'.tr + ' (${widget.model.like})'
         : 'like'.tr;
     var dislikeText = widget.model.dislike > 0
-        ? 'dislike'.tr + '(${widget.model.dislike})'
+        ? 'dislike'.tr + ' (${widget.model.dislike})'
         : 'dislike'.tr;
 
     return Container(

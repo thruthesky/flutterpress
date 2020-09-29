@@ -6,7 +6,7 @@ import 'package:get/route_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 openForum(String slug) {
-  Get.toNamed(Routes.postList, arguments: {'slug': slug});
+  Get.toNamed(Routes.postList, arguments: slug);
 }
 
 /// it evaluates the status

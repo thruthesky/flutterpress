@@ -16,8 +16,8 @@ class CommentHeader extends StatelessWidget {
       children: [
         CircularAvatar(
           photoURL: comment.authorPhotoUrl,
-          height: 45,
-          width: 45,
+          height: 42,
+          width: 42,
         ),
         SizedBox(width: xs),
         Column(
@@ -25,7 +25,7 @@ class CommentHeader extends StatelessWidget {
           children: [
             Text(
               comment.deleted ? 'deleted'.tr : comment.authorName,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: md),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: sm),
             ),
             if (!comment.deleted) ...[SizedBox(height: xs), Text(comment.date)],
           ],

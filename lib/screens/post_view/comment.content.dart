@@ -14,7 +14,13 @@ class CommentContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: sm),
-        SelectableText(comment.content),
+        SelectableText(
+          comment.content,
+          style: TextStyle(
+            color: Color(0xDE000000),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         FileDisplay(comment.files),
       ],
     );
