@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:flutterpress/widgets/file_display.overlay.dart';
 import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -19,19 +18,6 @@ class FileDisplay extends StatelessWidget {
   int get viewLimit {
     if (inEdit) return files.length;
     return 4;
-  }
-
-  double get height {
-    if (files.length == 2) {
-      return 250;
-    }
-    if (files.length == 3) {
-      return 150;
-    }
-    if (files.length >= 4) {
-      return 130;
-    }
-    return 110;
   }
 
   FileDisplay(
@@ -80,7 +66,7 @@ class FileDisplay extends StatelessWidget {
                 const StaggeredTile.count(2, 2),
                 const StaggeredTile.count(2, 2),
               ],
-              if (inEdit)
+              if (files.length >= 4 && inEdit)
                 for (int i = 0; i < files.length - 1; i++)
                   const StaggeredTile.count(2, 2),
             ],
@@ -89,12 +75,11 @@ class FileDisplay extends StatelessWidget {
                 if (i < viewLimit) // only show 4 images when not in Edit
                   ImageStack(
                     inEdit: inEdit,
-                    // height: i == 0 ? 220 : height,
                     photoUrl: files[i].thumbnailUrl,
                     onDeleteTap: () => onDeleteTapped(files[i]),
                     onImageTap: () => onImageTap(index: i),
                     moreImageCount:
-                        i == 3 && !inEdit ? files.length - (i + 1) : null,
+                        i == 3 && !inEdit ? files.length - (i + 1)  : null,
                   )
             ],
             mainAxisSpacing: 1.0,
@@ -154,7 +139,7 @@ class ImageStack extends StatelessWidget {
               onPressed: onDeleteTap,
             ),
           ),
-        if (moreImageCount != null)
+        if (moreImageCount != null && moreImageCount != 0)
           Container(
             color: Colors.black45,
             child: Center(
