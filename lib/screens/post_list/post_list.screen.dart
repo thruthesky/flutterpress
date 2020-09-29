@@ -42,16 +42,22 @@ class _PostListScreenState extends State<PostListScreen> {
 
     getPosts();
     _scrollController.addListener(() {
-      if (loading || noMorePost) return;
-      loading = true;
-      setState(() {});
-
       if (_scrollController.position.pixels >
           (_scrollController.position.maxScrollExtent - 250)) {
+        if (loading || noMorePost) return;
+        loading = true;
+        setState(() {});
         getPosts();
       }
     });
     super.initState();
+  }
+
+  addPosts(List<PostModel> ps) {
+    if (ps.length < AppConfig.noOfPostsPerPage) noMorePost = true;
+    ps.forEach((p) => posts.add(p));
+    loading = false;
+    setState(() {});
   }
 
   addOnTop(PostModel post) {
@@ -60,7 +66,6 @@ class _PostListScreenState extends State<PostListScreen> {
   }
 
   getPosts() async {
-    if (noMorePost) return;
     List<PostModel> _ps = [];
     try {
       _ps = await AppService.wc.getPosts(slug: slug, page: page);
@@ -69,17 +74,14 @@ class _PostListScreenState extends State<PostListScreen> {
     }
 
     if (isEmpty(_ps)) {
-      if (page == 1) noPosts = true;
-      setState(() {});
+      if (page == 1)
+        setState(() {
+          noPosts = true;
+        });
       return;
     }
-
     page += 1;
-
-    if (_ps.length < AppConfig.noOfPostsPerPage) noMorePost = true;
-    _ps.forEach((p) => posts.add(p));
-    loading = false;
-    setState(() {});
+    addPosts(_ps);
   }
 
   @override
@@ -123,6 +125,7 @@ class _PostListScreenState extends State<PostListScreen> {
       endDrawer: CommonAppDrawer(),
       body: SafeArea(
         child: Container(
+          color: Color(0x01000000),
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onPanDown: (_) {

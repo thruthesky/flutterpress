@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/screens/post_view/mine_button.dart';
+import 'package:flutterpress/screens/post_list/mine_button.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/models/post.model.dart';

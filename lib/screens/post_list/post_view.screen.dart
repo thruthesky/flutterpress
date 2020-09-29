@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpress/screens/post_view/post_view.dart';
+import 'package:flutterpress/screens/post_list/post_view.dart';
 import 'package:flutterpress/widgets/commons/common.app_bar.dart';
 import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 

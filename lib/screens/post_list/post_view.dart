@@ -3,10 +3,10 @@ import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
 import 'package:flutterpress/flutter_library/library.dart';
 import 'package:flutterpress/models/post.model.dart';
-import 'package:flutterpress/screens/post_view/comment_box.dart';
-import 'package:flutterpress/screens/post_view/forum_buttons.dart';
-import 'package:flutterpress/screens/post_view/post.comment_list.dart';
-import 'package:flutterpress/screens/post_view/post_view.header.dart';
+import 'package:flutterpress/screens/post_list/comment_box.dart';
+import 'package:flutterpress/screens/post_list/forum_buttons.dart';
+import 'package:flutterpress/screens/post_list/post.comment_list.dart';
+import 'package:flutterpress/screens/post_list/post_view.header.dart';
 import 'package:flutterpress/services/app.service.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/file_display.dart';
@@ -14,6 +14,10 @@ import 'package:flutterpress/widgets/no_comments.dart';
 import 'package:get/get.dart';
 
 class PostView extends StatefulWidget {
+  PostView({this.post});
+
+  final PostModel post;
+
   @override
   _PostViewState createState() => _PostViewState();
 }
@@ -23,32 +27,24 @@ class _PostViewState extends State<PostView> {
 
   final double titleSize = 20;
 
-  PostModel post;
-
   bool inReply = false;
-
-  @override
-  void initState() {
-    post = Get.arguments;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         PostViewHeader(
-          post,
+          widget.post,
           onUpdateButtonTap: onUpdateTapped,
           onDeleteButtonTap: onDeleteTapped,
         ),
-        FileDisplay(post.files),
+        FileDisplay(widget.post.files),
         Container(
           width: double.infinity,
           color: Color(0xFFF4F4F4),
           padding: EdgeInsets.all(md),
           child: SelectableText(
-            post.content,
+            widget.post.content,
             style: TextStyle(
               fontWeight: FontWeight.w500,
               color: Color(0xDE000000),
@@ -58,7 +54,7 @@ class _PostViewState extends State<PostView> {
         ForumButtons(
           showReplyButton: !inReply,
           padding: EdgeInsets.all(md),
-          model: post,
+          model: widget.post,
           onVoted: () {
             setState(() {});
           },
@@ -70,24 +66,24 @@ class _PostViewState extends State<PostView> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: md),
             child: CommentBox(
-              post: post,
-              parent: post.id,
+              post: widget.post,
+              parent: widget.post.id,
               onCancel: () => setState(() {
                 inReply = false;
               }),
               onEditted: (comment) {
-                post.insertComment(post.id, comment);
+                widget.post.insertComment(widget.post.id, comment);
                 inReply = false;
                 setState(() {});
               },
             ),
           ),
-        if (post.comments.length > 0)
+        if (widget.post.comments.length > 0)
           Container(
             padding: EdgeInsets.symmetric(horizontal: md),
-            child: CommentList(post: post),
+            child: CommentList(post: widget.post),
           ),
-        if (isEmpty(post.comments) && !inReply)
+        if (isEmpty(widget.post.comments) && !inReply)
           NoComments(
             onCreateTap: () => setState(() {
               inReply = true;
@@ -101,10 +97,10 @@ class _PostViewState extends State<PostView> {
   onUpdateTapped() async {
     var res = await Get.toNamed(
       Routes.postEdit,
-      arguments: {'post': post},
+      arguments: {'post': widget.post},
     );
     if (!isEmpty(res)) {
-      post.update(res);
+      widget.post.update(res);
       setState(() {});
     }
   }
@@ -116,8 +112,8 @@ class _PostViewState extends State<PostView> {
       Text('confirmPostDelete'.tr),
       onConfirm: () async {
         try {
-          await AppService.wc.postDelete({'ID': post.id});
-          post.delete();
+          await AppService.wc.postDelete({'ID': widget.post.id});
+          widget.post.delete();
         } catch (e) {
           AppService.error('$e'.tr);
         }

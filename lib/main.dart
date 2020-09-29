@@ -11,7 +11,7 @@ import 'package:flutterpress/screens/phone_auth/phone_auth.code_screen.dart';
 import 'package:flutterpress/screens/phone_auth/phone_auth.screen.dart';
 import 'package:flutterpress/screens/post_edit/post_edit.screen.dart';
 import 'package:flutterpress/screens/post_list/post_list.screen.dart';
-import 'package:flutterpress/screens/post_view/post_view.screen.dart';
+import 'package:flutterpress/screens/post_list/post_view.screen.dart';
 import 'package:flutterpress/screens/profile/profile.screen.dart';
 import 'package:flutterpress/screens/register/register.screen.dart';
 import 'package:flutterpress/services/routes.dart';
@@ -49,7 +49,6 @@ class _FlutterPressState extends State<FlutterPress>
   void afterFirstLayout(BuildContext context) async {
     String locale = await I18n.init();
     Get.updateLocale(Locale(locale));
-    // Get.updateLocale(Locale('ko'));
   }
 
   @override
@@ -68,7 +67,6 @@ class _FlutterPressState extends State<FlutterPress>
       locale: Locale('ko'),
       translations: AppTranslations(),
       initialRoute: Routes.home,
-      // initialRoute: Routes.phoneAuth,
       getPages: [
         GetPage(name: Routes.home, page: () => HomeScreen()),
         GetPage(name: Routes.login, page: () => LoginScreen()),
