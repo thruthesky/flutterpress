@@ -15,7 +15,7 @@ class CommentHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CircularAvatar(
-          photoURL: comment.authorPhotoUrl,
+          photoURL: comment.deleted ? '' : comment.authorPhotoUrl,
           height: 42,
           width: 42,
         ),
@@ -27,7 +27,10 @@ class CommentHeader extends StatelessWidget {
               comment.deleted ? 'deleted'.tr : comment.authorName,
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: sm),
             ),
-            if (!comment.deleted) ...[SizedBox(height: xs), Text(comment.date)],
+            if (!comment.deleted) ...[
+              SizedBox(height: xs),
+              Text('No. ' + comment.id.toString() + ' - ' + comment.date),
+            ],
           ],
         ),
       ],

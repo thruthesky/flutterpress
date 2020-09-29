@@ -9,20 +9,22 @@ typedef MineSelection(MineOption option);
 
 class MineButton extends StatelessWidget {
   final MineSelection onSelect;
+  final double iconSize;
 
-  MineButton({this.onSelect});
+  MineButton({this.onSelect, this.iconSize = md});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      constraints: BoxConstraints(maxHeight: iconSize * 2),
       icon: Icon(FontAwesomeIcons.ellipsisV),
-      iconSize: md,
+      iconSize: iconSize,
       onPressed: () async {
         var res = await Get.bottomSheet(
           MineMenu(),
           backgroundColor: Colors.white,
         );
-        onSelect(res);
+        onSelect(res ?? MineOption.cancel);
       },
     );
   }

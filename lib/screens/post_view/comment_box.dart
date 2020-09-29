@@ -102,7 +102,6 @@ class _CommentBoxState extends State<CommentBox> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: sm),
         Row(children: [
           Expanded(
             child: AppTextInputField(

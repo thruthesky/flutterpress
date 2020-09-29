@@ -52,31 +52,43 @@ class _PostViewState extends State<PostView> {
           ),
         ),
         ForumButtons(
+          showReplyButton: !inReply,
           padding: EdgeInsets.all(md),
           model: widget.post,
-          onVoted: (vote) {
-            widget.post.updateVote(vote);
+          onVoted: () {
             setState(() {});
           },
+          onReplyTap: () => setState(() {
+            inReply = true;
+          }),
         ),
         if (inReply)
-          CommentBox(
-            post: widget.post,
-            parent: widget.post.id,
-            onCancel: () => setState(() {
-              inReply = false;
-            }),
-            onEditted: (comment) {
-              widget.post.insertComment(widget.post.id, comment);
-              setState(() {});
-            },
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: md),
+            child: CommentBox(
+              post: widget.post,
+              parent: widget.post.id,
+              onCancel: () => setState(() {
+                inReply = false;
+              }),
+              onEditted: (comment) {
+                widget.post.insertComment(widget.post.id, comment);
+                inReply = false;
+                setState(() {});
+              },
+            ),
           ),
         if (widget.post.comments.length > 0)
           Container(
-            padding: EdgeInsets.symmetric(horizontal: xs),
+            padding: EdgeInsets.symmetric(horizontal: md),
             child: CommentList(post: widget.post),
           ),
-        if (isEmpty(widget.post.comments.length)) NoComments(),
+        if (isEmpty(widget.post.comments) && !inReply)
+          NoComments(
+            onCreateTap: () => setState(() {
+              inReply = true;
+            }),
+          ),
       ],
     );
   }

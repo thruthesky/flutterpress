@@ -88,6 +88,14 @@ class _PostListScreenState extends State<PostListScreen> {
                   child: Icon(Icons.edit, size: 24),
                   padding: EdgeInsets.only(right: sm),
                   onTap: () async {
+                    if (!wc.user.hasMobile) {
+                      return AppService.alertError('err_update_mobile'.tr);
+                    }
+
+                    if (!wc.user.hasNickname) {
+                      return AppService.alertError('err_update_nickname'.tr);
+                    }
+
                     var post = await Get.toNamed(
                       Routes.postEdit,
                       arguments: {'slug': slug},
@@ -113,14 +121,49 @@ class _PostListScreenState extends State<PostListScreen> {
             onPanDown: (_) {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: PostList(
-                posts,
-                loading: loading,
-                noMorePost: noMorePost,
-              ),
-            ),
+            child: posts.length > 0
+                ? SingleChildScrollView(
+                    controller: _scrollController,
+                    child: PostList(
+                      posts,
+                      loading: loading,
+                      noMorePost: noMorePost,
+                    ),
+                  )
+                : Container(
+                    padding: EdgeInsets.all(md),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No posts, yet.',
+                          style: TextStyle(
+                            fontSize: 27,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: md),
+                        Text(
+                          'Won’t you be the first to write?',
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: Color(0xDE000000),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(height: md),
+                        Text(
+                          'Please...',
+                          style: TextStyle(
+                            fontSize: md,
+                            color: Color(0xDE000000),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
           ),
         ),
       ),

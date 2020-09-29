@@ -3,6 +3,9 @@ import 'package:flutterpress/defines.dart';
 
 class NoComments extends StatelessWidget {
   final textColor = Color(0xDE000000);
+  final Function onCreateTap;
+
+  NoComments({this.onCreateTap});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,9 @@ class NoComments extends StatelessWidget {
           'Create a comment',
           style: TextStyle(color: Color(0xff1684D0), fontSize: 12),
         ),
-        onPressed: () {},
+        onPressed: () {
+          if (onCreateTap != null) onCreateTap();
+        },
       ),
     ]);
   }
