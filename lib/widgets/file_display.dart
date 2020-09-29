@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutterpress/defines.dart';
-import 'package:flutterpress/widgets/commons/common.image.dart';
+import 'package:flutterpress/widgets/commons/common.spinner.dart';
 import 'package:flutterpress/widgets/file_display.overlay.dart';
 import 'package:flutterpress/models/file.model.dart';
 import 'package:flutterpress/services/app.service.dart';
@@ -13,6 +15,24 @@ class FileDisplay extends StatelessWidget {
   final Function onFileDeleted;
 
   final int filesToShow;
+
+  int get viewLimit {
+    if (inEdit) return files.length;
+    return 4;
+  }
+
+  double get height {
+    if (files.length == 2) {
+      return 250;
+    }
+    if (files.length == 3) {
+      return 150;
+    }
+    if (files.length >= 4) {
+      return 130;
+    }
+    return 110;
+  }
 
   FileDisplay(
     this.files, {
@@ -44,17 +64,42 @@ class FileDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return (files == null || files.length < 1)
         ? SizedBox.shrink()
-        : Column(
-            children: [
-              SizedBox(height: sm),
-              ImageStack(
-                photoUrl: files[0].thumbnailUrl,
-                inEdit: inEdit,
-                withHeight: false,
-                onDeleteTap: () => onDeleteTapped(files[0]),
-                onImageTap: () => onImageTap(),
-              ),
+        : StaggeredGridView.count(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 6,
+            staggeredTiles: [
+              const StaggeredTile.count(6, 3.5),
+              if (files.length == 2) const StaggeredTile.count(6, 3.5),
+              if (files.length == 3) ...[
+                const StaggeredTile.count(3, 3),
+                const StaggeredTile.count(3, 3),
+              ],
+              if (files.length >= 4 && !inEdit) ...[
+                const StaggeredTile.count(2, 2),
+                const StaggeredTile.count(2, 2),
+                const StaggeredTile.count(2, 2),
+              ],
+              if (inEdit)
+                for (int i = 0; i < files.length - 1; i++)
+                  const StaggeredTile.count(2, 2),
             ],
+            children: [
+              for (int i = 0; i < files.length; i++)
+                if (i < viewLimit) // only show 4 images when not in Edit
+                  ImageStack(
+                    inEdit: inEdit,
+                    // height: i == 0 ? 220 : height,
+                    photoUrl: files[i].thumbnailUrl,
+                    onDeleteTap: () => onDeleteTapped(files[i]),
+                    onImageTap: () => onImageTap(index: i),
+                    moreImageCount:
+                        i == 3 && !inEdit ? files.length - (i + 1) : null,
+                  )
+            ],
+            mainAxisSpacing: 1.0,
+            crossAxisSpacing: 1.0,
+            padding: const EdgeInsets.all(0),
           );
   }
 }
@@ -65,7 +110,7 @@ class ImageStack extends StatelessWidget {
   final Function onDeleteTap;
   final Function onImageTap;
 
-  final bool withHeight;
+  final double height;
 
   final int moreImageCount;
 
@@ -74,7 +119,7 @@ class ImageStack extends StatelessWidget {
     this.inEdit,
     this.onDeleteTap,
     this.onImageTap,
-    this.withHeight = true,
+    this.height,
     this.moreImageCount,
   });
 
@@ -82,11 +127,23 @@ class ImageStack extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Stack(children: [
-        CommonImage(
-          photoUrl,
-          height: withHeight ? 220 : null,
-          width: double.infinity,
+        CachedNetworkImage(
+          imageUrl: photoUrl,
           fit: BoxFit.cover,
+          width: double.infinity,
+          height: height,
+          fadeInDuration: Duration(milliseconds: 500),
+          fadeOutDuration: Duration(milliseconds: 500),
+          imageBuilder: (context, provider) {
+            return Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: provider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
         ),
         if (inEdit)
           Positioned(

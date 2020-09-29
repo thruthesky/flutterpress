@@ -6,13 +6,18 @@ import 'package:flutterpress/screens/post_edit/post_edit.form.dart';
 import 'package:flutterpress/services/keys.dart';
 import 'package:flutterpress/widgets/commons/common.app_drawer.dart';
 
-class PostEditScreen extends StatelessWidget {
+class PostEditScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    String title = '';
-    String slug = '';
-    PostModel post;
+  _PostEditScreenState createState() => _PostEditScreenState();
+}
 
+class _PostEditScreenState extends State<PostEditScreen> {
+  String title = '';
+  String slug = '';
+  PostModel post;
+
+  @override
+  void initState() {
     Map args = Get.arguments;
     if (args['slug'] != null) {
       slug = args['slug'];
@@ -20,7 +25,11 @@ class PostEditScreen extends StatelessWidget {
     } else {
       post = args['post'];
     }
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Keys.postEditScreenScaffold),
       appBar: CommonAppBar(title: Text('$title')),
