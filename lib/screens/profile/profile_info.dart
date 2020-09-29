@@ -37,6 +37,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
 
   @override
   Widget build(BuildContext context) {
+
     return GetBuilder<WordpressController>(
       builder: (wc) {
         return Container(

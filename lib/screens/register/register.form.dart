@@ -111,7 +111,7 @@ class RegisterFormState extends State<RegisterForm> {
             controller: pass,
             inputAction: TextInputAction.next,
             obscureText: hidePassword,
-            onEditingComplete: nicknameNode.requestFocus,
+            onEditingComplete: nameNode.requestFocus,
             focusNode: passNode,
             autoValidate: isFormSubmitted,
             validator: (pass) => AppService.isValidPassword(pass),
@@ -134,7 +134,7 @@ class RegisterFormState extends State<RegisterForm> {
             controller: name,
             inputAction: TextInputAction.done,
             inputType: TextInputType.text,
-            onEditingComplete: _onFormSubmit,
+            onEditingComplete: nicknameNode.requestFocus,
             focusNode: nameNode,
             autoValidate: isFormSubmitted,
             validator: (nickname) {

@@ -15,7 +15,6 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-  bool isInView = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +23,13 @@ class _PostState extends State<Post> {
         top: widget.index == 0 ? 0 : sm,
       ),
       color: Colors.white,
-      child: isInView
+      child: widget.post.isInView
           ? PostView(post: widget.post)
           : GestureDetector(
               behavior: HitTestBehavior.opaque,
               child: PostTile(post: widget.post),
               onTap: () {
-                isInView = true;
+                widget.post.isInView = true;
                 setState(() {});
               },
             ),

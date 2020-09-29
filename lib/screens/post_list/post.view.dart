@@ -38,57 +38,59 @@ class _PostViewState extends State<PostView> {
           onUpdateButtonTap: onUpdateTapped,
           onDeleteButtonTap: onDeleteTapped,
         ),
-        FileDisplay(widget.post.files),
-        Container(
-          width: double.infinity,
-          color: Color(0xFFF4F4F4),
-          padding: EdgeInsets.all(md),
-          child: SelectableText(
-            widget.post.content,
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Color(0xDE000000),
-            ),
-          ),
-        ),
-        ForumButtons(
-          showReplyButton: !inReply,
-          padding: EdgeInsets.all(md),
-          model: widget.post,
-          onVoted: () {
-            setState(() {});
-          },
-          onReplyTap: () => setState(() {
-            inReply = true;
-          }),
-        ),
-        if (inReply)
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: md),
-            child: CommentBox(
-              post: widget.post,
-              parent: widget.post.id,
-              onCancel: () => setState(() {
-                inReply = false;
-              }),
-              onEditted: (comment) {
-                widget.post.insertComment(widget.post.id, comment);
-                inReply = false;
-                setState(() {});
-              },
-            ),
-          ),
-        if (widget.post.comments.length > 0)
+        if (!widget.post.deleted) ...[
+          FileDisplay(widget.post.files),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: md),
-            child: CommentList(post: widget.post),
+            width: double.infinity,
+            color: Color(0xFFF4F4F4),
+            padding: EdgeInsets.all(md),
+            child: SelectableText(
+              widget.post.content,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Color(0xDE000000),
+              ),
+            ),
           ),
-        if (isEmpty(widget.post.comments) && !inReply)
-          NoComments(
-            onCreateTap: () => setState(() {
+          ForumButtons(
+            showReplyButton: !inReply,
+            padding: EdgeInsets.all(md),
+            model: widget.post,
+            onVoted: () {
+              setState(() {});
+            },
+            onReplyTap: () => setState(() {
               inReply = true;
             }),
           ),
+          if (inReply)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: md),
+              child: CommentBox(
+                post: widget.post,
+                parent: widget.post.id,
+                onCancel: () => setState(() {
+                  inReply = false;
+                }),
+                onEditted: (comment) {
+                  widget.post.insertComment(widget.post.id, comment);
+                  inReply = false;
+                  setState(() {});
+                },
+              ),
+            ),
+          if (widget.post.comments.length > 0)
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: md),
+              child: CommentList(post: widget.post),
+            ),
+          if (isEmpty(widget.post.comments) && !inReply)
+            NoComments(
+              onCreateTap: () => setState(() {
+                inReply = true;
+              }),
+            ),
+        ]
       ],
     );
   }
@@ -114,6 +116,7 @@ class _PostViewState extends State<PostView> {
         try {
           await AppService.wc.postDelete({'ID': widget.post.id});
           widget.post.delete();
+          setState(() {});
         } catch (e) {
           AppService.error('$e'.tr);
         }

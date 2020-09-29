@@ -13,6 +13,14 @@ import 'package:flutterpress/widgets/file_upload_button.dart';
 import 'package:get/get.dart';
 
 class PostEditForm extends StatefulWidget {
+  final PostModel post;
+  final String slug;
+
+  PostEditForm({
+    post,
+    this.slug,
+  }) : this.post = post != null ? post : PostModel();
+
   @override
   _PostEditFormState createState() => _PostEditFormState();
 }
@@ -24,8 +32,6 @@ class _PostEditFormState extends State<PostEditForm> {
   final title = TextEditingController();
   final content = TextEditingController();
 
-  String slug;
-  PostModel post = PostModel();
   bool isUpdate = false;
 
   double progress = 0;
@@ -34,14 +40,10 @@ class _PostEditFormState extends State<PostEditForm> {
 
   @override
   void initState() {
-    Map args = Get.arguments;
-    if (args['slug'] != null) {
-      slug = args['slug'];
-    } else {
-      post = args['post'];
+    if (widget.post.id != null) {
       isUpdate = true;
-      title.text = post.title;
-      content.text = post.content;
+      title.text = widget.post.title;
+      content.text = widget.post.content;
     }
     super.initState();
   }
@@ -58,20 +60,21 @@ class _PostEditFormState extends State<PostEditForm> {
       setState(() {});
     } else {
       var params = {
-        'slug': slug ?? '',
+        'slug': widget.slug ?? '',
         'post_title': title.text,
         'post_content': content.text,
       };
 
       var fileIds = [];
-      if (post.files.length > 0) {
-        for (var file in post.files) fileIds.add(file.id);
+      if (widget.post.files.length > 0) {
+        for (var file in widget.post.files) fileIds.add(file.id);
         params['files'] = fileIds.join(',');
       }
 
       try {
-        if (isUpdate) params['ID'] = post.id.toString();
+        if (isUpdate) params['ID'] = widget.post.id.toString();
         var res = await wc.postEdit(params, isUpdate: isUpdate);
+        res.isInView = true;
         Get.back(result: res);
       } catch (e) {
         AppService.error('$e'.tr);
@@ -107,7 +110,9 @@ class _PostEditFormState extends State<PostEditForm> {
                   if (isEmpty(str)) return 'errTitleEmpty'.tr;
                 },
                 autoValidate: isFormSubmitted,
+                contentPadding: EdgeInsets.all(sm),
               ),
+              SizedBox(height: md),
               AppTextInputField(
                 key: ValueKey(Keys.postContentInput),
                 hintText: 'content'.tr,
@@ -116,14 +121,17 @@ class _PostEditFormState extends State<PostEditForm> {
                 inputAction: TextInputAction.newline,
                 minLines: 5,
                 maxLines: 15,
+                withBorder: true,
+                contentPadding: EdgeInsets.all(sm),
               ),
 
               /// file display
-              if (post.files.length > 0) ...[
+              if (widget.post.files.length > 0) ...[
                 SizedBox(height: lg),
                 Text('Attached images:'),
-                FileDisplay(post.files, inEdit: true, onFileDeleted: (file) {
-                  post.deleteFile(file);
+                FileDisplay(widget.post.files, inEdit: true,
+                    onFileDeleted: (file) {
+                  widget.post.deleteFile(file);
                   setState(() {});
                 }),
               ],
@@ -138,7 +146,7 @@ class _PostEditFormState extends State<PostEditForm> {
                       setState(() {});
                     },
                     onUploaded: (file) {
-                      post.files.add(file);
+                      widget.post.files.add(file);
                       progress = 0;
                       setState(() {});
                     },

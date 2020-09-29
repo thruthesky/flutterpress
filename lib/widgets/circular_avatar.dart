@@ -34,7 +34,7 @@ class CircularAvatar extends StatelessWidget {
         spreadRadius: shadowSpread,
         blurRadius: shadowBlur,
         offset: shadowPosition,
-        color: shadowColor ?? Colors.grey.withOpacity(0.7),
+        color: shadowColor ?? Color(0x29000000),
       );
     }
 

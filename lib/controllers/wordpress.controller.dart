@@ -171,8 +171,11 @@ class WordpressController extends GetxController {
   }
 
   updateUserMobile(String mobile) {
-    user.mobile = mobile;
-    update();
+    var u = user.data;
+    u['mobile'] = mobile;
+    
+    print(u);
+    _updateCurrentUser(u);
   }
 
   /// This will make an Http request for fetching posts.

@@ -4,6 +4,7 @@ import 'package:flutterpress/models/forum_base.model.dart';
 class PostModel extends ForumBaseModel {
   String title;
   String slug;
+  bool isInView;
   List<CommentModel> comments;
 
   int get commentCount => comments.length;
@@ -11,6 +12,7 @@ class PostModel extends ForumBaseModel {
   PostModel({
     this.title,
     this.slug,
+    this.isInView,
     data,
     id,
     like,
@@ -64,6 +66,7 @@ class PostModel extends ForumBaseModel {
       files: data['files'],
       date: data['short_date_time'],
       deleted: false,
+      isInView: false,
     );
   }
 
