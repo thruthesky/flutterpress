@@ -43,7 +43,7 @@ dependencies:
   apple_sign_in: ^0.1.0
 
   ## Kakao sign in
-  kakao_flutter_sdk: ^0.4.2
+  kakao_flutter_sdk: ^0.5.0
 
   ## country code picker
   country_code_picker: ^1.5.0
@@ -64,3 +64,4 @@ flutter:
 
   assets:
     - assets/images/
+
