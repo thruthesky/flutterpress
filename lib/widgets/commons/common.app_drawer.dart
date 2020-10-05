@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
+import 'package:flutterpress/services/app.globals.dart';
 import 'package:flutterpress/services/routes.dart';
 import 'package:flutterpress/widgets/circular_avatar.dart';
 import 'package:flutterpress/widgets/commons/common.icon_button.dart';
@@ -65,9 +66,9 @@ class _CommonAppDrawerState extends State<CommonAppDrawer> {
                         Text(
                           'Logged in with ${_.user.socialLogin}',
                           style: TextStyle(
-                            fontSize: 13,
-                            color: Color(0x99000000),
-                          ),
+                              fontSize: 12,
+                              color: Color(0x99000000),
+                              fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -75,35 +76,86 @@ class _CommonAppDrawerState extends State<CommonAppDrawer> {
                 Divider(
                   color: Color(0x1F000000),
                 ),
-                FlatButton(
-                  key: ValueKey(Routes.home),
-                  child: Text('home'.tr),
-                  onPressed: () => Get.toNamed(Routes.home),
-                ),
                 if (!_.isUserLoggedIn) ...[
-                  FlatButton(
+                  DrawerButton(
                     key: ValueKey(Routes.login),
-                    child: Text('login'.tr),
+                    icon: FontAwesomeIcons.signInAlt,
+                    text: 'Sign-in',
+                    spacing: 35,
+                    iconSize: 18,
                     onPressed: () => Get.toNamed(Routes.login),
                   ),
-                  FlatButton(
+                  DrawerButton(
                     key: ValueKey(Routes.register),
-                    child: Text('register'.tr),
+                    icon: FontAwesomeIcons.userPlus,
+                    text: 'register'.tr,
+                    iconSize: 18,
+                    spacing: 30,
                     onPressed: () => Get.toNamed(Routes.register),
                   ),
                 ],
+
+                /// travel information
+                ///
+                /// TODO: add travel info forums
+                SegmentTitle(text: 'Travel Information'),
+                Divider(color: Color(0xD3D3D3D0)),
+                DrawerButton(
+                  icon: FontAwesomeIcons.checkSquare,
+                  iconSize: 24,
+                  text: 'Preparation for Travel',
+                  onPressed: () {},
+                ),
+                DrawerButton(
+                  icon: FontAwesomeIcons.planeDeparture,
+                  text: 'Travel by Yourself',
+                  iconSize: 16,
+                  onPressed: () {},
+                ),
+                DrawerButton(
+                  icon: FontAwesomeIcons.mapMarked,
+                  text: 'Best Travel Spots',
+                  iconSize: 18,
+                  onPressed: () {},
+                ),
+                DrawerButton(
+                  icon: FontAwesomeIcons.taxi,
+                  text: 'Day Trips from Manila',
+                  spacing: 33,
+                  onPressed: () {},
+                ),
+
+                /// forums
+                SegmentTitle(text: 'Forums'),
+                Divider(color: Color(0xD3D3D3D0)),
+                DrawerButton(
+                  icon: FontAwesomeIcons.solidQuestionCircle,
+                  text: 'Questions and Answers',
+                  spacing: 33,
+                  onPressed: () => openForum('qna'),
+                ),
+                DrawerButton(
+                  icon: FontAwesomeIcons.solidComments,
+                  text: 'Discussions',
+                  iconSize: 18,
+                  onPressed: () => openForum('discuss'),
+                ),
+                DrawerButton(
+                  icon: FontAwesomeIcons.infoCircle,
+                  text: 'Know-Hows',
+                  spacing: 33,
+                  onPressed: () {
+                    /// TODO: add know hows forum
+                  },
+                ),
+
                 if (_.isUserLoggedIn) ...[
-                  FlatButton(
-                    key: ValueKey(Routes.profile),
-                    child: Text('profile'.tr),
-                    onPressed: () => Get.toNamed(Routes.profile),
-                  ),
-                  FlatButton(
-                    child: Text('logout'.tr),
-                    onPressed: () {
-                      _.logout();
-                      Get.offAllNamed(Routes.home);
-                    },
+                  SizedBox(height: xl),
+                  DrawerButton(
+                    icon: FontAwesomeIcons.signOutAlt,
+                    text: 'logout'.tr,
+                    spacing: 33,
+                    onPressed: () => _.logout(),
                   ),
                 ],
               ],
@@ -115,3 +167,62 @@ class _CommonAppDrawerState extends State<CommonAppDrawer> {
   }
 }
 
+class DrawerButton extends StatelessWidget {
+  final Key key;
+  final IconData icon;
+  final String text;
+  final double iconSize;
+  final Function onPressed;
+  final double spacing;
+
+  DrawerButton({
+    this.key,
+    @required this.icon,
+    this.iconSize = 20,
+    @required this.text,
+    @required this.onPressed,
+    this.spacing = xl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FlatButton(
+        key: key,
+        child: Row(
+          children: [
+            FaIcon(
+              icon,
+              color: Color(0xFF5F5F5F),
+              size: iconSize,
+            ),
+            SizedBox(width: spacing),
+            Text(
+              text,
+              style: TextStyle(
+                color: Color(0x99000000),
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            )
+          ],
+        ),
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
+
+class SegmentTitle extends StatelessWidget {
+  final String text;
+
+  SegmentTitle({@required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: md, top: lg),
+      child: Text(text, style: TextStyle(color: Color(0x99000000))),
+    );
+  }
+}
