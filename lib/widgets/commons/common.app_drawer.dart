@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterpress/controllers/wordpress.controller.dart';
 import 'package:flutterpress/defines.dart';
@@ -148,6 +149,15 @@ class _CommonAppDrawerState extends State<CommonAppDrawer> {
                     /// TODO: add know hows forum
                   },
                 ),
+
+                if (kDebugMode) // only in debug mode
+                  DrawerButton(
+                    icon: FontAwesomeIcons.cogs,
+                    text: 'Uncategorized',
+                    iconSize: 16,
+                    spacing: 33,
+                    onPressed: () => openForum('uncategorized'),
+                  ),
 
                 if (_.isUserLoggedIn) ...[
                   SizedBox(height: xl),
