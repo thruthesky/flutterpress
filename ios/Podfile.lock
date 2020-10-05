@@ -377,7 +377,7 @@ PODS:
     - GTMSessionFetcher/Core (= 1.4.0)
   - image_picker (0.0.1):
     - Flutter
-  - kakao_flutter_sdk (0.4.2):
+  - kakao_flutter_sdk (0.5.0):
     - Flutter
   - leveldb-library (1.22)
   - libwebp (1.1.0):
@@ -537,7 +537,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
-  kakao_flutter_sdk: d9f909ec8b12a263ce2c1c7a7eb6f8de02e7c253
+  kakao_flutter_sdk: c68af0d21a3ef2627f40e790a617904d4e0c3aca
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   Mantle: 35238ae6f2e2b2d474fa7b67fee82a59fea71915
@@ -554,4 +554,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 177445e1baa650fe8ff0d0f6adafb06000b47e71
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3
